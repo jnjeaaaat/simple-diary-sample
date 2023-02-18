@@ -12,6 +12,7 @@ public enum BaseResponseStatus {
      */
     SUCCESS(true, 1000, "요청에 성공하였습니다."),
     SUCCESS_SIGN_IN(true, 1001, "회원가입에 성공하였습니다."),
+    SUCCESS_LOG_IN(true,1002,"로그인에 성공하였습니다."),
 
 
     /**
