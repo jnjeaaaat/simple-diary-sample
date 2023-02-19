@@ -13,6 +13,9 @@ public enum BaseResponseStatus {
     SUCCESS(true, 1000, "요청에 성공하였습니다."),
     SUCCESS_SIGN_IN(true, 1001, "회원가입에 성공하였습니다."),
     SUCCESS_LOG_IN(true,1002,"로그인에 성공하였습니다."),
+    FIND_ALL_USER(true,1003,"전체 유저를 조회하였습니다."),
+    FIND_NICKNAME_USER(true,1004,"해당 닉네임의 유저를 조회하였습니다."),
+    FIND_NUMBER_USER(true,1005,"해당 번호의 유저를 조회하였습니다."),
 
 
     /**

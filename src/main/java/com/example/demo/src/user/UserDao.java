@@ -118,10 +118,10 @@ public class UserDao {
         ); // 복수개의 회원정보들을 얻기 위해 jdbcTemplate 함수(Query, 객체 매핑 정보)의 결과 반환(동적쿼리가 아니므로 Parmas부분이 없음)
     }
 
-    // 해당 nickname을 갖는 유저들의 정보 조회
-    public List<GetUserRes> getUsersByNickname(String nickname) {
+    // 해당 nickName을 갖는 유저들의 정보 조회
+    public List<GetUserRes> getUsersByNickname(String nickName) {
         String getUsersByNicknameQuery = "select * from user where nickName =?"; // 해당 이메일을 만족하는 유저를 조회하는 쿼리문
-        String getUsersByNicknameParams = nickname;
+        String getUsersByNicknameParams = nickName;
         return this.jdbcTemplate.query(getUsersByNicknameQuery,
                 (rs, rowNum) -> new GetUserRes(
                         rs.getInt("userId"),
@@ -130,10 +130,11 @@ public class UserDao {
                 getUsersByNicknameParams); // 해당 닉네임을 갖는 모든 User 정보를 얻기 위해 jdbcTemplate 함수(Query, 객체 매핑 정보, Params)의 결과 반환
     }
 
-    // 해당 userIdx를 갖는 유저조회
-    public GetUserRes getUser(int userIdx) {
-        String getUserQuery = "select * from user where userId = ?"; // 해당 userIdx를 만족하는 유저를 조회하는 쿼리문
-        int getUserParams = userIdx;
+    // 해당 userId를 갖는 유저조회
+    // 친구목록에서 친구 diary 볼때 기능
+    public GetUserRes getUser(int userId) {
+        String getUserQuery = "select * from user where userId = ?"; // 해당 userId를 만족하는 유저를 조회하는 쿼리문
+        int getUserParams = userId;
         return this.jdbcTemplate.queryForObject(getUserQuery,
                 (rs, rowNum) -> new GetUserRes(
                         rs.getInt("userId"),
