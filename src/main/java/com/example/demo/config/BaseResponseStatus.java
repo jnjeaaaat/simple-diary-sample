@@ -16,6 +16,7 @@ public enum BaseResponseStatus {
     FIND_ALL_USER(true,1003,"전체 유저를 조회하였습니다."),
     FIND_NICKNAME_USER(true,1004,"해당 닉네임의 유저를 조회하였습니다."),
     FIND_NUMBER_USER(true,1005,"해당 번호의 유저를 조회하였습니다."),
+    MODIFY_USER_INFORM(true,1006,"유저 정보를 수정하였습니다."),
 
 
     /**

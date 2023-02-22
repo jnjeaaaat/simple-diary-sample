@@ -9,6 +9,7 @@ import com.example.demo.utils.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -159,7 +160,7 @@ public class UserController {
     @ResponseBody
     @PatchMapping("/{userId}")
     public BaseResponse<String> modifyUserName(@PathVariable("userId") int userId,
-                                               @RequestBody User user) {
+                                               @RequestBody(required = false) PatchUserReq patchUserReq) {
         try {
 //  *********** 해당 부분은 7주차 - JWT 수업 후 주석해체 해주세요!  ****************
             //jwt에서 idx 추출.
@@ -170,11 +171,10 @@ public class UserController {
             }
             //같다면 유저네임 변경
 //  **************************************************************************
-            PatchUserReq patchUserReq = new PatchUserReq(userId, user.getProfileImgUrl(), user.getNickName(), user.getBirth(), user.getStatus(), user.getBirthOpen());
-            userService.modifyUser(patchUserReq);
+            userService.modifyUser(userId, patchUserReq);
 
-            String result = "회원정보가 수정되었습니다.";
-            return new BaseResponse<>(result);
+//            String result = "회원정보가 수정되었습니다.";
+            return new BaseResponse<>(MODIFY_USER_INFORM);
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
         }

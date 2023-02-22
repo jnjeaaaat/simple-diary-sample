@@ -69,20 +69,75 @@ public class UserService {
     }
 
     // 회원정보 수정(Patch)
-    public void modifyUser(PatchUserReq patchUserReq) throws BaseException {
+    public void modifyUser(int userId, PatchUserReq patchUserReq) throws BaseException {
         try {
-            int result;
-            if(patchUserReq.getProfileImgUrl() != null) result = userDao.modifyProfileImgUrl(patchUserReq);
-            if(patchUserReq.getNickName() != null) result = userDao.modifyNickName(patchUserReq);
-            if(patchUserReq.getBirth() != null) result = userDao.modifyBirth(patchUserReq);
-            if(patchUserReq.getStatus() != null) result = userDao.modifyStatus(patchUserReq);
-            if(patchUserReq.getBirthOpen() != null) result = userDao.modifyBirthOpen(patchUserReq);
+            int result = 0;
+            if(patchUserReq.getProfileImgUrl() != null) result = userDao.modifyProfileImgUrl(userId, patchUserReq.getProfileImgUrl());
+            if(patchUserReq.getNickName() != null) result = userDao.modifyNickName(userId, patchUserReq.getNickName());
+            if(patchUserReq.getBirth() != null) result = userDao.modifyBirth(userId, patchUserReq.getBirth());
+            if(patchUserReq.getStatus() != null) result = userDao.modifyStatus(userId, patchUserReq.getStatus());
+            if(patchUserReq.getBirthOpen() != null) result = userDao.modifyBirthOpen(userId, patchUserReq.getBirthOpen());
 
-            result = userDao.modifyUserName(patchUserReq); // 해당 과정이 무사히 수행되면 True(1), 그렇지 않으면 False(0)입니다.
+//            result = userDao.modifyUserName(patchUserReq); // 해당 과정이 무사히 수행되면 True(1), 그렇지 않으면 False(0)입니다.
             if (result == 0) { // result값이 0이면 과정이 실패한 것이므로 에러 메서지를 보냅니다.
                 throw new BaseException(MODIFY_FAIL_USERNAME);
             }
         } catch (Exception exception) { // DB에 이상이 있는 경우 에러 메시지를 보냅니다.
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+    // 회원 프로필사진 수정
+    public void modifyProfileImgUrl(int userId, String profileImgUrl) throws BaseException {
+        try{
+            int result = userDao.modifyProfileImgUrl(userId, profileImgUrl);
+            if (result == 0) {
+                throw new BaseException(MODIFY_FAIL_USERNAME);
+            }
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+    // 회원 닉네임 수정
+    public void modifyNickName(int userId, String nickName) throws BaseException {
+        try{
+            int result = userDao.modifyNickName(userId, nickName);
+            if (result == 0) {
+                throw new BaseException(MODIFY_FAIL_USERNAME);
+            }
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+    // 회원 생일 수정
+    public void modifyBirth(int userId, String birth) throws BaseException {
+        try{
+            int result = userDao.modifyBirth(userId, birth);
+            if (result == 0) {
+                throw new BaseException(MODIFY_FAIL_USERNAME);
+            }
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+    // 회원 상태 수정
+    public void modifyStatus(int userId, String status) throws BaseException {
+        try{
+            int result = userDao.modifyStatus(userId, status);
+            if (result == 0) {
+                throw new BaseException(MODIFY_FAIL_USERNAME);
+            }
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+    // 회원 생일오픈 수정
+    public void modifyBirthOpen(int userId, Boolean birthOpen) throws BaseException {
+        try{
+            int result = userDao.modifyBirthOpen(userId, birthOpen);
+            if (result == 0) {
+                throw new BaseException(MODIFY_FAIL_USERNAME);
+            }
+        } catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);
         }
     }

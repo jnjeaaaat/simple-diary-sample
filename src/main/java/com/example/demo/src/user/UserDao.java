@@ -77,45 +77,45 @@ public class UserDao {
     }
 
     // 회원정보 변경
-    public int modifyUserName(PatchUserReq patchUserReq) {
-        String modifyUserNameQuery = "update user set profileImgUrl = ?, nickName = ? where userId = ? "; // 해당 userIdx를 만족하는 User를 해당 nickname으로 변경한다.
-        Object[] modifyUserNameParams = new Object[]{patchUserReq.getProfileImgUrl(), patchUserReq.getNickName(), patchUserReq.getUserId()}; // 주입될 값들(nickname, userIdx) 순
-
-        return this.jdbcTemplate.update(modifyUserNameQuery, modifyUserNameParams); // 대응시켜 매핑시켜 쿼리 요청(생성했으면 1, 실패했으면 0) 
-    }
+//    public int modifyUserName(PatchUserReq patchUserReq) {
+//        String modifyUserNameQuery = "update user set profileImgUrl = ?, nickName = ? where userId = ? "; // 해당 userIdx를 만족하는 User를 해당 nickname으로 변경한다.
+//        Object[] modifyUserNameParams = new Object[]{patchUserReq.getProfileImgUrl(), patchUserReq.getNickName(), patchUserReq.getUserId()}; // 주입될 값들(nickname, userIdx) 순
+//
+//        return this.jdbcTemplate.update(modifyUserNameQuery, modifyUserNameParams); // 대응시켜 매핑시켜 쿼리 요청(생성했으면 1, 실패했으면 0)
+//    }
 
     // 회원프로필사진 변경
-    public int modifyProfileImgUrl(PatchUserReq patchUserReq) {
+    public int modifyProfileImgUrl(int userId, String profileImgUrl) {
         String  modifyProfileImgUrlQuery = "update user set profileImgUrl = ? where userId = ? ";
-        Object[] modifyProfileImgUrlParams = new Object[]{patchUserReq.getProfileImgUrl(), patchUserReq.getUserId()};
+        Object[] modifyProfileImgUrlParams = new Object[]{profileImgUrl, userId};
 
         return this.jdbcTemplate.update(modifyProfileImgUrlQuery, modifyProfileImgUrlParams);
     }
     // 회원 닉네임 변경
-    public int modifyNickName(PatchUserReq patchUserReq) {
+    public int modifyNickName(int userId, String nickName) {
         String  modifyProfileImgUrlQuery = "update user set nickName = ? where userId = ? ";
-        Object[] modifyProfileImgUrlParams = new Object[]{patchUserReq.getNickName(), patchUserReq.getUserId()};
+        Object[] modifyProfileImgUrlParams = new Object[]{nickName, userId};
 
         return this.jdbcTemplate.update(modifyProfileImgUrlQuery, modifyProfileImgUrlParams);
     }
     // 회원 생일 변경
-    public int modifyBirth(PatchUserReq patchUserReq) {
+    public int modifyBirth(int userId, String birth) {
         String  modifyProfileImgUrlQuery = "update user set birth = ? where userId = ? ";
-        Object[] modifyProfileImgUrlParams = new Object[]{patchUserReq.getBirth(), patchUserReq.getUserId()};
+        Object[] modifyProfileImgUrlParams = new Object[]{birth, userId};
 
         return this.jdbcTemplate.update(modifyProfileImgUrlQuery, modifyProfileImgUrlParams);
     }
     // 회원 상태 변경
-    public int modifyStatus(PatchUserReq patchUserReq) {
+    public int modifyStatus(int userId, String status) {
         String  modifyProfileImgUrlQuery = "update user set status = ? where userId = ? ";
-        Object[] modifyProfileImgUrlParams = new Object[]{patchUserReq.getStatus(), patchUserReq.getUserId()};
+        Object[] modifyProfileImgUrlParams = new Object[]{status, userId};
 
         return this.jdbcTemplate.update(modifyProfileImgUrlQuery, modifyProfileImgUrlParams);
     }
     // 회원 생일 오픈 변경
-    public int modifyBirthOpen(PatchUserReq patchUserReq) {
+    public int modifyBirthOpen(int userId, Boolean birthOpen) {
         String  modifyProfileImgUrlQuery = "update user set birthOpen = ? where userId = ? ";
-        Object[] modifyProfileImgUrlParams = new Object[]{patchUserReq.getBirthOpen(), patchUserReq.getUserId()};
+        Object[] modifyProfileImgUrlParams = new Object[]{birthOpen, userId};
 
         return this.jdbcTemplate.update(modifyProfileImgUrlQuery, modifyProfileImgUrlParams);
     }
