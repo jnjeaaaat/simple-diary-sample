@@ -78,10 +78,46 @@ public class UserDao {
 
     // 회원정보 변경
     public int modifyUserName(PatchUserReq patchUserReq) {
-        String modifyUserNameQuery = "update user set nickname = ? where userIdx = ? "; // 해당 userIdx를 만족하는 User를 해당 nickname으로 변경한다.
-        Object[] modifyUserNameParams = new Object[]{patchUserReq.getNickname(), patchUserReq.getUserIdx()}; // 주입될 값들(nickname, userIdx) 순
+        String modifyUserNameQuery = "update user set profileImgUrl = ?, nickName = ? where userId = ? "; // 해당 userIdx를 만족하는 User를 해당 nickname으로 변경한다.
+        Object[] modifyUserNameParams = new Object[]{patchUserReq.getProfileImgUrl(), patchUserReq.getNickName(), patchUserReq.getUserId()}; // 주입될 값들(nickname, userIdx) 순
 
         return this.jdbcTemplate.update(modifyUserNameQuery, modifyUserNameParams); // 대응시켜 매핑시켜 쿼리 요청(생성했으면 1, 실패했으면 0) 
+    }
+
+    // 회원프로필사진 변경
+    public int modifyProfileImgUrl(PatchUserReq patchUserReq) {
+        String  modifyProfileImgUrlQuery = "update user set profileImgUrl = ? where userId = ? ";
+        Object[] modifyProfileImgUrlParams = new Object[]{patchUserReq.getProfileImgUrl(), patchUserReq.getUserId()};
+
+        return this.jdbcTemplate.update(modifyProfileImgUrlQuery, modifyProfileImgUrlParams);
+    }
+    // 회원 닉네임 변경
+    public int modifyNickName(PatchUserReq patchUserReq) {
+        String  modifyProfileImgUrlQuery = "update user set nickName = ? where userId = ? ";
+        Object[] modifyProfileImgUrlParams = new Object[]{patchUserReq.getNickName(), patchUserReq.getUserId()};
+
+        return this.jdbcTemplate.update(modifyProfileImgUrlQuery, modifyProfileImgUrlParams);
+    }
+    // 회원 생일 변경
+    public int modifyBirth(PatchUserReq patchUserReq) {
+        String  modifyProfileImgUrlQuery = "update user set birth = ? where userId = ? ";
+        Object[] modifyProfileImgUrlParams = new Object[]{patchUserReq.getBirth(), patchUserReq.getUserId()};
+
+        return this.jdbcTemplate.update(modifyProfileImgUrlQuery, modifyProfileImgUrlParams);
+    }
+    // 회원 상태 변경
+    public int modifyStatus(PatchUserReq patchUserReq) {
+        String  modifyProfileImgUrlQuery = "update user set status = ? where userId = ? ";
+        Object[] modifyProfileImgUrlParams = new Object[]{patchUserReq.getStatus(), patchUserReq.getUserId()};
+
+        return this.jdbcTemplate.update(modifyProfileImgUrlQuery, modifyProfileImgUrlParams);
+    }
+    // 회원 생일 오픈 변경
+    public int modifyBirthOpen(PatchUserReq patchUserReq) {
+        String  modifyProfileImgUrlQuery = "update user set birthOpen = ? where userId = ? ";
+        Object[] modifyProfileImgUrlParams = new Object[]{patchUserReq.getBirthOpen(), patchUserReq.getUserId()};
+
+        return this.jdbcTemplate.update(modifyProfileImgUrlQuery, modifyProfileImgUrlParams);
     }
 
 
@@ -113,8 +149,14 @@ public class UserDao {
         return this.jdbcTemplate.query(getUsersQuery,
                 (rs, rowNum) -> new GetUserRes(
                         rs.getInt("userId"),
+                        rs.getString("profileImgUrl"),
                         rs.getString("email"),
-                        rs.getString("nickName")) // RowMapper(위의 링크 참조): 원하는 결과값 형태로 받기
+//                        rs.getString("password"),
+                        rs.getString("nickName"),
+                        rs.getString("birth"),
+                        rs.getString("status"),
+                        rs.getTimestamp("createdAt").toLocalDateTime(),
+                        rs.getBoolean("birthOpen")) // RowMapper(위의 링크 참조): 원하는 결과값 형태로 받기
         ); // 복수개의 회원정보들을 얻기 위해 jdbcTemplate 함수(Query, 객체 매핑 정보)의 결과 반환(동적쿼리가 아니므로 Parmas부분이 없음)
     }
 
@@ -125,8 +167,14 @@ public class UserDao {
         return this.jdbcTemplate.query(getUsersByNicknameQuery,
                 (rs, rowNum) -> new GetUserRes(
                         rs.getInt("userId"),
+                        rs.getString("profileImgUrl"),
                         rs.getString("email"),
-                        rs.getString("nickName")), // RowMapper(위의 링크 참조): 원하는 결과값 형태로 받기
+//                        rs.getString("password"),
+                        rs.getString("nickName"),
+                        rs.getString("birth"),
+                        rs.getString("status"),
+                        rs.getTimestamp("createdAt").toLocalDateTime(),
+                        rs.getBoolean("birthOpen")), // RowMapper(위의 링크 참조): 원하는 결과값 형태로 받기
                 getUsersByNicknameParams); // 해당 닉네임을 갖는 모든 User 정보를 얻기 위해 jdbcTemplate 함수(Query, 객체 매핑 정보, Params)의 결과 반환
     }
 
@@ -138,8 +186,14 @@ public class UserDao {
         return this.jdbcTemplate.queryForObject(getUserQuery,
                 (rs, rowNum) -> new GetUserRes(
                         rs.getInt("userId"),
+                        rs.getString("profileImgUrl"),
                         rs.getString("email"),
-                        rs.getString("nickName")), // RowMapper(위의 링크 참조): 원하는 결과값 형태로 받기
+//                        rs.getString("password"),
+                        rs.getString("nickName"),
+                        rs.getString("birth"),
+                        rs.getString("status"),
+                        rs.getTimestamp("createdAt").toLocalDateTime(),
+                        rs.getBoolean("birthOpen")), // RowMapper(위의 링크 참조): 원하는 결과값 형태로 받기
                 getUserParams); // 한 개의 회원정보를 얻기 위한 jdbcTemplate 함수(Query, 객체 매핑 정보, Params)의 결과 반환
     }
 }

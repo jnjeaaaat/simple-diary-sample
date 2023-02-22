@@ -22,5 +22,5 @@ public class User {
     private String status;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private boolean birthOpen;
+    private Boolean birthOpen;
 }

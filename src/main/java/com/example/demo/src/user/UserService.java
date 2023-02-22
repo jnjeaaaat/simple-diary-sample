@@ -69,9 +69,16 @@ public class UserService {
     }
 
     // 회원정보 수정(Patch)
-    public void modifyUserName(PatchUserReq patchUserReq) throws BaseException {
+    public void modifyUser(PatchUserReq patchUserReq) throws BaseException {
         try {
-            int result = userDao.modifyUserName(patchUserReq); // 해당 과정이 무사히 수행되면 True(1), 그렇지 않으면 False(0)입니다.
+            int result;
+            if(patchUserReq.getProfileImgUrl() != null) result = userDao.modifyProfileImgUrl(patchUserReq);
+            if(patchUserReq.getNickName() != null) result = userDao.modifyNickName(patchUserReq);
+            if(patchUserReq.getBirth() != null) result = userDao.modifyBirth(patchUserReq);
+            if(patchUserReq.getStatus() != null) result = userDao.modifyStatus(patchUserReq);
+            if(patchUserReq.getBirthOpen() != null) result = userDao.modifyBirthOpen(patchUserReq);
+
+            result = userDao.modifyUserName(patchUserReq); // 해당 과정이 무사히 수행되면 True(1), 그렇지 않으면 False(0)입니다.
             if (result == 0) { // result값이 0이면 과정이 실패한 것이므로 에러 메서지를 보냅니다.
                 throw new BaseException(MODIFY_FAIL_USERNAME);
             }

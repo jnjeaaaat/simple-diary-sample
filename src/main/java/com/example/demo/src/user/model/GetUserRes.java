@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 
 
 @Getter // 해당 클래스에 대한 접근자 생성
@@ -15,10 +16,16 @@ import lombok.Setter;
  * 하나 또는 복수개의 회원정보 조회 요청(Get Request)의 결과(Respone)를 보여주는 데이터의 형태
  *
  * GetUserRes는 클라이언트한테 response줄 때 DTO고
- * User 클래스는 스프링에서 사용하는 Objec이다.
+ * User 클래스는 스프링에서 사용하는 Object이다.
  */
 public class GetUserRes {
     private int userId;
+    private String profileImgUrl;
     private String email;
+//    private String password;
     private String nickName;
+    private String birth;
+    private String status;
+    private LocalDateTime createdAt;
+    private Boolean birthOpen;
 }
