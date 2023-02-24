@@ -171,7 +171,6 @@ public class UserController {
             //같다면 유저네임 변경
             userService.modifyUser(userId, patchUserReq);
 
-//            String result = "회원정보가 수정되었습니다.";
             return new BaseResponse<>(MODIFY_USER_INFORM);
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));

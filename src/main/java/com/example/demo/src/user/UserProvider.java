@@ -87,13 +87,9 @@ public class UserProvider {
     public List<GetUserRes> getUsersByNickname(String nickName) throws BaseException {
         try {
             List<GetUserRes> getUsersRes = userDao.getUsersByNickname(nickName);
-            if(getUsersRes.size() != 0){
-                return getUsersRes;
-            } else {
-                throw new BaseException(NON_EXIST_OR_DELETED_USER);
-            }
+            return getUsersRes;
         } catch (Exception exception) {
-            throw new BaseException(DATABASE_ERROR);
+            throw new BaseException(NON_EXIST_OR_DELETED_USER);
         }
     }
 
@@ -102,14 +98,9 @@ public class UserProvider {
     public GetUserRes getUser(int userId) throws BaseException {
         try {
             GetUserRes getUserRes = userDao.getUserById(userId);
-            if(getUserRes != null) {
-                return getUserRes;
-            } else {
-                throw new BaseException(NON_EXIST_OR_DELETED_USER);
-            }
+            return getUserRes;
         } catch (Exception exception) {
             throw new BaseException(NON_EXIST_OR_DELETED_USER);
-//            throw new BaseException(DATABASE_ERROR);
         }
     }
 

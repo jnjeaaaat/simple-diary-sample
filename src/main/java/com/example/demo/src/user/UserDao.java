@@ -179,6 +179,10 @@ public class UserDao {
                             rs.getTimestamp("createdAt").toLocalDateTime(),
                             rs.getBoolean("birthOpen")), // RowMapper(위의 링크 참조): 원하는 결과값 형태로 받기
                     getUsersByNicknameParams); // 해당 닉네임을 갖는 모든 User 정보를 얻기 위해 jdbcTemplate 함수(Query, 객체 매핑 정보, Params)의 결과 반환
+
+            // queryForObject의 결과값이 없거나 2개 이상일때
+            // IncorrectResultSizeDataAccessException error 발생
+            // 그럴땐 null 값 반환
         } catch (IncorrectResultSizeDataAccessException error) {
             return null;
         }
@@ -188,28 +192,19 @@ public class UserDao {
     // 해당 userId를 갖는 유저조회
     // 친구목록에서 친구 diary 볼때 기능
     public GetUserRes getUserById(int userId) {
-        try {
-            String getUserQuery = "select * from user where userId = ? and status = 'ACTIVE'"; // 해당 userId를 만족하는 유저를 조회하는 쿼리문
-            int getUserParams = userId;
-            return this.jdbcTemplate.queryForObject(getUserQuery,
-                    (rs, rowNum) -> new GetUserRes(
-                            rs.getInt("userId"),
-                            rs.getString("profileImgUrl"),
-                            rs.getString("email"),
+        String getUserQuery = "select * from user where userId = ? and status = 'ACTIVE'"; // 해당 userId를 만족하는 유저를 조회하는 쿼리문
+        int getUserParams = userId;
+        return this.jdbcTemplate.queryForObject(getUserQuery,
+                (rs, rowNum) -> new GetUserRes(
+                        rs.getInt("userId"),
+                        rs.getString("profileImgUrl"),
+                        rs.getString("email"),
 //                        rs.getString("password"),
-                            rs.getString("nickName"),
-                            rs.getString("birth"),
-                            rs.getString("status"),
-                            rs.getTimestamp("createdAt").toLocalDateTime(),
-                            rs.getBoolean("birthOpen")), // RowMapper(위의 링크 참조): 원하는 결과값 형태로 받기
-                    getUserParams); // 한 개의 회원정보를 얻기 위한 jdbcTemplate 함수(Query, 객체 매핑 정보, Params)의 결과 반환
-
-            // queryForObject의 결과값이 없거나 2개 이상일때
-            // IncorrectResultSizeDataAccessException error 발생
-            // 그럴땐 null 값 반환
-        } catch (IncorrectResultSizeDataAccessException error) {
-            return null;
-        }
-
+                        rs.getString("nickName"),
+                        rs.getString("birth"),
+                        rs.getString("status"),
+                        rs.getTimestamp("createdAt").toLocalDateTime(),
+                        rs.getBoolean("birthOpen")), // RowMapper(위의 링크 참조): 원하는 결과값 형태로 받기
+                getUserParams); // 한 개의 회원정보를 얻기 위한 jdbcTemplate 함수(Query, 객체 매핑 정보, Params)의 결과 반환
     }
 }
