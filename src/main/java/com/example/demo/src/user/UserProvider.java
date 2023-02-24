@@ -87,20 +87,29 @@ public class UserProvider {
     public List<GetUserRes> getUsersByNickname(String nickName) throws BaseException {
         try {
             List<GetUserRes> getUsersRes = userDao.getUsersByNickname(nickName);
-            return getUsersRes;
+            if(getUsersRes.size() != 0){
+                return getUsersRes;
+            } else {
+                throw new BaseException(NON_EXIST_OR_DELETED_USER);
+            }
         } catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);
         }
     }
 
 
-    // 해당 userIdx를 갖는 User의 정보 조회
-    public GetUserRes getUser(int userIdx) throws BaseException {
+    // 해당 userId를 갖는 user의 정보 조회
+    public GetUserRes getUser(int userId) throws BaseException {
         try {
-            GetUserRes getUserRes = userDao.getUser(userIdx);
-            return getUserRes;
+            GetUserRes getUserRes = userDao.getUserById(userId);
+            if(getUserRes != null) {
+                return getUserRes;
+            } else {
+                throw new BaseException(NON_EXIST_OR_DELETED_USER);
+            }
         } catch (Exception exception) {
-            throw new BaseException(DATABASE_ERROR);
+            throw new BaseException(NON_EXIST_OR_DELETED_USER);
+//            throw new BaseException(DATABASE_ERROR);
         }
     }
 

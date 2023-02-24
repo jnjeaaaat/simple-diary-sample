@@ -160,17 +160,15 @@ public class UserController {
     @ResponseBody
     @PatchMapping("/{userId}")
     public BaseResponse<String> modifyUserName(@PathVariable("userId") int userId,
-                                               @RequestBody(required = false) PatchUserReq patchUserReq) {
+                                               @RequestBody PatchUserReq patchUserReq) {
         try {
-//  *********** 해당 부분은 7주차 - JWT 수업 후 주석해체 해주세요!  ****************
             //jwt에서 idx 추출.
             int userIdByJwt = jwtService.getUserIdx();
-            //userIdx와 접근한 유저가 같은지 확인
+            //userId와 접근한 유저가 같은지 확인
             if(userId != userIdByJwt){
                 return new BaseResponse<>(INVALID_USER_JWT);
             }
             //같다면 유저네임 변경
-//  **************************************************************************
             userService.modifyUser(userId, patchUserReq);
 
 //            String result = "회원정보가 수정되었습니다.";

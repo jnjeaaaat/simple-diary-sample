@@ -72,6 +72,7 @@ public class UserService {
     public void modifyUser(int userId, PatchUserReq patchUserReq) throws BaseException {
         try {
             int result = 0;
+            // 수정하고자 하는 정보만 입력할 수 있음.
             if(patchUserReq.getProfileImgUrl() != null) result = userDao.modifyProfileImgUrl(userId, patchUserReq.getProfileImgUrl());
             if(patchUserReq.getNickName() != null) result = userDao.modifyNickName(userId, patchUserReq.getNickName());
             if(patchUserReq.getBirth() != null) result = userDao.modifyBirth(userId, patchUserReq.getBirth());
