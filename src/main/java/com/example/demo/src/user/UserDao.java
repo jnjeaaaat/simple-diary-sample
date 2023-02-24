@@ -9,6 +9,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 @Repository //  [Persistence Layer에서 DAO를 명시하기 위해 사용]
@@ -55,6 +57,9 @@ public class UserDao {
      * https://jaehoney.tistory.com/34 -> JdbcTemplate 관련 함수에 대한 설명
      * https://velog.io/@seculoper235/RowMapper%EC%97%90-%EB%8C%80%ED%95%B4 -> RowMapper에 대한 설명
      */
+
+//    String dateFormat = "select to_date(createdAt, 'DD-MM-YY') as createdAt from user";
+//    Date createdAt = this.jdbcTemplate.queryForObject(dateFormat, Date.class);
 
     // 회원가입
     public int createUser(PostUserReq postUserReq) {
@@ -148,6 +153,8 @@ public class UserDao {
     // User 테이블에 존재하는 전체 유저들의 정보 조회
     public List<GetUserRes> getUsers() {
         String getUsersQuery = "select * from user where status='ACTIVE'"; //User 테이블에 존재하는 모든 회원들의 정보를 조회하는 쿼리
+//        String dateFormat = "select date_format(createdAt, '%y-%m-%d') as createdAt from user";
+//        Date createdAt = this.jdbcTemplate.queryForObject(dateFormat, Date.class);
         return this.jdbcTemplate.query(getUsersQuery,
                 (rs, rowNum) -> new GetUserRes(
                         rs.getInt("userId"),

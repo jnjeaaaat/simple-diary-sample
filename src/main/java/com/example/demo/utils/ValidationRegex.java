@@ -1,5 +1,8 @@
 package com.example.demo.utils;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -13,5 +16,10 @@ public class ValidationRegex {
     }
 
     // 날짜 형식, 전화 번호 형식 등 여러 Regex 인터넷에 검색하면 나옴.
+    // createdAt 간단히 변형
+    public static String convertDateForm(LocalDateTime createdAt){
+        String dateFormat = createdAt.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        return dateFormat;
+    }
 }
 

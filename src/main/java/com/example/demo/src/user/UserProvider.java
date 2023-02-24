@@ -9,8 +9,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 import java.util.List;
 import static com.example.demo.config.BaseResponseStatus.*;
+import static com.example.demo.utils.ValidationRegex.convertDateForm;
 
 //Provider : Read의 비즈니스 로직 처리
 @Service    // [Business Layer에서 Service를 명시하기 위해서 사용] 비즈니스 로직이나 respository layer 호출하는 함수에 사용된다.
@@ -103,5 +106,9 @@ public class UserProvider {
             throw new BaseException(NON_EXIST_OR_DELETED_USER);
         }
     }
+
+//    public String getFormatDate(LocalDateTime createdAt) {
+//        return convertDateForm(createdAt);
+//    }
 
 }
