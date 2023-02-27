@@ -27,6 +27,6 @@ public class GetUserRes {
     private String nickName;
     private String birth;
     private String status;
-    private LocalDateTime createdAt;
+    private String createdAt;
     private Boolean birthOpen;
 }
