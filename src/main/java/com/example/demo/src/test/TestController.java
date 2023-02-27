@@ -1,12 +1,12 @@
 package com.example.demo.src.test;
 
+import com.example.demo.src.test.model.TestDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import static com.example.demo.utils.ValidationRegex.isRegexBirth;
 
 @RestController
 @RequestMapping("/test")
@@ -38,5 +38,13 @@ public class TestController {
         logger.error("ERROR Level 테스트");
 
         return "테스트완료";
+    }
+
+    @ResponseBody
+    @PostMapping("/date")
+    public boolean isDate(@RequestBody TestDate testDate) {
+        boolean isDate = isRegexBirth(testDate.getDate());
+        System.out.println(isDate);
+        return isDate;
     }
 }

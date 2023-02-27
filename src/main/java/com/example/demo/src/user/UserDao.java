@@ -152,9 +152,11 @@ public class UserDao {
 
     // User 테이블에 존재하는 전체 유저들의 정보 조회
     public List<GetUserRes> getUsers() {
-        String getUsersQuery = "select userId, profileImgUrl, email, nickName, birth, status, date_format(createdAt, '%Y-%m-%d') as createdAt, birthOpen from user where status='ACTIVE'"; //User 테이블에 존재하는 모든 회원들의 정보를 조회하는 쿼리
-//        String dateFormat = "select date_format(createdAt, '%y-%m-%d') as createdAt from user";
-//        Date createdAt = this.jdbcTemplate.queryForObject(dateFormat, Date.class);
+        String getUsersQuery =
+                "select userId, profileImgUrl, email, nickName, birth, status, " +
+                "date_format(createdAt, '%Y년 %m월 %d일') as createdAt, birthOpen " +
+                "from user where status='ACTIVE'"; //User 테이블에 존재하는 모든 회원들의 정보를 조회하는 쿼리
+
         return this.jdbcTemplate.query(getUsersQuery,
                 (rs, rowNum) -> new GetUserRes(
                         rs.getInt("userId"),
@@ -172,7 +174,11 @@ public class UserDao {
     // 해당 nickName을 갖는 유저들의 정보 조회
     public List<GetUserRes> getUsersByNickname(String nickName) {
         try{
-            String getUsersByNicknameQuery = "select userId, profileImgUrl, email, nickName, birth, status, date_format(createdAt, '%Y-%m-%d') as createdAt, birthOpen from user where nickName =? and status='ACTIVE'"; // 해당 이메일을 만족하는 유저를 조회하는 쿼리문
+            String getUsersByNicknameQuery =
+                    "select userId, profileImgUrl, email, nickName, birth, status, " +
+                    "date_format(createdAt, '%Y년 %m월 %d일') as createdAt, birthOpen " +
+                    "from user where nickName =? and status='ACTIVE'"; // 해당 이메일을 만족하는 유저를 조회하는 쿼리문
+
             String getUsersByNicknameParams = nickName;
             return this.jdbcTemplate.query(getUsersByNicknameQuery,
                     (rs, rowNum) -> new GetUserRes(
@@ -199,7 +205,11 @@ public class UserDao {
     // 해당 userId를 갖는 유저조회
     // 친구목록에서 친구 diary 볼때 기능
     public GetUserRes getUserById(int userId) {
-        String getUserQuery = "select userId, profileImgUrl, email, nickName, birth, status, date_format(createdAt, '%Y년 %m월 %d일') as createdAt, birthOpen from user where userId = ? and status = 'ACTIVE'"; // 해당 userId를 만족하는 유저를 조회하는 쿼리문
+        String getUserQuery =
+                "select userId, profileImgUrl, email, nickName, birth, status, " +
+                "date_format(createdAt, '%Y년 %m월 %d일') as createdAt, birthOpen " +
+                "from user where userId = ? and status = 'ACTIVE'"; // 해당 userId를 만족하는 유저를 조회하는 쿼리문
+
         int getUserParams = userId;
         return this.jdbcTemplate.queryForObject(getUserQuery,
                 (rs, rowNum) -> new GetUserRes(
