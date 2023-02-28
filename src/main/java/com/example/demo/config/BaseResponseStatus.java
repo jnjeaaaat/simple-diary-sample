@@ -35,6 +35,11 @@ public enum BaseResponseStatus {
     POST_USERS_EMPTY_EMAIL(false, 2015, "이메일을 입력해주세요."),
     POST_USERS_INVALID_EMAIL(false, 2016, "이메일 형식을 확인해주세요."),
     POST_USERS_EXISTS_EMAIL(false,2017,"중복된 이메일입니다."),
+    POST_USERS_INVALID_BIRTH(false, 2018, "날짜 형식을 확인해주세요."),
+    POST_USER_EMPTY_PASSWORD(false, 2019, "비밀번호를 입력해주세요."),
+    POST_USER_INCORRECT_PASSWORD(false, 2020, "비밀번호가 맞지 않습니다."),
+    POST_USERS_EMPTY_NICKNAME(false, 2021, "닉네임을 입력해주세요."),
+    POST_USERS_EMPTY_BIRTH(false, 2022, "생일을 입력해주세요."),
 
 
 
@@ -47,6 +52,7 @@ public enum BaseResponseStatus {
     // [POST] /users
     DUPLICATED_EMAIL(false, 3013, "중복된 이메일입니다."),
     FAILED_TO_LOGIN(false,3014,"없는 아이디거나 비밀번호가 틀렸습니다."),
+    NON_EXIST_OR_DELETED_USER(false,3015,"없는유저이거나 삭제된 유저입니다."),
 
 
 
@@ -55,7 +61,6 @@ public enum BaseResponseStatus {
      */
     DATABASE_ERROR(false, 4000, "데이터베이스 연결에 실패하였습니다."),
     SERVER_ERROR(false, 4001, "서버와의 연결에 실패하였습니다."),
-    NON_EXIST_OR_DELETED_USER(false,4002,"없는유저이거나 삭제된 유저입니다."),
 
     //[PATCH] /users/{userIdx}
     MODIFY_FAIL_USERNAME(false,4014,"유저네임 수정 실패"),

@@ -12,6 +12,7 @@ import java.util.Date;
 public class PostUserReq {
     private String email; // 회원가입 아이디, 중복불가능
     private String password; // 회원가입 비밀번호
+    private String checkPassword; // 회원가입 비밀번호 확인
     private String nickName; // 회원가입 닉네임, 중복가능
     private String birth; // 회원 생일
 }

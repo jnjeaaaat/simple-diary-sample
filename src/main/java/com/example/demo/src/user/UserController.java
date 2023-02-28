@@ -14,6 +14,7 @@ import java.util.List;
 
 
 import static com.example.demo.config.BaseResponseStatus.*;
+import static com.example.demo.utils.ValidationRegex.isRegexBirth;
 import static com.example.demo.utils.ValidationRegex.isRegexEmail;
 
 @RestController // Rest API 또는 WebAPI를 개발하기 위한 어노테이션. @Controller + @ResponseBody 를 합친것.
@@ -63,13 +64,31 @@ public class UserController {
     public BaseResponse<PostUserRes> createUser(@RequestBody PostUserReq postUserReq) {
         //  @RequestBody란, 클라이언트가 전송하는 HTTP Request Body(우리는 JSON으로 통신하니, 이 경우 body는 JSON)를 자바 객체로 매핑시켜주는 어노테이션
         // TODO: email 관련한 짧은 validation 예시입니다. 그 외 더 부가적으로 추가해주세요!
+        // TODO: dateRegex 추가, postUserReq 데이터타입, 숫자 범위 validation 추가
         // email에 값이 존재하는지, 빈 값으로 요청하지는 않았는지 검사합니다. 빈값으로 요청했다면 에러 메시지를 보냅니다.
         if (postUserReq.getEmail() == null) {
             return new BaseResponse<>(POST_USERS_EMPTY_EMAIL);
         }
-        //이메일 정규표현: 입력받은 이메일이 email@domain.xxx와 같은 형식인지 검사합니다. 형식이 올바르지 않다면 에러 메시지를 보냅니다.
+        // 이메일 정규표현: 입력받은 이메일이 email@domain.xxx와 같은 형식인지 검사합니다. 형식이 올바르지 않다면 에러 메시지를 보냅니다.
         if (!isRegexEmail(postUserReq.getEmail())) {
             return new BaseResponse<>(POST_USERS_INVALID_EMAIL);
+        }
+        // 생일 정규표현: 입력받은 생일 날짜 'yyyy년 mm월 dd일' 인지 검사.
+        // TODO: POSTMAN 확인 전 아래 다
+        if (!isRegexBirth(postUserReq.getBirth())) {
+            return new BaseResponse<>(POST_USERS_INVALID_BIRTH);
+        }
+        if (postUserReq.getPassword() == null) {
+            return new BaseResponse<>(POST_USER_EMPTY_PASSWORD);
+        }
+        if (!postUserReq.getPassword().equals(postUserReq.getCheckPassword())) {
+            return new BaseResponse<>(POST_USER_INCORRECT_PASSWORD);
+        }
+        if (postUserReq.getNickName() == null) {
+            return new BaseResponse<>(POST_USERS_EMPTY_NICKNAME);
+        }
+        if (postUserReq.getBirth() == null) {
+            return new BaseResponse<>(POST_USERS_EMPTY_BIRTH);
         }
         try {
             PostUserRes postUserRes = userService.createUser(postUserReq);
@@ -146,6 +165,9 @@ public class UserController {
         // Get Users
         try {
             GetUserRes getUserRes = userProvider.getUser(userId);
+            if(getUserRes == null) {
+                return new BaseResponse<>(NON_EXIST_OR_DELETED_USER);
+            }
             return new BaseResponse<>(FIND_NUMBER_USER,getUserRes);
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));

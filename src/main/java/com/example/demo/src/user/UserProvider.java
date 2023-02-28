@@ -102,7 +102,7 @@ public class UserProvider {
             GetUserRes getUserRes = userDao.getUserById(userId);
             return getUserRes;
         } catch (Exception exception) {
-            throw new BaseException(NON_EXIST_OR_DELETED_USER);
+            throw new BaseException(DATABASE_ERROR);
         }
     }
 

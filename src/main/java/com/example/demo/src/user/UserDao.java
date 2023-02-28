@@ -205,23 +205,27 @@ public class UserDao {
     // 해당 userId를 갖는 유저조회
     // 친구목록에서 친구 diary 볼때 기능
     public GetUserRes getUserById(int userId) {
-        String getUserQuery =
-                "select userId, profileImgUrl, email, nickName, birth, status, " +
-                "date_format(createdAt, '%Y년 %m월 %d일') as createdAt, birthOpen " +
-                "from user where userId = ? and status = 'ACTIVE'"; // 해당 userId를 만족하는 유저를 조회하는 쿼리문
+        try {
+            String getUserQuery =
+                    "select userId, profileImgUrl, email, nickName, birth, status, " +
+                            "date_format(createdAt, '%Y년 %m월 %d일') as createdAt, birthOpen " +
+                            "from user where userId = ? and status = 'ACTIVE'"; // 해당 userId를 만족하는 유저를 조회하는 쿼리문
 
-        int getUserParams = userId;
-        return this.jdbcTemplate.queryForObject(getUserQuery,
-                (rs, rowNum) -> new GetUserRes(
-                        rs.getInt("userId"),
-                        rs.getString("profileImgUrl"),
-                        rs.getString("email"),
+            int getUserParams = userId;
+            return this.jdbcTemplate.queryForObject(getUserQuery,
+                    (rs, rowNum) -> new GetUserRes(
+                            rs.getInt("userId"),
+                            rs.getString("profileImgUrl"),
+                            rs.getString("email"),
 //                        rs.getString("password"),
-                        rs.getString("nickName"),
-                        rs.getString("birth"),
-                        rs.getString("status"),
-                        rs.getString("createdAt"),
-                        rs.getBoolean("birthOpen")), // RowMapper(위의 링크 참조): 원하는 결과값 형태로 받기
-                getUserParams); // 한 개의 회원정보를 얻기 위한 jdbcTemplate 함수(Query, 객체 매핑 정보, Params)의 결과 반환
+                            rs.getString("nickName"),
+                            rs.getString("birth"),
+                            rs.getString("status"),
+                            rs.getString("createdAt"),
+                            rs.getBoolean("birthOpen")), // RowMapper(위의 링크 참조): 원하는 결과값 형태로 받기
+                    getUserParams); // 한 개의 회원정보를 얻기 위한 jdbcTemplate 함수(Query, 객체 매핑 정보, Params)의 결과 반환
+        } catch (IncorrectResultSizeDataAccessException error) {
+            return null;
+        }
     }
 }
