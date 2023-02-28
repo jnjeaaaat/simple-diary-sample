@@ -65,6 +65,27 @@ public class UserController {
         //  @RequestBody란, 클라이언트가 전송하는 HTTP Request Body(우리는 JSON으로 통신하니, 이 경우 body는 JSON)를 자바 객체로 매핑시켜주는 어노테이션
         // TODO: email 관련한 짧은 validation 예시입니다. 그 외 더 부가적으로 추가해주세요!
         // TODO: dateRegex 추가, postUserReq 데이터타입, 숫자 범위 validation 추가
+        /**
+         * Data Type Validation
+         */
+        if (postUserReq.getEmail().getClass().equals("java.lang.String")) {
+            return new BaseResponse<>(POST_NOT_STRING_TYPE);
+        }
+        if (postUserReq.getPassword().getClass().getName().equals("java.lang.String")) {
+            return new BaseResponse<>(POST_NOT_STRING_TYPE);
+        }
+        if (postUserReq.getCheckPassword().getClass().getName().equals("java.lang.String")) {
+            return new BaseResponse<>(POST_NOT_STRING_TYPE);
+        }
+        if (postUserReq.getNickName().getClass() != String.class) {
+            return new BaseResponse<>(POST_NOT_STRING_TYPE);
+        }
+        if (postUserReq.getBirth().getClass() != String.class) {
+            return new BaseResponse<>(POST_NOT_STRING_TYPE);
+        }
+        /**
+         * 여기까지
+         */
         // email에 값이 존재하는지, 빈 값으로 요청하지는 않았는지 검사합니다. 빈값으로 요청했다면 에러 메시지를 보냅니다.
         if (postUserReq.getEmail() == null) {
             return new BaseResponse<>(POST_USERS_EMPTY_EMAIL);
@@ -73,23 +94,32 @@ public class UserController {
         if (!isRegexEmail(postUserReq.getEmail())) {
             return new BaseResponse<>(POST_USERS_INVALID_EMAIL);
         }
-        // 생일 정규표현: 입력받은 생일 날짜 'yyyy년 mm월 dd일' 인지 검사.
         // TODO: POSTMAN 확인 전 아래 다
-        if (!isRegexBirth(postUserReq.getBirth())) {
-            return new BaseResponse<>(POST_USERS_INVALID_BIRTH);
-        }
+        // password null일 때
         if (postUserReq.getPassword() == null) {
             return new BaseResponse<>(POST_USER_EMPTY_PASSWORD);
         }
+        if (postUserReq.getCheckPassword() == null) {
+            return new BaseResponse<>(POST_USER_EMPTY_CHECK_PASSWORD);
+        }
+        // password, checkPassword 맞지 않을 때
         if (!postUserReq.getPassword().equals(postUserReq.getCheckPassword())) {
             return new BaseResponse<>(POST_USER_INCORRECT_PASSWORD);
         }
+        // nickName 입력 안했을 때
         if (postUserReq.getNickName() == null) {
             return new BaseResponse<>(POST_USERS_EMPTY_NICKNAME);
         }
+        // 생일 입력 안했을 때
         if (postUserReq.getBirth() == null) {
             return new BaseResponse<>(POST_USERS_EMPTY_BIRTH);
         }
+        // 생일 정규표현: 입력받은 생일 날짜 'yyyy년 mm월 dd일' 인지 검사.
+        // 생일 입력 안했을 때 보다 밑에 있어야 오류가 안남
+        if (!isRegexBirth(postUserReq.getBirth())) {
+            return new BaseResponse<>(POST_USERS_INVALID_BIRTH);
+        }
+
         try {
             PostUserRes postUserRes = userService.createUser(postUserReq);
             return new BaseResponse<>(SUCCESS_SIGN_IN, postUserRes);
