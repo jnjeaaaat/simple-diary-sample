@@ -65,27 +65,6 @@ public class UserController {
         //  @RequestBody란, 클라이언트가 전송하는 HTTP Request Body(우리는 JSON으로 통신하니, 이 경우 body는 JSON)를 자바 객체로 매핑시켜주는 어노테이션
         // TODO: email 관련한 짧은 validation 예시입니다. 그 외 더 부가적으로 추가해주세요!
         // TODO: dateRegex 추가, postUserReq 데이터타입, 숫자 범위 validation 추가
-        /**
-         * Data Type Validation
-         */
-        if (postUserReq.getEmail().getClass().equals("java.lang.String")) {
-            return new BaseResponse<>(POST_NOT_STRING_TYPE);
-        }
-        if (postUserReq.getPassword().getClass().getName().equals("java.lang.String")) {
-            return new BaseResponse<>(POST_NOT_STRING_TYPE);
-        }
-        if (postUserReq.getCheckPassword().getClass().getName().equals("java.lang.String")) {
-            return new BaseResponse<>(POST_NOT_STRING_TYPE);
-        }
-        if (postUserReq.getNickName().getClass() != String.class) {
-            return new BaseResponse<>(POST_NOT_STRING_TYPE);
-        }
-        if (postUserReq.getBirth().getClass() != String.class) {
-            return new BaseResponse<>(POST_NOT_STRING_TYPE);
-        }
-        /**
-         * 여기까지
-         */
         // email에 값이 존재하는지, 빈 값으로 요청하지는 않았는지 검사합니다. 빈값으로 요청했다면 에러 메시지를 보냅니다.
         if (postUserReq.getEmail() == null) {
             return new BaseResponse<>(POST_USERS_EMPTY_EMAIL);
@@ -94,11 +73,11 @@ public class UserController {
         if (!isRegexEmail(postUserReq.getEmail())) {
             return new BaseResponse<>(POST_USERS_INVALID_EMAIL);
         }
-        // TODO: POSTMAN 확인 전 아래 다
         // password null일 때
         if (postUserReq.getPassword() == null) {
             return new BaseResponse<>(POST_USER_EMPTY_PASSWORD);
         }
+        // checkPassword null 일 때
         if (postUserReq.getCheckPassword() == null) {
             return new BaseResponse<>(POST_USER_EMPTY_CHECK_PASSWORD);
         }
@@ -135,6 +114,14 @@ public class UserController {
     @ResponseBody
     @PostMapping("/log-in")
     public BaseResponse<PostLoginRes> logIn(@RequestBody PostLoginReq postLoginReq) {
+        // email null 일 때
+        if (postLoginReq.getEmail() == null) {
+            return new BaseResponse<>(POST_USERS_EMPTY_EMAIL);
+        }
+        // password null일 때
+        if (postLoginReq.getPassword() == null) {
+            return new BaseResponse<>(POST_USER_EMPTY_PASSWORD);
+        }
         try {
             // TODO: 로그인 값들에 대한 형식적인 validatin 처리해주셔야합니다!
             // TODO: 유저의 status ex) 비활성화된 유저, 탈퇴한 유저 등을 관리해주고 있다면 해당 부분에 대한 validation 처리도 해주셔야합니다.

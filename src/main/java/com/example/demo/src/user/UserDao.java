@@ -228,4 +228,11 @@ public class UserDao {
             return null;
         }
     }
+
+    public int isExistUser(String email) {
+        String isExistUserQuery = "select exists(select email from user where status='ACTIVE' and email=?)";
+        String isExistUserParams = email;
+
+        return this.jdbcTemplate.queryForObject(isExistUserQuery, int.class, isExistUserParams);
+    }
 }

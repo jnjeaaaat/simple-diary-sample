@@ -43,6 +43,9 @@ public class UserProvider {
 
     // 로그인(password 검사)
     public PostLoginRes logIn(PostLoginReq postLoginReq) throws BaseException {
+        if (isExistUser(postLoginReq.getEmail()) == 0) {
+            throw new BaseException(INACTIVE_USER);
+        }
         User user = userDao.getPwd(postLoginReq);
         String password;
         try {
@@ -101,6 +104,15 @@ public class UserProvider {
         try {
             GetUserRes getUserRes = userDao.getUserById(userId);
             return getUserRes;
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    // 해당 email이 비활성화 상태인지 체크
+    public int isExistUser(String email) throws BaseException {
+        try {
+            return userDao.isExistUser(email);
         } catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);
         }
