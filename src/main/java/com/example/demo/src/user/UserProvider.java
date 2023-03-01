@@ -118,4 +118,12 @@ public class UserProvider {
         }
     }
 
+    public int countTodayViewUser(int userId) throws BaseException {
+        try {
+            return userDao.countTodayViewUser(userId);
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
 }

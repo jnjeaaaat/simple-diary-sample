@@ -235,4 +235,11 @@ public class UserDao {
 
         return this.jdbcTemplate.queryForObject(isExistUserQuery, int.class, isExistUserParams);
     }
+
+    public int countTodayViewUser(int userId) {
+        String countTodayViewUserQuery = "select count(userViewId) from userView where showingUserId = ?";
+        int countTodayViewUserParams = userId;
+
+        return this.jdbcTemplate.queryForObject(countTodayViewUserQuery, int.class, countTodayViewUserParams);
+    }
 }

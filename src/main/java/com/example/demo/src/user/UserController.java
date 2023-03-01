@@ -118,7 +118,7 @@ public class UserController {
         if (postLoginReq.getEmail() == null) {
             return new BaseResponse<>(POST_USERS_EMPTY_EMAIL);
         }
-        // password null일 때
+        // password null 일 때
         if (postLoginReq.getPassword() == null) {
             return new BaseResponse<>(POST_USER_EMPTY_PASSWORD);
         }
@@ -163,10 +163,6 @@ public class UserController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
-    /**
-
-
-
 
     /**
      * 회원 1명 조회 API
@@ -215,4 +211,16 @@ public class UserController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
+
+    @ResponseBody
+    @GetMapping("/views/{userId}")
+    public BaseResponse<Integer> countTodayViewUser(@PathVariable("userId") int userId) {
+        try {
+            int views = UserProvider.countTodayViewUser(userId);
+            return new BaseResponse<>(views);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
 }
