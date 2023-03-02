@@ -177,7 +177,8 @@ public class UserController {
         //  .(dot)이 포함된 경우, .을 포함한 그 뒤가 잘려서 들어감
         // Get Users
         try {
-            GetUserRes getUserRes = userProvider.getUser(userId);
+            int userIdByJwt = jwtService.getUserId();
+            GetUserRes getUserRes = userProvider.getUser(userIdByJwt, userId);
             if(getUserRes == null) {
                 return new BaseResponse<>(NON_EXIST_OR_DELETED_USER);
             }
@@ -198,7 +199,7 @@ public class UserController {
                                                @RequestBody PatchUserReq patchUserReq) {
         try {
             //jwt에서 idx 추출.
-            int userIdByJwt = jwtService.getUserIdx();
+            int userIdByJwt = jwtService.getUserId();
             //userId와 접근한 유저가 같은지 확인
             if(userId != userIdByJwt){
                 return new BaseResponse<>(INVALID_USER_JWT);
@@ -216,7 +217,7 @@ public class UserController {
     @GetMapping("/views/{userId}")
     public BaseResponse<Integer> countTodayViewUser(@PathVariable("userId") int userId) {
         try {
-            int views = UserProvider.countTodayViewUser(userId);
+            int views = userProvider.countTodayViewUser(userId);
             return new BaseResponse<>(views);
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));

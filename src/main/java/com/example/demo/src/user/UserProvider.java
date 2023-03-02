@@ -100,9 +100,9 @@ public class UserProvider {
 
 
     // 해당 userId를 갖는 user의 정보 조회
-    public GetUserRes getUser(int userId) throws BaseException {
+    public GetUserRes getUser(int userIdByJwt, int userId) throws BaseException {
         try {
-            GetUserRes getUserRes = userDao.getUserById(userId);
+            GetUserRes getUserRes = userDao.getUserById(userIdByJwt, userId);
             return getUserRes;
         } catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);

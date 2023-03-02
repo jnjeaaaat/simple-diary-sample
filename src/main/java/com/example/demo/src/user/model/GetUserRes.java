@@ -29,4 +29,5 @@ public class GetUserRes {
     private String status;
     private String createdAt;
     private Boolean birthOpen;
+    private int view;
 }
