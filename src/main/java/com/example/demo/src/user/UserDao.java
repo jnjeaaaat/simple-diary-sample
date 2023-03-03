@@ -153,9 +153,9 @@ public class UserDao {
     // User 테이블에 존재하는 전체 유저들의 정보 조회
     public List<GetUserRes> getUsers() {
         String getUsersQuery =
-                "select userId, profileImgUrl, email, nickName, birth, status, " +
-                "date_format(createdAt, '%Y년 %m월 %d일') as createdAt, birthOpen " +
-                "from user where status='ACTIVE'"; //User 테이블에 존재하는 모든 회원들의 정보를 조회하는 쿼리
+                        "select userId, profileImgUrl, email, nickName, birth, status, " +
+                        "date_format(createdAt, '%Y년 %m월 %d일') as createdAt, birthOpen " +
+                        "from user"; //User 테이블에 존재하는 모든 회원들의 정보를 조회하는 쿼리
 
         return this.jdbcTemplate.query(getUsersQuery,
                 (rs, rowNum) -> new GetUserRes(
@@ -167,8 +167,7 @@ public class UserDao {
                         rs.getString("birth"),
                         rs.getString("status"),
                         rs.getString("createdAt"),
-                        rs.getBoolean("birthOpen"),
-                        rs.getInt("view")) // RowMapper(위의 링크 참조): 원하는 결과값 형태로 받기
+                        rs.getBoolean("birthOpen")) // RowMapper(위의 링크 참조): 원하는 결과값 형태로 받기
         ); // 복수개의 회원정보들을 얻기 위해 jdbcTemplate 함수(Query, 객체 매핑 정보)의 결과 반환(동적쿼리가 아니므로 Parmas부분이 없음)
     }
 
@@ -191,8 +190,7 @@ public class UserDao {
                             rs.getString("birth"),
                             rs.getString("status"),
                             rs.getString("createdAt"),
-                            rs.getBoolean("birthOpen"),
-                            rs.getInt("view")), // RowMapper(위의 링크 참조): 원하는 결과값 형태로 받기
+                            rs.getBoolean("birthOpen")), // RowMapper(위의 링크 참조): 원하는 결과값 형태로 받기
                     getUsersByNicknameParams); // 해당 닉네임을 갖는 모든 User 정보를 얻기 위해 jdbcTemplate 함수(Query, 객체 매핑 정보, Params)의 결과 반환
 
             // queryForObject의 결과값이 없거나 2개 이상일때
@@ -206,12 +204,14 @@ public class UserDao {
 
     // 해당 userId를 갖는 유저조회
     // 친구목록에서 친구 diary 볼때 기능
-    public GetUserRes getUserById(int userIdByJwt, int userId) {
+    public GetSpecificUserRes getUserById(int userIdByJwt, int userId) {
         try {
             // 회원 조회 할 때 오늘 방문한 수 늘리기
             String viewUserQuery = "insert into userView (userId, showingUserId) values (?, ?)";
             Object[] viewUserParams = new Object[]{userIdByJwt, userId};
-            this.jdbcTemplate.update(viewUserQuery, viewUserParams);
+            if (userIdByJwt != userId) {
+                this.jdbcTemplate.update(viewUserQuery, viewUserParams);
+            }
 
 //            String getUserQuery =
 //                    "select userId, profileImgUrl, email, nickName, birth, status, " +
@@ -220,14 +220,14 @@ public class UserDao {
             String getUserQuery =
                     "select user.userId, user.profileImgUrl, user.email, user.nickName, " +
                     "user.birth, user.status, date_format(user.createdAt, '%Y년 %m월 %d일') as createdAt, user.birthOpen, " +
-                    "count(userView.userViewId) as view" +
+                    "count(userView.userViewId) as view " +
                     "from user " +
                     "left join userView on user.userId = userView.showingUserId " +
-                    "where userView.showingUserId = 2 and date(userView.viewDate) = date(now())";
+                    "where userView.showingUserId = ? and date(userView.viewDate) = date(now())";
 
             int getUserParams = userId;
             return this.jdbcTemplate.queryForObject(getUserQuery,
-                    (rs, rowNum) -> new GetUserRes(
+                    (rs, rowNum) -> new GetSpecificUserRes(
                             rs.getInt("userId"),
                             rs.getString("profileImgUrl"),
                             rs.getString("email"),

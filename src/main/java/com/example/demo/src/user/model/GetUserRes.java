@@ -23,11 +23,9 @@ public class GetUserRes {
     private int userId;
     private String profileImgUrl;
     private String email;
-//    private String password;
     private String nickName;
     private String birth;
     private String status;
     private String createdAt;
     private Boolean birthOpen;
-    private int view;
 }
