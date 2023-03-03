@@ -9,6 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+// userId로 조회할 때 참조하는 class
 public class GetSpecificUserRes {
     private int userId;
     private String profileImgUrl;
