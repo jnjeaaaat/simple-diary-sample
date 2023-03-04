@@ -35,7 +35,7 @@ public class PostController {
     public BaseResponse<PostPostRes> createPost(@RequestBody PostPostReq postPostReq) {
         try {
             PostPostRes postPostRes = postService.createPost(postPostReq);
-            return new BaseResponse<>(SUCCESS_CREATE_NEW_POST, postPostRes)
+            return new BaseResponse<>(SUCCESS_CREATE_NEW_POST, postPostRes);
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
         }
