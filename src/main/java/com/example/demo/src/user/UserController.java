@@ -213,15 +213,5 @@ public class UserController {
         }
     }
 
-    @ResponseBody
-    @GetMapping("/views/{userId}")
-    public BaseResponse<Integer> countTodayViewUser(@PathVariable("userId") int userId) {
-        try {
-            int views = userProvider.countTodayViewUser(userId);
-            return new BaseResponse<>(views);
-        } catch (BaseException exception) {
-            return new BaseResponse<>((exception.getStatus()));
-        }
-    }
 
 }

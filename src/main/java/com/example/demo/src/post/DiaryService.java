@@ -1,8 +1,8 @@
 package com.example.demo.src.post;
 
 import com.example.demo.config.BaseException;
-import com.example.demo.src.post.model.PostPostReq;
-import com.example.demo.src.post.model.PostPostRes;
+import com.example.demo.src.post.model.PostDiaryReq;
+import com.example.demo.src.post.model.PostDiaryRes;
 import com.example.demo.utils.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,25 +10,25 @@ import org.springframework.stereotype.Service;
 import static com.example.demo.config.BaseResponseStatus.DATABASE_ERROR;
 
 @Service
-public class PostService {
+public class DiaryService {
     @Autowired
-    private final PostDao postDao;
-    private final PostProvider postProvider;
+    private final DiaryDao diaryDao;
+    private final DiaryProvider diaryProvider;
     private final JwtService jwtService; // JWT부분은 7주차에 다루므로 모르셔도 됩니다!
 
-    public PostService (PostDao postDao, PostProvider postProvider, JwtService jwtService) {
-        this.postDao = postDao;
+    public DiaryService(DiaryDao diaryDao, DiaryProvider diaryProvider, JwtService jwtService) {
+        this.diaryDao = diaryDao;
         this.jwtService = jwtService;
-        this.postProvider = postProvider;
+        this.diaryProvider = diaryProvider;
     }
 
     /**
      * [post] createPost
      */
-    public PostPostRes createPost(PostPostReq postPostReq) throws BaseException {
+    public PostDiaryRes createPost(PostDiaryReq postDiaryReq) throws BaseException {
         try {
-            PostPostRes postPostRes = new PostPostRes(postDao.createPost(postPostReq)+" 번째 일기입니다.");
-            return postPostRes;
+            PostDiaryRes postDiaryRes = new PostDiaryRes(diaryDao.createPost(postDiaryReq)+" 번째 일기입니다.");
+            return postDiaryRes;
         } catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);
         }

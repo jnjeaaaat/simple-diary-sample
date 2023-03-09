@@ -9,6 +9,6 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class PostPostRes {
-    private String countPost; // TODO: 그 유저의 몇번 째 글인지 count() 해서 보여주기 가능하면
+public class PostDiaryRes {
+    private String countDiary; // TODO: 그 유저의 몇번 째 글인지 count() 해서 보여주기 가능하면
 }
