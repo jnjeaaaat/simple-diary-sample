@@ -1,4 +1,4 @@
-package com.example.demo.src.post;
+package com.example.demo.src.diary;
 
 import com.example.demo.utils.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;

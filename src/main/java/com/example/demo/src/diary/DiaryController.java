@@ -1,9 +1,9 @@
-package com.example.demo.src.post;
+package com.example.demo.src.diary;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
-import com.example.demo.src.post.model.PostDiaryReq;
-import com.example.demo.src.post.model.PostDiaryRes;
+import com.example.demo.src.diary.model.PostDiaryReq;
+import com.example.demo.src.diary.model.PostDiaryRes;
 import com.example.demo.utils.JwtService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,6 +38,7 @@ public class DiaryController {
             if (postDiaryReq.getUserId() != userIdByJwt) {
                 return new BaseResponse<>(INVALID_USER_JWT);
             }
+            System.out.println("done");
             PostDiaryRes postDiaryRes = diaryService.createPost(postDiaryReq);
             return new BaseResponse<>(SUCCESS_CREATE_NEW_DIARY, postDiaryRes);
         } catch (BaseException exception) {

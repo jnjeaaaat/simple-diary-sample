@@ -5,13 +5,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class TestDate {
-    private String date;
-    private List<String> listString;
+public class ListDataTest {
+    private int listDataTestId;
+    private TestDate testDate;
+    private String title;
 }

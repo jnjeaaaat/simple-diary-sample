@@ -1,5 +1,7 @@
 package com.example.demo.src.test;
 
+import com.example.demo.config.BaseResponse;
+import com.example.demo.src.test.model.ListDataTest;
 import com.example.demo.src.test.model.TestDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,5 +48,11 @@ public class TestController {
         boolean isDate = isRegexBirth(testDate.getDate());
         System.out.println(isDate);
         return isDate;
+    }
+
+    @ResponseBody
+    @PostMapping("/list")
+    public BaseResponse<ListDataTest> postListTest(@RequestBody ListDataTest listDataTest){
+        return new BaseResponse<>(listDataTest);
     }
 }

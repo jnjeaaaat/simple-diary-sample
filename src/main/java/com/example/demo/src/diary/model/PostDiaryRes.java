@@ -1,4 +1,4 @@
-package com.example.demo.src.post.model;
+package com.example.demo.src.diary.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

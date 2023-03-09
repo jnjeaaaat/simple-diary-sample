@@ -1,8 +1,8 @@
-package com.example.demo.src.post;
+package com.example.demo.src.diary;
 
 import com.example.demo.config.BaseException;
-import com.example.demo.src.post.model.PostDiaryReq;
-import com.example.demo.src.post.model.PostDiaryRes;
+import com.example.demo.src.diary.model.PostDiaryReq;
+import com.example.demo.src.diary.model.PostDiaryRes;
 import com.example.demo.utils.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
