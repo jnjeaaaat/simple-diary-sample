@@ -11,7 +11,7 @@ import java.util.Date;
 @Setter
 @AllArgsConstructor
 public class Diary {
-    private int postId; // 글 id
+    private int diaryId; // 글 id
     private int userId; // 글 작성 유저
     private String title; // 글 제목
     private String contents; // 글 내용

@@ -2,6 +2,7 @@ package com.example.demo.src.diary;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
+import com.example.demo.src.diary.model.GetDiaryRes;
 import com.example.demo.src.diary.model.PostDiaryReq;
 import com.example.demo.src.diary.model.PostDiaryRes;
 import com.example.demo.utils.JwtService;
@@ -9,6 +10,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 import static com.example.demo.config.BaseResponseStatus.*;
 
@@ -32,7 +35,7 @@ public class DiaryController {
 
     @ResponseBody
     @PostMapping("")
-    public BaseResponse<PostDiaryRes> createPost(@RequestBody PostDiaryReq postDiaryReq) {
+    public BaseResponse<PostDiaryRes> createDiary(@RequestBody PostDiaryReq postDiaryReq) {
         try {
             int userIdByJwt = jwtService.getUserId();
             if (postDiaryReq.getUserId() != userIdByJwt) {
@@ -45,5 +48,16 @@ public class DiaryController {
         }
     }
     //TODO: 일기 수정, 일기 삭제, 일기 조회(본인꺼, 친구꺼(오픈된것만)), 전체 일기 목록, 가계부
+    //TODO: 유저 닉네임으로 조회할 때 최근에 일기 쓴 사람 순서대로
 
+    @ResponseBody
+    @GetMapping("")
+    public BaseResponse<List<GetDiaryRes>> getAllDiary() {
+        try {
+            List<GetDiaryRes> getDiaryRes = diaryProvider.getAllDiary();
+            return new BaseResponse<>(FIND_ALL_DIARIES, getDiaryRes);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
 }

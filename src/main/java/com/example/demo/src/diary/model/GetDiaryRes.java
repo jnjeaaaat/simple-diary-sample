@@ -13,7 +13,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GetDiaryRes {
-    private int postId; // 글 id
+    private int diaryId; // 글 id
     private int userId; // 글 작성 유저 //TODO: 글 작성한 유저의 프로필 사진, 닉네임까지 나오게 추가
     private String title; // 글 제목
     private String contents; // 글 내용 //TODO: 나중에 사진까지 추가해서 나오게 수정

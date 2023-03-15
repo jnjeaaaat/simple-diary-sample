@@ -1,12 +1,17 @@
 package com.example.demo.src.diary;
 
+import com.example.demo.src.diary.model.GetDiaryRes;
 import com.example.demo.src.diary.model.PostDiaryReq;
+import com.example.demo.src.user.model.GetUserRes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Repository
 public class DiaryDao {
@@ -42,5 +47,24 @@ public class DiaryDao {
         int countDiaryOfUserParam = postDiaryReq.getUserId();
 
         return this.jdbcTemplate.queryForObject(countDiaryOfUserQuery, int.class, countDiaryOfUserParam);
+    }
+
+    public List<GetDiaryRes> getAllDiary() {
+        String getAllDiaryQuery = "select * from diary";
+        return this.jdbcTemplate.query(getAllDiaryQuery,
+                (rs, rowNum) -> new GetDiaryRes(
+                        rs.getInt("diaryId"),
+                        rs.getInt("userId"),
+                        rs.getString("title"),
+                        rs.getString("contents"),
+                        rs.getString("feel"),
+                        rs.getInt("consumption"),
+                        rs.getInt("importation"),
+                        rs.getBoolean("isOpen"),
+                        rs.getBoolean("isDeleted"),
+                        rs.getDate("diaryDate"),
+                        rs.getTimestamp("createdAt").toLocalDateTime(),
+                        rs.getTimestamp("updatedAt").toLocalDateTime())
+        );
     }
 }
