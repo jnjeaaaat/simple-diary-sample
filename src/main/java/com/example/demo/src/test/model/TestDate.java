@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
+import java.util.ArrayList;
 
 @Getter
 @Setter
@@ -13,5 +13,5 @@ import java.util.List;
 @NoArgsConstructor
 public class TestDate {
     private String date;
-    private List<String> listString;
+    private ArrayList<String> listString;
 }

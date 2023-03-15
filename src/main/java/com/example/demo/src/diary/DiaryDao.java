@@ -30,11 +30,11 @@ public class DiaryDao {
         // 마지막으로 들어간 diaryId
         String lastInsertIdQuery = "select last_insert_id()";
         int lastInsertDiaryId = this.jdbcTemplate.queryForObject(lastInsertIdQuery, int.class);
-        System.out.println(lastInsertDiaryId);
 
+        // diaryImg insert
         String inputDiaryImgQuery = "insert into diaryImg (diaryId, diaryImgUrl) values (?,?)";
-        for (int i = 0; i < postDiaryReq.getDiaryImgs().size(); i++) {
-            Object[] inputDiaryImgParams = new Object[]{lastInsertDiaryId, postDiaryReq.getDiaryImgs().get(i)};
+        for (int i = 0; i < postDiaryReq.getDiaryImg().getDiaryImgUrls().size(); i++) {
+            Object[] inputDiaryImgParams = new Object[]{lastInsertDiaryId, postDiaryReq.getDiaryImg().getDiaryImgUrls().get(i)};
             this.jdbcTemplate.update(inputDiaryImgQuery, inputDiaryImgParams);
         }
 

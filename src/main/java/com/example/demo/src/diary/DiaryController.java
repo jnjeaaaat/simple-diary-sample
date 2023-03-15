@@ -38,7 +38,6 @@ public class DiaryController {
             if (postDiaryReq.getUserId() != userIdByJwt) {
                 return new BaseResponse<>(INVALID_USER_JWT);
             }
-            System.out.println("done");
             PostDiaryRes postDiaryRes = diaryService.createPost(postDiaryReq);
             return new BaseResponse<>(SUCCESS_CREATE_NEW_DIARY, postDiaryRes);
         } catch (BaseException exception) {

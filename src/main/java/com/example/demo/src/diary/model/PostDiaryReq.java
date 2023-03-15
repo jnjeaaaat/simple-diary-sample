@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 @Getter
@@ -15,7 +14,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class PostDiaryReq {
     private int userId; // 글 작성 유저
-    private ArrayList<String> diaryImgs; // 다이어리 사진들
+    private PostDiaryImgReq diaryImg; // 다이어리 사진들
     private String title; // 글 제목
     private String contents; // 글 내용
     private String feel; // 그날의 기분 default == happy [happy, angry, depressed, heart]
