@@ -44,6 +44,6 @@ public class DiaryController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
-    //TODO: 일기 수정, 일기 삭제, 일기 사진 넣기, 일기 조회(본인꺼, 친구꺼(오픈된것만)), 전체 일기 목록, 가계부
+    //TODO: 일기 수정, 일기 삭제, 일기 조회(본인꺼, 친구꺼(오픈된것만)), 전체 일기 목록, 가계부
 
 }

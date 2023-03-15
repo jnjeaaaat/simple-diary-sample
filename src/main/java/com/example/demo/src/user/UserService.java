@@ -70,6 +70,9 @@ public class UserService {
 
     // 회원정보 수정(Patch)
     public void modifyUser(int userId, PatchUserReq patchUserReq) throws BaseException {
+        if (userProvider.isExistUserByUserId(userId)) {
+            throw new BaseException(INACTIVE_USER);
+        }
         try {
             int result = 0;
             // 수정하고자 하는 정보만 입력할 수 있음.

@@ -126,4 +126,13 @@ public class UserProvider {
         }
     }
 
+    public boolean isExistUserByUserId(int userId) throws BaseException {
+        try {
+            if (userDao.isInactiveUser(userId) == 0) {
+                return true;
+            } else return false;
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
 }
