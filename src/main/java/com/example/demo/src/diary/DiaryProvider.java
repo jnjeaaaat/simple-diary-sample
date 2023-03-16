@@ -22,9 +22,19 @@ public class DiaryProvider {
         this.jwtService = jwtService;
     }
 
-    public List<GetDiaryRes> getAllDiary() throws BaseException{
+    // 전체 일기 조회(특정유저x)
+    public List<GetDiaryRes> getAllDiary() throws BaseException {
         try {
             List<GetDiaryRes> getDiaryRes = diaryDao.getAllDiary();
+            return getDiaryRes;
+        } catch (Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public List<GetDiaryRes> getUserDiary(int userId) throws BaseException {
+        try {
+            List<GetDiaryRes> getDiaryRes = diaryDao.getUserDiary(userId);
             return getDiaryRes;
         } catch (Exception exception){
             throw new BaseException(DATABASE_ERROR);

@@ -50,12 +50,26 @@ public class DiaryController {
     //TODO: 일기 수정, 일기 삭제, 일기 조회(본인꺼, 친구꺼(오픈된것만)), 전체 일기 목록, 가계부
     //TODO: 유저 닉네임으로 조회할 때 최근에 일기 쓴 사람 순서대로
 
+    // 전체 일기 조회
     @ResponseBody
     @GetMapping("")
     public BaseResponse<List<GetDiaryRes>> getAllDiary() {
         try {
             List<GetDiaryRes> getDiaryRes = diaryProvider.getAllDiary();
             return new BaseResponse<>(FIND_ALL_DIARIES, getDiaryRes);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    // 특정 유저 일기 조회
+    @ResponseBody
+    @GetMapping("/{userId}")
+    public BaseResponse<List<GetDiaryRes>> getUserDiary(@PathVariable("userId") int userId) {
+        try {
+            // TODO: 그 유저의 몇번째 일기인지 나오게
+            List<GetDiaryRes> getDiaryRes = diaryProvider.getUserDiary(userId);
+            return new BaseResponse<>(FIND_USER_DIARIES, getDiaryRes);
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
         }

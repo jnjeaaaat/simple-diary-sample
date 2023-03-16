@@ -126,6 +126,7 @@ public class UserProvider {
         }
     }
 
+    // userId로 유저 존재 여부 판단
     public boolean isExistUserByUserId(int userId) throws BaseException {
         try {
             if (userDao.isInactiveUser(userId) == 0) {

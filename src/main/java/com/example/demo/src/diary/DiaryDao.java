@@ -49,8 +49,10 @@ public class DiaryDao {
         return this.jdbcTemplate.queryForObject(countDiaryOfUserQuery, int.class, countDiaryOfUserParam);
     }
 
+    // 전체 일기 조회
     public List<GetDiaryRes> getAllDiary() {
         String getAllDiaryQuery = "select * from diary";
+
         return this.jdbcTemplate.query(getAllDiaryQuery,
                 (rs, rowNum) -> new GetDiaryRes(
                         rs.getInt("diaryId"),
@@ -66,5 +68,27 @@ public class DiaryDao {
                         rs.getTimestamp("createdAt").toLocalDateTime(),
                         rs.getTimestamp("updatedAt").toLocalDateTime())
         );
+    }
+
+    // 특정 유저 일기 조회
+    public List<GetDiaryRes> getUserDiary(int userId) {
+        String getUserDiaryQuery = "select * from diary where userId=?";
+        int getUserDiaryParam = userId;
+
+        return this.jdbcTemplate.query(getUserDiaryQuery,
+                (rs, rowNum) -> new GetDiaryRes(
+                        rs.getInt("diaryId"),
+                        rs.getInt("userId"),
+                        rs.getString("title"),
+                        rs.getString("contents"),
+                        rs.getString("feel"),
+                        rs.getInt("consumption"),
+                        rs.getInt("importation"),
+                        rs.getBoolean("isOpen"),
+                        rs.getBoolean("isDeleted"),
+                        rs.getDate("diaryDate"),
+                        rs.getTimestamp("createdAt").toLocalDateTime(),
+                        rs.getTimestamp("updatedAt").toLocalDateTime()),
+                getUserDiaryParam);
     }
 }
