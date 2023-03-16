@@ -32,9 +32,20 @@ public class DiaryProvider {
         }
     }
 
+    // 특정 유저 일기 조회
     public List<GetDiaryRes> getUserDiary(int userId) throws BaseException {
         try {
             List<GetDiaryRes> getDiaryRes = diaryDao.getUserDiary(userId);
+            return getDiaryRes;
+        } catch (Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    // 특정 하나의 일기 조회
+    public GetDiaryRes getDiary(int diaryId) throws BaseException {
+        try {
+            GetDiaryRes getDiaryRes = diaryDao.getDiary(diaryId);
             return getDiaryRes;
         } catch (Exception exception){
             throw new BaseException(DATABASE_ERROR);

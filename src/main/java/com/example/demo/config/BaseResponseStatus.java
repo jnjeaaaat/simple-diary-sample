@@ -24,6 +24,7 @@ public enum BaseResponseStatus {
     SUCCESS_CREATE_NEW_DIARY(true, 1007, "새 일기를 작성하였습니다."),
     FIND_ALL_DIARIES(true, 1008, "모든 일기를 조회하였습니다."),
     FIND_USER_DIARIES(true, 1009, "유저의 일기를 조회하였습니다."),
+    FIND_ONE_DIARY(true, 1010, "일기를 조회하였습니다."),
 
 
     /**

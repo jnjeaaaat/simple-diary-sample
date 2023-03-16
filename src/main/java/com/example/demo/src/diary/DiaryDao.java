@@ -2,7 +2,6 @@ package com.example.demo.src.diary;
 
 import com.example.demo.src.diary.model.GetDiaryRes;
 import com.example.demo.src.diary.model.PostDiaryReq;
-import com.example.demo.src.user.model.GetUserRes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -22,6 +21,7 @@ public class DiaryDao {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
+    // 일기 쓰기
     public int createPost (PostDiaryReq postDiaryReq) {
 
         // diary 작성 쿼리
@@ -51,12 +51,26 @@ public class DiaryDao {
 
     // 전체 일기 조회
     public List<GetDiaryRes> getAllDiary() {
-        String getAllDiaryQuery = "select * from diary";
+        String getAllDiaryQuery =
+                "select diary.diaryId, user.userId, user.profileImgUrl, user.nickName, diary.title, diary.contents, diary.feel," +
+                        " diary.consumption, diary.importation, diary.isOpen, diary.isDeleted, diary.diaryDate, diary.createdAt, diary.updatedAt" +
+                        " from diary" +
+                        " left join user on diary.userId = user.userId" +
+                        " where diary.isDeleted=false";
+
+        String getDiaryImgsQuery =
+                "select diaryImgUrl" +
+                        " from diaryImg" +
+                        " left join diary on diary.diaryId = diaryImg.diaryId";
+        ArrayList<String> diaryImgs = this.jdbcTemplate.queryForObject(getDiaryImgsQuery, ArrayList.class);
 
         return this.jdbcTemplate.query(getAllDiaryQuery,
                 (rs, rowNum) -> new GetDiaryRes(
                         rs.getInt("diaryId"),
                         rs.getInt("userId"),
+                        rs.getString("profileImgUrl"),
+                        rs.getString("nickName"),
+                        diaryImgs,
                         rs.getString("title"),
                         rs.getString("contents"),
                         rs.getString("feel"),
@@ -72,13 +86,28 @@ public class DiaryDao {
 
     // 특정 유저 일기 조회
     public List<GetDiaryRes> getUserDiary(int userId) {
-        String getUserDiaryQuery = "select * from diary where userId=?";
+        String getUserDiaryQuery =
+                "select diary.diaryId, user.userId, user.profileImgUrl, user.nickName, diary.title, diary.contents, diary.feel," +
+                        " diary.consumption, diary.importation, diary.isOpen, diary.isDeleted, diary.diaryDate, diary.createdAt, diary.updatedAt" +
+                    " from diary" +
+                    " left join user on diary.userId = user.userId" +
+                    " where diary.userId=? and diary.isDeleted=false";
         int getUserDiaryParam = userId;
+
+        String getDiaryImgsQuery =
+                "select diaryImgUrl" +
+                        " from diaryImg" +
+                        " left join diary on diary.diaryId = diaryImg.diaryId" +
+                        " where diary.diaryId=diaryImg.diaryId";
+        List<String> diaryImgs = this.jdbcTemplate.queryForList(getDiaryImgsQuery, String.class, null);
 
         return this.jdbcTemplate.query(getUserDiaryQuery,
                 (rs, rowNum) -> new GetDiaryRes(
                         rs.getInt("diaryId"),
                         rs.getInt("userId"),
+                        rs.getString("profileImgUrl"),
+                        rs.getString("nickName"),
+                        diaryImgs,
                         rs.getString("title"),
                         rs.getString("contents"),
                         rs.getString("feel"),
@@ -90,5 +119,43 @@ public class DiaryDao {
                         rs.getTimestamp("createdAt").toLocalDateTime(),
                         rs.getTimestamp("updatedAt").toLocalDateTime()),
                 getUserDiaryParam);
+    }
+
+    // 특정 일기 조회
+    public GetDiaryRes getDiary(int diaryId) {
+        String getDiaryQuery =
+                "select diary.diaryId, user.userId, user.profileImgUrl, user.nickName, diary.title, diary.contents, diary.feel," +
+                        " diary.consumption, diary.importation, diary.isOpen, diary.isDeleted, diary.diaryDate, diary.createdAt, diary.updatedAt" +
+                        " from diary" +
+                        " left join user on diary.userId = user.userId" +
+                        " where diary.diaryId=? and isDeleted=false";
+        int getDiaryParam = diaryId;
+
+        String getDiaryImgsQuery =
+                "select diaryImgUrl" +
+                        " from diaryImg" +
+                        " left join diary on diary.diaryId = diaryImg.diaryId" +
+                        " where diary.diaryId = ?";
+        int getDiaryImgsParam = diaryId;
+        List<String> diaryImgs = this.jdbcTemplate.queryForList(getDiaryImgsQuery, String.class, getDiaryImgsParam);
+
+        return this.jdbcTemplate.queryForObject(getDiaryQuery,
+                    (rs, rowNum) -> new GetDiaryRes(
+                            rs.getInt("diaryId"),
+                            rs.getInt("userId"),
+                            rs.getString("profileImgUrl"),
+                            rs.getString("nickName"),
+                            diaryImgs,
+                            rs.getString("title"),
+                            rs.getString("contents"),
+                            rs.getString("feel"),
+                            rs.getInt("consumption"),
+                            rs.getInt("importation"),
+                            rs.getBoolean("isOpen"),
+                            rs.getBoolean("isDeleted"),
+                            rs.getDate("diaryDate"),
+                            rs.getTimestamp("createdAt").toLocalDateTime(),
+                            rs.getTimestamp("updatedAt").toLocalDateTime()),
+                    getDiaryParam);
     }
 }

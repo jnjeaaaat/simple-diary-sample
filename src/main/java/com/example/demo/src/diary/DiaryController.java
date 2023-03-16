@@ -64,12 +64,24 @@ public class DiaryController {
 
     // 특정 유저 일기 조회
     @ResponseBody
-    @GetMapping("/{userId}")
+    @GetMapping("/users/{userId}")
     public BaseResponse<List<GetDiaryRes>> getUserDiary(@PathVariable("userId") int userId) {
         try {
             // TODO: 그 유저의 몇번째 일기인지 나오게
             List<GetDiaryRes> getDiaryRes = diaryProvider.getUserDiary(userId);
             return new BaseResponse<>(FIND_USER_DIARIES, getDiaryRes);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    // 특정 일기 조회
+    @ResponseBody
+    @GetMapping("/{diaryId}")
+    public BaseResponse<GetDiaryRes> getDiary(@PathVariable("diaryId") int diaryId) {
+        try {
+            GetDiaryRes getDiaryRes = diaryProvider.getDiary(diaryId);
+            return new BaseResponse<>(FIND_ONE_DIARY, getDiaryRes);
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
         }
