@@ -3,6 +3,7 @@ package com.example.demo.src.diary;
 import com.example.demo.src.diary.model.GetDiaryRes;
 import com.example.demo.src.diary.model.PostDiaryReq;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -94,6 +95,7 @@ public class DiaryDao {
                     " where diary.userId=? and diary.isDeleted=false";
         int getUserDiaryParam = userId;
 
+//        List<Integer> listDiaryId = this.jdbcTemplate.queryForList()
         String getDiaryImgsQuery =
                 "select diaryImgUrl" +
                         " from diaryImg" +
@@ -157,5 +159,13 @@ public class DiaryDao {
                             rs.getTimestamp("createdAt").toLocalDateTime(),
                             rs.getTimestamp("updatedAt").toLocalDateTime()),
                     getDiaryParam);
+    }
+
+    // 다이어리 번호로 유저번호 받아오기
+    public int getUserIdByDiary(int diaryId) {
+        String getUserIdByDiaryQuery = "select userId from diary where diaryId=? and isDeleted=false";
+        int getUserIdByDiaryParam = diaryId;
+
+        return this.jdbcTemplate.queryForObject(getUserIdByDiaryQuery, int.class, getUserIdByDiaryParam);
     }
 }

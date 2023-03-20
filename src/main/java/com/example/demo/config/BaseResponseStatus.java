@@ -65,6 +65,9 @@ public enum BaseResponseStatus {
     NON_EXIST_OR_DELETED_USER(false,3015,"삭제된 유저입니다."),
     INACTIVE_USER(false, 3016, "탈퇴한 유저입니다."),
 
+    // /diary
+    DELETED_DIARY(true, 3020, "삭제된 일기입니다."),
+
 
     /**
      * 4000 : Database, Server 오류

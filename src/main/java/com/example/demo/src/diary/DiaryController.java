@@ -33,6 +33,7 @@ public class DiaryController {
         this.jwtService = jwtService;
     }
 
+    // 일기 작성
     @ResponseBody
     @PostMapping("")
     public BaseResponse<PostDiaryRes> createDiary(@RequestBody PostDiaryReq postDiaryReq) {
@@ -62,7 +63,7 @@ public class DiaryController {
         }
     }
 
-    // 특정 유저 일기 조회
+    // 특정 유저 일기들 조회
     @ResponseBody
     @GetMapping("/users/{userId}")
     public BaseResponse<List<GetDiaryRes>> getUserDiary(@PathVariable("userId") int userId) {
@@ -80,6 +81,11 @@ public class DiaryController {
     @GetMapping("/{diaryId}")
     public BaseResponse<GetDiaryRes> getDiary(@PathVariable("diaryId") int diaryId) {
         try {
+            int userId = diaryProvider.getUserIdByDiary(diaryId);
+            if (userId != jwtService.getUserId()) {
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
+
             GetDiaryRes getDiaryRes = diaryProvider.getDiary(diaryId);
             return new BaseResponse<>(FIND_ONE_DIARY, getDiaryRes);
         } catch (BaseException exception) {

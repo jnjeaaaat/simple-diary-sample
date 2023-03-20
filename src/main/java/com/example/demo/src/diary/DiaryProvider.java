@@ -51,4 +51,15 @@ public class DiaryProvider {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
+    // diaryId 로 userId 받아오기
+    public int getUserIdByDiary(int diaryId) throws BaseException {
+        try {
+            int userId = diaryDao.getUserIdByDiary(diaryId);
+            System.out.println(userId);
+            return userId;
+        } catch (Exception exception){
+            throw new BaseException(DELETED_DIARY);
+        }
+    }
 }
