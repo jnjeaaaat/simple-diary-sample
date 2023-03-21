@@ -37,14 +37,15 @@ public class DiaryProvider {
         }
     }
 
-    // 특정 유저 일기 조회
+    // 특정 유저 일기들 조회
     public List<GetDiaryRes> getUserDiary(int userId) throws BaseException {
         try {
 //            List<GetDiaryRes> getDiaryRes = diaryDao.getUserDiary(userId);
             List<GetDiaryRes> getDiaryRes = new ArrayList<>();
-            System.out.println(countAllDiary());
-            for (int i = 0; i < countAllDiary(); i++) {
-                getDiaryRes.add(diaryDao.getDiary(i+1));
+            for (int i = 1; i <= countAllDiary(); i++) {
+                if(userId == getUserIdByDiary(i)) {
+                    getDiaryRes.add(diaryDao.getDiary(i));
+                }
             }
             return getDiaryRes;
         } catch (Exception exception){
