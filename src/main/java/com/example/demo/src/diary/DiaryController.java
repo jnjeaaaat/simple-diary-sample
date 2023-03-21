@@ -81,6 +81,8 @@ public class DiaryController {
     @GetMapping("/{diaryId}")
     public BaseResponse<GetDiaryRes> getDiary(@PathVariable("diaryId") int diaryId) {
         try {
+            // TODO: 친구테이블 만들면 친구테이블에 있는지 없는지 확인부터 하기
+            //  -> 이것도 jwt 확인 밑에 if에 쓰고 본인일기인지 확인은 elif로 하면될듯
             int userId = diaryProvider.getUserIdByDiary(diaryId);
             if (userId != jwtService.getUserId()) {
                 return new BaseResponse<>(INVALID_USER_JWT);

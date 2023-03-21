@@ -7,6 +7,7 @@ import com.example.demo.utils.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.demo.config.BaseResponseStatus.*;
@@ -25,7 +26,11 @@ public class DiaryProvider {
     // 전체 일기 조회(특정유저x)
     public List<GetDiaryRes> getAllDiary() throws BaseException {
         try {
-            List<GetDiaryRes> getDiaryRes = diaryDao.getAllDiary();
+//            List<GetDiaryRes> getDiaryRes = diaryDao.getAllDiary();
+            List<GetDiaryRes> getDiaryRes = new ArrayList<>();
+            for (int i = 1; i <= countAllDiary(); i++) {
+                getDiaryRes.add(diaryDao.getDiary(i));
+            }
             return getDiaryRes;
         } catch (Exception exception){
             throw new BaseException(DATABASE_ERROR);
@@ -35,7 +40,12 @@ public class DiaryProvider {
     // 특정 유저 일기 조회
     public List<GetDiaryRes> getUserDiary(int userId) throws BaseException {
         try {
-            List<GetDiaryRes> getDiaryRes = diaryDao.getUserDiary(userId);
+//            List<GetDiaryRes> getDiaryRes = diaryDao.getUserDiary(userId);
+            List<GetDiaryRes> getDiaryRes = new ArrayList<>();
+            System.out.println(countAllDiary());
+            for (int i = 0; i < countAllDiary(); i++) {
+                getDiaryRes.add(diaryDao.getDiary(i+1));
+            }
             return getDiaryRes;
         } catch (Exception exception){
             throw new BaseException(DATABASE_ERROR);
@@ -56,10 +66,18 @@ public class DiaryProvider {
     public int getUserIdByDiary(int diaryId) throws BaseException {
         try {
             int userId = diaryDao.getUserIdByDiary(diaryId);
-            System.out.println(userId);
             return userId;
         } catch (Exception exception){
             throw new BaseException(DELETED_DIARY);
+        }
+    }
+
+    // isDeleted=false 인 diary 갯수 받아오기
+    public int countAllDiary() throws BaseException {
+        try {
+            return diaryDao.countAllDiary();
+        } catch (Exception exception){
+            throw new BaseException(DATABASE_ERROR);
         }
     }
 }

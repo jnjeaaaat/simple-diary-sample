@@ -168,4 +168,11 @@ public class DiaryDao {
 
         return this.jdbcTemplate.queryForObject(getUserIdByDiaryQuery, int.class, getUserIdByDiaryParam);
     }
+
+    // isDeleted=false 인 diary 갯수 받아오기
+    public int countAllDiary() {
+        String countAllDiary = "select count(*) from diary where isDeleted=false";
+
+        return this.jdbcTemplate.queryForObject(countAllDiary, int.class);
+    }
 }
