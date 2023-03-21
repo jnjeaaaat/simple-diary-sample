@@ -29,7 +29,9 @@ public class DiaryProvider {
 //            List<GetDiaryRes> getDiaryRes = diaryDao.getAllDiary();
             List<GetDiaryRes> getDiaryRes = new ArrayList<>();
             for (int i = 1; i <= countAllDiary(); i++) {
-                getDiaryRes.add(diaryDao.getDiary(i));
+                if (getUserIdByDiary(i) != 0) {
+                    getDiaryRes.add(diaryDao.getDiary(i,getUserIdByDiary(i)));
+                }
             }
             return getDiaryRes;
         } catch (Exception exception){
@@ -43,8 +45,10 @@ public class DiaryProvider {
 //            List<GetDiaryRes> getDiaryRes = diaryDao.getUserDiary(userId);
             List<GetDiaryRes> getDiaryRes = new ArrayList<>();
             for (int i = 1; i <= countAllDiary(); i++) {
-                if(userId == getUserIdByDiary(i)) {
-                    getDiaryRes.add(diaryDao.getDiary(i));
+                if (userId == getUserIdByDiary(i)) {
+                    if (getUserIdByDiary(i) != 0) {
+                        getDiaryRes.add(diaryDao.getDiary(i,getUserIdByDiary(i)));
+                    }
                 }
             }
             return getDiaryRes;
@@ -56,7 +60,7 @@ public class DiaryProvider {
     // 특정 하나의 일기 조회
     public GetDiaryRes getDiary(int diaryId) throws BaseException {
         try {
-            GetDiaryRes getDiaryRes = diaryDao.getDiary(diaryId);
+            GetDiaryRes getDiaryRes = diaryDao.getDiary(diaryId,getUserIdByDiary(diaryId));
             return getDiaryRes;
         } catch (Exception exception){
             throw new BaseException(DATABASE_ERROR);

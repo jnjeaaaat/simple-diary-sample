@@ -44,7 +44,7 @@ public class UserProvider {
     // 로그인(password 검사)
     public PostLoginRes logIn(PostLoginReq postLoginReq) throws BaseException {
         if (isExistUser(postLoginReq.getEmail()) == 0) {
-            throw new BaseException(INACTIVE_USER);
+            throw new BaseException(NON_EXIST_OR_DELETED_USER);
         }
         User user = userDao.getPwd(postLoginReq);
         String password;
