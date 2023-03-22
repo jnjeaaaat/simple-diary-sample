@@ -166,7 +166,7 @@ public class DiaryDao {
                             rs.getInt("importation"),
                             rs.getBoolean("isOpen"),
                             rs.getBoolean("isDeleted"),
-                            rs.getDate("diaryDate"),
+                            rs.getString("diaryDate"),
                             rs.getTimestamp("createdAt").toLocalDateTime(),
                             rs.getTimestamp("updatedAt").toLocalDateTime()),
                     getDiaryParam);
@@ -246,7 +246,7 @@ public class DiaryDao {
         return this.jdbcTemplate.update(modifyIsDeletedQuery, modifyIsDeletedParams);
     }
     // 일기 작성날짜 변경
-    public int modifyDiaryDate(int diaryId, Date diaryDate) {
+    public int modifyDiaryDate(int diaryId, String diaryDate) {
         String  modifyDiaryDateQuery = "update diary set diaryDate = ? where diaryId = ? ";
         Object[] modifyDiaryDateParams = new Object[]{diaryDate, diaryId};
 

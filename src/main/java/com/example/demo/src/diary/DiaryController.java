@@ -6,7 +6,6 @@ import com.example.demo.src.diary.model.GetDiaryRes;
 import com.example.demo.src.diary.model.PatchDiaryReq;
 import com.example.demo.src.diary.model.PostDiaryReq;
 import com.example.demo.src.diary.model.PostDiaryRes;
-import com.example.demo.src.user.model.PatchUserReq;
 import com.example.demo.utils.JwtService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 import static com.example.demo.config.BaseResponseStatus.*;
+import static com.example.demo.utils.ValidationRegex.isRegexBirth;
 
 @RestController
 @RequestMapping("/app/diaries")
@@ -39,6 +39,37 @@ public class DiaryController {
     @ResponseBody
     @PostMapping("")
     public BaseResponse<PostDiaryRes> createDiary(@RequestBody PostDiaryReq postDiaryReq) {
+        if (postDiaryReq.getUserId() == null) {
+            return new BaseResponse<>(POST_DIARY_EMPTY_USER_ID);
+        }
+        if (postDiaryReq.getDiaryImg().getDiaryImgUrls().size() > 9) {
+            return new BaseResponse<>(POST_DIARY_IMG_NUM_OVER);
+        }
+        if (postDiaryReq.getTitle() == null) {
+            return new BaseResponse<>(POST_DIARY_EMPTY_TITLE);
+        }
+        if (postDiaryReq.getContents() == null) {
+            return new BaseResponse<>(POST_DIARY_EMPTY_CONTENTS);
+        }
+        if (postDiaryReq.getFeel() == null) {
+            return new BaseResponse<>(POST_DIARY_EMPTY_FEEL);
+        }
+        if (postDiaryReq.getConsumption() == null) {
+            return new BaseResponse<>(POST_DIARY_EMPTY_CONSUMPTION);
+        }
+        if (postDiaryReq.getImportation() == null) {
+            return new BaseResponse<>(POST_DIARY_EMPTY_IMPORTATION);
+        }
+        if (postDiaryReq.getIsOpen() == null) {
+            return new BaseResponse<>(POST_DIARY_EMPTY_IS_OPEN);
+        }
+        if (postDiaryReq.getDiaryDate() == null) {
+            return new BaseResponse<>(POST_DIARY_EMPTY_DIARY_DATE);
+        }
+        // 날짜 형식 확인
+        if (!isRegexBirth(postDiaryReq.getDiaryDate())) {
+            return new BaseResponse<>(POST_NOT_DATE_TYPE);
+        }
         try {
             int userIdByJwt = jwtService.getUserId();
             if (postDiaryReq.getUserId() != userIdByJwt) {
@@ -50,8 +81,7 @@ public class DiaryController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
-    //TODO: 일기 수정, 일기 삭제, 일기 조회(본인꺼, 친구꺼(오픈된것만)), 가계부, 일기 조회 페이징
-    //TODO: 유저 닉네임으로 조회할 때 최근에 일기 쓴 사람 순서대로
+    //TODO: 일기 수정, 일기 조회(본인꺼, 친구꺼(오픈된것만)), 가계부, 일기 조회 페이징
 
     // 전체 일기 조회
     @ResponseBody

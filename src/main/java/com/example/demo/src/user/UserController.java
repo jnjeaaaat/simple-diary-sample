@@ -93,10 +93,10 @@ public class UserController {
         if (postUserReq.getBirth() == null) {
             return new BaseResponse<>(POST_USERS_EMPTY_BIRTH);
         }
-        // 생일 정규표현: 입력받은 생일 날짜 'yyyy년 mm월 dd일' 인지 검사.
+        // 생일 정규표현: 입력받은 생일 날짜 'yyyy-mm-dd' 인지 검사.
         // 생일 입력 안했을 때 보다 밑에 있어야 오류가 안남
         if (!isRegexBirth(postUserReq.getBirth())) {
-            return new BaseResponse<>(POST_USERS_INVALID_BIRTH);
+            return new BaseResponse<>(POST_NOT_DATE_TYPE);
         }
 
         try {

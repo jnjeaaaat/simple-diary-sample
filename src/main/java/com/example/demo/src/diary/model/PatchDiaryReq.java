@@ -19,5 +19,5 @@ public class PatchDiaryReq {
     private Integer importation; // 그날의 수입 default == 0
     private Boolean isOpen; // 누구나 볼수있는지 default == true
     private Boolean isDeleted; // 상태, 지웠는지
-    private Date diaryDate; // 등록할 날짜 선택 default == current_date
+    private String diaryDate; // 등록할 날짜 선택 default == current_date
 }
