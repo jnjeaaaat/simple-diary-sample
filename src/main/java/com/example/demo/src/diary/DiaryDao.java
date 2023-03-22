@@ -196,6 +196,21 @@ public class DiaryDao {
     /**
      * 일기 정보 수정
      */
+    public int modifyDiaryImgs(int diaryId, ArrayList<String> diaryImgUrls) {
+        int result = 1;
+        String deleteDiaryImgQuery = "delete from diaryImg where diaryId=?";
+        this.jdbcTemplate.update(deleteDiaryImgQuery, diaryId);
+
+        String inputDiaryImgQuery = "insert into diaryImg (diaryId, diaryImgUrl) values (?,?)";
+        for (int i = 0; i < diaryImgUrls.size(); i++) {
+            Object[] inputDiaryImgParams = new Object[]{diaryId, diaryImgUrls.get(i)};
+            if (this.jdbcTemplate.update(inputDiaryImgQuery, inputDiaryImgParams) != 1) {
+                result = 0;
+            }
+        }
+
+        return result;
+    }
     // 제목 변경
     public int modifyTitle(int diaryId, String title) {
         String  modifyTitleQuery = "update diary set title = ? where diaryId = ? ";

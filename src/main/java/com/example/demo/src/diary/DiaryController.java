@@ -131,6 +131,7 @@ public class DiaryController {
         }
     }
 
+    // 일기 수정
     @ResponseBody
     @PatchMapping("/{diaryId}")
     public BaseResponse<String> modifyDiary(@PathVariable("diaryId") int diaryId,

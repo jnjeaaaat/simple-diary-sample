@@ -41,6 +41,7 @@ public class DiaryService {
         try {
             int result = 0;
             // 수정하고자 하는 정보만 입력할 수 있음.
+            if(patchDiaryReq.getDiaryImg().getDiaryImgUrls().size() != 0) result = diaryDao.modifyDiaryImgs(diaryId, patchDiaryReq.getDiaryImg().getDiaryImgUrls());
             if(patchDiaryReq.getTitle() != null) result = diaryDao.modifyTitle(diaryId, patchDiaryReq.getTitle());
             if(patchDiaryReq.getContents() != null) result = diaryDao.modifyContents(diaryId, patchDiaryReq.getContents());
             if(patchDiaryReq.getFeel() != null) result = diaryDao.modifyFeel(diaryId, patchDiaryReq.getFeel());

@@ -1,5 +1,6 @@
 package com.example.demo.src.diary.model;
 
+import com.example.demo.src.diaryImg.model.PatchDiaryImgReq;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,6 +13,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PatchDiaryReq {
+    private PatchDiaryImgReq diaryImg;
     private String title; // 글 제목
     private String contents; // 글 내용
     private String feel; // 그날의 기분 default == happy [happy, angry, depressed, heart]
