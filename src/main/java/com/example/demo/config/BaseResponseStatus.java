@@ -56,7 +56,7 @@ public enum BaseResponseStatus {
     POST_DIARY_IMG_NUM_OVER(false, 2051,"사진을 9장까지만 업로드해주세요."),
     POST_DIARY_EMPTY_TITLE(false, 2052,"일기 제목을 입력해주세요."),
     POST_DIARY_EMPTY_CONTENTS(false, 2053,"일기 내용을 입력해주세요."),
-    POST_DIARY_EMPTY_FEEL(false, 2054,"일기 기분을 설정해주세요."),
+    POST_DIARY_EMPTY_EMOTION(false, 2054,"일기 기분을 설정해주세요."),
     POST_DIARY_EMPTY_CONSUMPTION(false, 2055,"지출액을 입력해주세요."),
     POST_DIARY_EMPTY_IMPORTATION(false, 2056,"수입액을 입력해주세요."),
     POST_DIARY_EMPTY_IS_OPEN(false, 2057,"일기 오픈 여부를 설정해주세요."),

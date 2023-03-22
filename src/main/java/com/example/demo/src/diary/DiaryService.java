@@ -44,7 +44,7 @@ public class DiaryService {
             if(patchDiaryReq.getDiaryImg().getDiaryImgUrls().size() != 0) result = diaryDao.modifyDiaryImgs(diaryId, patchDiaryReq.getDiaryImg().getDiaryImgUrls());
             if(patchDiaryReq.getTitle() != null) result = diaryDao.modifyTitle(diaryId, patchDiaryReq.getTitle());
             if(patchDiaryReq.getContents() != null) result = diaryDao.modifyContents(diaryId, patchDiaryReq.getContents());
-            if(patchDiaryReq.getFeel() != null) result = diaryDao.modifyFeel(diaryId, patchDiaryReq.getFeel());
+            if(patchDiaryReq.getEmotion() != null) result = diaryDao.modifyEmotion(diaryId, patchDiaryReq.getEmotion());
             if(patchDiaryReq.getConsumption() != null) result = diaryDao.modifyConsumption(diaryId, patchDiaryReq.getConsumption());
             if(patchDiaryReq.getImportation() != null) result = diaryDao.modifyImportation(diaryId, patchDiaryReq.getImportation());
             if(patchDiaryReq.getIsOpen() != null) result = diaryDao.modifyIsOpen(diaryId, patchDiaryReq.getIsOpen());

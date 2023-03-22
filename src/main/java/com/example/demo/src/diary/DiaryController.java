@@ -39,30 +39,39 @@ public class DiaryController {
     @ResponseBody
     @PostMapping("")
     public BaseResponse<PostDiaryRes> createDiary(@RequestBody PostDiaryReq postDiaryReq) {
+        // userId null
         if (postDiaryReq.getUserId() == null) {
             return new BaseResponse<>(POST_DIARY_EMPTY_USER_ID);
         }
+        // 사진 9장 이상
         if (postDiaryReq.getDiaryImg().getDiaryImgUrls().size() > 9) {
             return new BaseResponse<>(POST_DIARY_IMG_NUM_OVER);
         }
+        // 제목 null
         if (postDiaryReq.getTitle() == null) {
             return new BaseResponse<>(POST_DIARY_EMPTY_TITLE);
         }
+        // 내용 null
         if (postDiaryReq.getContents() == null) {
             return new BaseResponse<>(POST_DIARY_EMPTY_CONTENTS);
         }
-        if (postDiaryReq.getFeel() == null) {
-            return new BaseResponse<>(POST_DIARY_EMPTY_FEEL);
+        // 기분 null
+        if (postDiaryReq.getEmotion() == null) {
+            return new BaseResponse<>(POST_DIARY_EMPTY_EMOTION);
         }
+        // 소비 null
         if (postDiaryReq.getConsumption() == null) {
             return new BaseResponse<>(POST_DIARY_EMPTY_CONSUMPTION);
         }
+        // 수입 null
         if (postDiaryReq.getImportation() == null) {
             return new BaseResponse<>(POST_DIARY_EMPTY_IMPORTATION);
         }
+        // 오픈 여부 null
         if (postDiaryReq.getIsOpen() == null) {
             return new BaseResponse<>(POST_DIARY_EMPTY_IS_OPEN);
         }
+        // 작성 날짜 null
         if (postDiaryReq.getDiaryDate() == null) {
             return new BaseResponse<>(POST_DIARY_EMPTY_DIARY_DATE);
         }
@@ -81,7 +90,7 @@ public class DiaryController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
-    //TODO: 일기 수정, 일기 조회(본인꺼, 친구꺼(오픈된것만)), 가계부, 일기 조회 페이징
+    //TODO: 일기 수정, 일기 조회(본인꺼, 친구꺼(오픈된것만)), 가계부, 일기 조회 페이징, 유저의 feel 에 따른 일기 조회
 
     // 전체 일기 조회
     @ResponseBody
@@ -98,7 +107,8 @@ public class DiaryController {
     // 특정 유저 일기들 조회
     @ResponseBody
     @GetMapping("/users/{userId}")
-    public BaseResponse<List<GetDiaryRes>> getUserDiary(@PathVariable("userId") int userId) {
+    public BaseResponse<List<GetDiaryRes>> getUserDiary(@PathVariable("userId") int userId,
+                                                        @RequestParam String emotion) {
         try {
             List<GetDiaryRes> getDiaryRes = diaryProvider.getUserDiary(userId);
             return new BaseResponse<>(FIND_USER_DIARIES, getDiaryRes);

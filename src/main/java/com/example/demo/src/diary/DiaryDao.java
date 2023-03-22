@@ -26,10 +26,10 @@ public class DiaryDao {
     public int createPost (PostDiaryReq postDiaryReq) {
 
         // diary 작성 쿼리
-        String createDiaryQuery = "insert into diary (userId, title, contents, feel, consumption, importation, isOpen, diaryDate) values (?,?,?,?,?,?,?,?)";
+        String createDiaryQuery = "insert into diary (userId, title, contents, emotion, consumption, importation, isOpen, diaryDate) values (?,?,?,?,?,?,?,?)";
         Object[] createDiaryParams =
                         new Object[]{postDiaryReq.getUserId(), postDiaryReq.getTitle(),
-                        postDiaryReq.getContents(), postDiaryReq.getFeel(), postDiaryReq.getConsumption(),
+                        postDiaryReq.getContents(), postDiaryReq.getEmotion(), postDiaryReq.getConsumption(),
                         postDiaryReq.getImportation(), postDiaryReq.getIsOpen(), postDiaryReq.getDiaryDate()};
         this.jdbcTemplate.update(createDiaryQuery, createDiaryParams);
 
@@ -53,7 +53,7 @@ public class DiaryDao {
     // 전체 일기 조회
 //    public List<GetDiaryRes> getAllDiary() {
 //        String getAllDiaryQuery =
-//                "select diary.diaryId, user.userId, user.profileImgUrl, user.nickName, diary.title, diary.contents, diary.feel," +
+//                "select diary.diaryId, user.userId, user.profileImgUrl, user.nickName, diary.title, diary.contents, diary.emotion," +
 //                        " diary.consumption, diary.importation, diary.isOpen, diary.isDeleted, diary.diaryDate, diary.createdAt, diary.updatedAt" +
 //                        " from diary" +
 //                        " left join user on diary.userId = user.userId" +
@@ -74,7 +74,7 @@ public class DiaryDao {
 //                        diaryImgs,
 //                        rs.getString("title"),
 //                        rs.getString("contents"),
-//                        rs.getString("feel"),
+//                        rs.getString("emotion"),
 //                        rs.getInt("consumption"),
 //                        rs.getInt("importation"),
 //                        rs.getBoolean("isOpen"),
@@ -88,7 +88,7 @@ public class DiaryDao {
     // 특정 유저 일기 조회
 //    public List<GetDiaryRes> getUserDiary(int userId) {
 //        String getUserDiaryQuery =
-//                "select diary.diaryId, user.userId, user.profileImgUrl, user.nickName, diary.title, diary.contents, diary.feel," +
+//                "select diary.diaryId, user.userId, user.profileImgUrl, user.nickName, diary.title, diary.contents, diary.emotion," +
 //                        " diary.consumption, diary.importation, diary.isOpen, diary.isDeleted, diary.diaryDate, diary.createdAt, diary.updatedAt" +
 //                    " from diary" +
 //                    " left join user on diary.userId = user.userId" +
@@ -112,7 +112,7 @@ public class DiaryDao {
 //                        diaryImgs,
 //                        rs.getString("title"),
 //                        rs.getString("contents"),
-//                        rs.getString("feel"),
+//                        rs.getString("emotion"),
 //                        rs.getInt("consumption"),
 //                        rs.getInt("importation"),
 //                        rs.getBoolean("isOpen"),
@@ -126,7 +126,7 @@ public class DiaryDao {
     // 특정 일기 조회
     public GetDiaryRes getDiary(int diaryId, int userId) {
         String getDiaryQuery =
-                "select diary.diaryId, user.userId, user.profileImgUrl, user.nickName, diary.title, diary.contents, diary.feel," +
+                "select diary.diaryId, user.userId, user.profileImgUrl, user.nickName, diary.title, diary.contents, diary.emotion," +
                         " diary.consumption, diary.importation, diary.isOpen, diary.isDeleted, diary.diaryDate, diary.createdAt, diary.updatedAt" +
                         " from diary" +
                         " left join user on diary.userId = user.userId" +
@@ -161,7 +161,7 @@ public class DiaryDao {
                             diaryImgs,
                             rs.getString("title"),
                             rs.getString("contents"),
-                            rs.getString("feel"),
+                            rs.getString("emotion"),
                             rs.getInt("consumption"),
                             rs.getInt("importation"),
                             rs.getBoolean("isOpen"),
@@ -196,6 +196,7 @@ public class DiaryDao {
     /**
      * 일기 정보 수정
      */
+    // 사진 수정 (삭제 후 재삽입)
     public int modifyDiaryImgs(int diaryId, ArrayList<String> diaryImgUrls) {
         int result = 1;
         String deleteDiaryImgQuery = "delete from diaryImg where diaryId=?";
@@ -226,11 +227,11 @@ public class DiaryDao {
         return this.jdbcTemplate.update(modifyContentsQuery, modifyContentsParams);
     }
     // 기분 변경
-    public int modifyFeel(int diaryId, String feel) {
-        String  modifyFeelQuery = "update diary set feel = ? where diaryId = ? ";
-        Object[] modifyFeelParams = new Object[]{feel, diaryId};
+    public int modifyEmotion(int diaryId, String emotion) {
+        String  modifyEmotionQuery = "update diary set emotion = ? where diaryId = ? ";
+        Object[] modifyEmotionParams = new Object[]{emotion, diaryId};
 
-        return this.jdbcTemplate.update(modifyFeelQuery, modifyFeelParams);
+        return this.jdbcTemplate.update(modifyEmotionQuery, modifyEmotionParams);
     }
     // 지출 변경
     public int modifyConsumption(int diaryId, int consumption) {
