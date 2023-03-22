@@ -25,7 +25,7 @@ public enum BaseResponseStatus {
     FIND_ALL_DIARIES(true, 1008, "모든 일기를 조회하였습니다."),
     FIND_USER_DIARIES(true, 1009, "유저의 일기를 조회하였습니다."),
     FIND_ONE_DIARY(true, 1010, "일기를 조회하였습니다."),
-
+    MODIFY_DIARY(true, 1011, "일기를 수정하였습니다."),
 
     /**
      * 2000 : Request 오류
@@ -66,7 +66,7 @@ public enum BaseResponseStatus {
     INACTIVE_USER(false, 3016, "탈퇴한 유저입니다."),
 
     // /diary
-    DELETED_DIARY(true, 3020, "삭제된 일기입니다."),
+    DELETED_DIARY(false, 3020, "삭제된 일기입니다."),
 
 
     /**

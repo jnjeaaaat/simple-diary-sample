@@ -195,7 +195,7 @@ public class UserController {
      */
     @ResponseBody
     @PatchMapping("/{userId}")
-    public BaseResponse<String> modifyUserName(@PathVariable("userId") int userId,
+    public BaseResponse<String> modifyUser(@PathVariable("userId") int userId,
                                                @RequestBody PatchUserReq patchUserReq) {
         try {
             //jwt에서 idx 추출.
@@ -204,7 +204,7 @@ public class UserController {
             if(userId != userIdByJwt){
                 return new BaseResponse<>(INVALID_USER_JWT);
             }
-            //같다면 유저네임 변경
+            //같다면 유저정보 변경
             userService.modifyUser(userId, patchUserReq);
 
             return new BaseResponse<>(MODIFY_USER_INFORM);

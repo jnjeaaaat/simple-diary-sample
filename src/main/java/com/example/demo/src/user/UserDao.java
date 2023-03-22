@@ -175,9 +175,13 @@ public class UserDao {
     public List<GetUserRes> getUsersByNickname(String nickName) {
         try{
             String getUsersByNicknameQuery =
-                    "select userId, profileImgUrl, email, nickName, birth, status, " +
-                    "date_format(createdAt, '%Y년 %m월 %d일') as createdAt, birthOpen " +
-                    "from user where nickName =? and status='ACTIVE'"; // 해당 이메일을 만족하는 유저를 조회하는 쿼리문
+                    "select distinct user.userId, user.profileImgUrl, user.email, user.nickName, user.birth, user.status, " +
+                            "date_format(user.createdAt, '%Y년 %m월 %d일') as createdAt, user.birthOpen " +
+                            "from user " +
+                            "left join diary on user.userId = diary.userId " +
+                            "where user.nickName =? and user.status='ACTIVE' " +
+                            "group by user.userId " +
+                            "order by max(diary.createdAt) desc;"; // 해당 닉네임을 만족하는 유저 조회, 최근에 일기를 쓴 유저부터 제일 위로
 
             String getUsersByNicknameParams = nickName;
             return this.jdbcTemplate.query(getUsersByNicknameQuery,

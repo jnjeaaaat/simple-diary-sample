@@ -3,8 +3,10 @@ package com.example.demo.src.diary;
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
 import com.example.demo.src.diary.model.GetDiaryRes;
+import com.example.demo.src.diary.model.PatchDiaryReq;
 import com.example.demo.src.diary.model.PostDiaryReq;
 import com.example.demo.src.diary.model.PostDiaryRes;
+import com.example.demo.src.user.model.PatchUserReq;
 import com.example.demo.utils.JwtService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,7 +50,7 @@ public class DiaryController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
-    //TODO: 일기 수정, 일기 삭제, 일기 조회(본인꺼, 친구꺼(오픈된것만)), 가계부
+    //TODO: 일기 수정, 일기 삭제, 일기 조회(본인꺼, 친구꺼(오픈된것만)), 가계부, 일기 조회 페이징
     //TODO: 유저 닉네임으로 조회할 때 최근에 일기 쓴 사람 순서대로
 
     // 전체 일기 조회
@@ -83,12 +85,39 @@ public class DiaryController {
             // TODO: 친구테이블 만들면 친구테이블에 있는지 없는지 확인부터 하기
             //  -> 이것도 jwt 확인 밑에 if에 쓰고 본인일기인지 확인은 elif로 하면될듯
             int userId = diaryProvider.getUserIdByDiary(diaryId);
+
+            // isDeleted=true 인 일기
+            if (userId == 0) {
+                return new BaseResponse<>(DELETED_DIARY);
+            }
             if (userId != jwtService.getUserId()) {
                 return new BaseResponse<>(INVALID_USER_JWT);
             }
 
             GetDiaryRes getDiaryRes = diaryProvider.getDiary(diaryId);
             return new BaseResponse<>(FIND_ONE_DIARY, getDiaryRes);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    @ResponseBody
+    @PatchMapping("/{diaryId}")
+    public BaseResponse<String> modifyDiary(@PathVariable("diaryId") int diaryId,
+                                               @RequestBody PatchDiaryReq patchDiaryReq) {
+        try {
+            int userId = diaryProvider.getUserIdByDiary(diaryId);
+            if (userId == 0) {
+                return new BaseResponse<>(DELETED_DIARY);
+            }
+            //userId와 접근한 유저가 같은지 확인
+            if(userId != jwtService.getUserId()){
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
+            //같다면 유저네임 변경
+            diaryService.modifyDiary(diaryId, patchDiaryReq);
+
+            return new BaseResponse<>(MODIFY_DIARY);
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
         }

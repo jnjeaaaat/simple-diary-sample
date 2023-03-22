@@ -1,6 +1,7 @@
 package com.example.demo.src.diary;
 
 import com.example.demo.config.BaseException;
+import com.example.demo.src.diary.model.PatchDiaryReq;
 import com.example.demo.src.diary.model.PostDiaryReq;
 import com.example.demo.src.diary.model.PostDiaryRes;
 import com.example.demo.utils.JwtService;
@@ -32,5 +33,9 @@ public class DiaryService {
         } catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);
         }
+    }
+
+    public void modifyDiary(int diaryId, PatchDiaryReq patchDiaryReq) {
+
     }
 }
