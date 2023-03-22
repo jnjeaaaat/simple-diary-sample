@@ -192,4 +192,64 @@ public class DiaryDao {
 
         return this.jdbcTemplate.queryForObject(countAllDiary, int.class);
     }
+
+    /**
+     * 일기 정보 수정
+     */
+    // 제목 변경
+    public int modifyTitle(int diaryId, String title) {
+        String  modifyTitleQuery = "update diary set title = ? where diaryId = ? ";
+        Object[] modifyTitleParams = new Object[]{title, diaryId};
+
+        return this.jdbcTemplate.update(modifyTitleQuery, modifyTitleParams);
+    }
+    // 내용 변경
+    public int modifyContents(int diaryId, String contents) {
+        String  modifyContentsQuery = "update diary set contents = ? where diaryId = ? ";
+        Object[] modifyContentsParams = new Object[]{contents, diaryId};
+
+        return this.jdbcTemplate.update(modifyContentsQuery, modifyContentsParams);
+    }
+    // 기분 변경
+    public int modifyFeel(int diaryId, String feel) {
+        String  modifyFeelQuery = "update diary set feel = ? where diaryId = ? ";
+        Object[] modifyFeelParams = new Object[]{feel, diaryId};
+
+        return this.jdbcTemplate.update(modifyFeelQuery, modifyFeelParams);
+    }
+    // 지출 변경
+    public int modifyConsumption(int diaryId, int consumption) {
+        String  modifyConsumptionQuery = "update diary set consumption = ? where diaryId = ? ";
+        Object[] modifyConsumptionParams = new Object[]{consumption, diaryId};
+
+        return this.jdbcTemplate.update(modifyConsumptionQuery, modifyConsumptionParams);
+    }
+    // 수입 변경
+    public int modifyImportation(int diaryId, int importation) {
+        String  modifyImportationQuery = "update diary set importation = ? where diaryId = ? ";
+        Object[] modifyImportationParams = new Object[]{importation, diaryId};
+
+        return this.jdbcTemplate.update(modifyImportationQuery, modifyImportationParams);
+    }
+    // 일기 오픈 변경
+    public int modifyIsOpen(int diaryId, Boolean isOpen) {
+        String  modifyIsOpenQuery = "update diary set isOpen = ? where diaryId = ? ";
+        Object[] modifyIsOpenParams = new Object[]{isOpen, diaryId};
+
+        return this.jdbcTemplate.update(modifyIsOpenQuery, modifyIsOpenParams);
+    }
+    // 일기 상태 변경
+    public int modifyIsDeleted(int diaryId, Boolean isDeleted) {
+        String  modifyIsDeletedQuery = "update diary set isDeleted = ? where diaryId = ? ";
+        Object[] modifyIsDeletedParams = new Object[]{isDeleted, diaryId};
+
+        return this.jdbcTemplate.update(modifyIsDeletedQuery, modifyIsDeletedParams);
+    }
+    // 일기 작성날짜 변경
+    public int modifyDiaryDate(int diaryId, Date diaryDate) {
+        String  modifyDiaryDateQuery = "update diary set diaryDate = ? where diaryId = ? ";
+        Object[] modifyDiaryDateParams = new Object[]{diaryDate, diaryId};
+
+        return this.jdbcTemplate.update(modifyDiaryDateQuery, modifyDiaryDateParams);
+    }
 }

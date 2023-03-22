@@ -100,31 +100,31 @@ public class UserDao {
     }
     // 회원 닉네임 변경
     public int modifyNickName(int userId, String nickName) {
-        String  modifyProfileImgUrlQuery = "update user set nickName = ? where userId = ? ";
-        Object[] modifyProfileImgUrlParams = new Object[]{nickName, userId};
+        String  modifyNickNameQuery = "update user set nickName = ? where userId = ? ";
+        Object[] modifyNickNameParams = new Object[]{nickName, userId};
 
-        return this.jdbcTemplate.update(modifyProfileImgUrlQuery, modifyProfileImgUrlParams);
+        return this.jdbcTemplate.update(modifyNickNameQuery, modifyNickNameParams);
     }
     // 회원 생일 변경
     public int modifyBirth(int userId, String birth) {
-        String  modifyProfileImgUrlQuery = "update user set birth = ? where userId = ? ";
-        Object[] modifyProfileImgUrlParams = new Object[]{birth, userId};
+        String  modifyBirthQuery = "update user set birth = ? where userId = ? ";
+        Object[] modifyBirthParams = new Object[]{birth, userId};
 
-        return this.jdbcTemplate.update(modifyProfileImgUrlQuery, modifyProfileImgUrlParams);
+        return this.jdbcTemplate.update(modifyBirthQuery, modifyBirthParams);
     }
     // 회원 상태 변경
     public int modifyStatus(int userId, String status) {
-        String  modifyProfileImgUrlQuery = "update user set status = ? where userId = ? ";
-        Object[] modifyProfileImgUrlParams = new Object[]{status, userId};
+        String  modifyStatusQuery = "update user set status = ? where userId = ? ";
+        Object[] modifyStatusParams = new Object[]{status, userId};
 
-        return this.jdbcTemplate.update(modifyProfileImgUrlQuery, modifyProfileImgUrlParams);
+        return this.jdbcTemplate.update(modifyStatusQuery, modifyStatusParams);
     }
     // 회원 생일 오픈 변경
     public int modifyBirthOpen(int userId, Boolean birthOpen) {
-        String  modifyProfileImgUrlQuery = "update user set birthOpen = ? where userId = ? ";
-        Object[] modifyProfileImgUrlParams = new Object[]{birthOpen, userId};
+        String  modifyBirthOpenQuery = "update user set birthOpen = ? where userId = ? ";
+        Object[] modifyBirthOpenParams = new Object[]{birthOpen, userId};
 
-        return this.jdbcTemplate.update(modifyProfileImgUrlQuery, modifyProfileImgUrlParams);
+        return this.jdbcTemplate.update(modifyBirthOpenQuery, modifyBirthOpenParams);
     }
 
 
