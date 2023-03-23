@@ -28,9 +28,9 @@ public class DiaryProvider {
         try {
 //            List<GetDiaryRes> getDiaryRes = diaryDao.getAllDiary();
             List<GetDiaryRes> getDiaryRes = new ArrayList<>();
-            for (int i = 1; i <= countAllDiary(); i++) {
-                if (getUserIdByDiary(i) != 0) {
-                    getDiaryRes.add(diaryDao.getDiary(i,getUserIdByDiary(i)));
+            for (int i = 1; i <= lastIdOfDiary(); i++) {
+                if (getUserIdFromDiary(i) != 0) {
+                    getDiaryRes.add(diaryDao.getDiary(i,getUserIdFromDiary(i)));
                 }
             }
             return getDiaryRes;
@@ -44,10 +44,28 @@ public class DiaryProvider {
         try {
 //            List<GetDiaryRes> getDiaryRes = diaryDao.getUserDiary(userId);
             List<GetDiaryRes> getDiaryRes = new ArrayList<>();
-            for (int i = 1; i <= countAllDiary(); i++) {
-                if (userId == getUserIdByDiary(i)) {
-                    if (getUserIdByDiary(i) != 0) {
-                        getDiaryRes.add(diaryDao.getDiary(i,getUserIdByDiary(i)));
+            for (int i = 1; i <= lastIdOfDiary(); i++) {
+                if (userId == getUserIdFromDiary(i)) {
+                    if (getUserIdFromDiary(i) != 0) {
+                        getDiaryRes.add(diaryDao.getDiary(i,getUserIdFromDiary(i)));
+                    }
+                }
+            }
+            return getDiaryRes;
+        } catch (Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+    // 해당 감정 일기 조회
+    public List<GetDiaryRes> getUserDiaryByEmotion(int userId, String emotion) throws BaseException {
+        try {
+            List<GetDiaryRes> getDiaryRes = new ArrayList<>();
+            for (int i = 1; i <= lastIdOfDiary(); i++) {
+                if (userId == getUserIdFromDiary(i)) {
+                    if (getUserIdFromDiary(i) != 0) {
+                        if(getEmotionFromDiary(i).equals(emotion)) {
+                            getDiaryRes.add(diaryDao.getDiary(i,getUserIdFromDiary(i)));
+                        }
                     }
                 }
             }
@@ -60,7 +78,7 @@ public class DiaryProvider {
     // 특정 하나의 일기 조회
     public GetDiaryRes getDiary(int diaryId) throws BaseException {
         try {
-            GetDiaryRes getDiaryRes = diaryDao.getDiary(diaryId,getUserIdByDiary(diaryId));
+            GetDiaryRes getDiaryRes = diaryDao.getDiary(diaryId,getUserIdFromDiary(diaryId));
             return getDiaryRes;
         } catch (Exception exception){
             throw new BaseException(DATABASE_ERROR);
@@ -68,9 +86,9 @@ public class DiaryProvider {
     }
 
     // diaryId 로 userId 받아오기
-    public int getUserIdByDiary(int diaryId) throws BaseException {
+    public int getUserIdFromDiary(int diaryId) throws BaseException {
         try {
-            int userId = diaryDao.getUserIdByDiary(diaryId);
+            int userId = diaryDao.getUserIdFromDiary(diaryId);
             return userId;
         } catch (Exception exception){
             throw new BaseException(DELETED_DIARY);
@@ -78,11 +96,21 @@ public class DiaryProvider {
     }
 
     // isDeleted=false 인 diary 갯수 받아오기
-    public int countAllDiary() throws BaseException {
+    public int lastIdOfDiary() throws BaseException {
         try {
-            return diaryDao.countAllDiary();
+            return diaryDao.lastIdOfDiary();
         } catch (Exception exception){
             throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    // diaryId로 해당 일기 emotion 받아오기
+    public String getEmotionFromDiary(int diaryId) throws BaseException {
+        try {
+            String emotion = diaryDao.getEmotionFromDiary(diaryId);
+            return emotion;
+        } catch (Exception exception){
+            throw new BaseException(DELETED_DIARY);
         }
     }
 }

@@ -173,7 +173,7 @@ public class DiaryDao {
     }
 
     // 다이어리 번호로 유저번호 받아오기
-    public int getUserIdByDiary(int diaryId) {
+    public int getUserIdFromDiary(int diaryId) {
         try {
             String getUserIdByDiaryQuery = "select userId from diary where diaryId=? and isDeleted=false";
             int getUserIdByDiaryParam = diaryId;
@@ -183,12 +183,19 @@ public class DiaryDao {
         } catch (IncorrectResultSizeDataAccessException error) { // 일치하는 userId가 없을 때
             return 0;
         }
+    }
 
+    // 다이어리 번호로 감정 받아오기
+    public String getEmotionFromDiary(int diaryId) {
+        String getUserIdByDiaryQuery = "select emotion from diary where diaryId=? and isDeleted=false";
+        int getUserIdByDiaryParam = diaryId;
+
+        return this.jdbcTemplate.queryForObject(getUserIdByDiaryQuery, String.class, getUserIdByDiaryParam);
     }
 
     // isDeleted=false 인 diary 갯수 받아오기
-    public int countAllDiary() {
-        String countAllDiary = "select count(*) from diary where isDeleted=false";
+    public int lastIdOfDiary() {
+        String countAllDiary = "select max(diaryId) from diary where isDeleted=false";
 
         return this.jdbcTemplate.queryForObject(countAllDiary, int.class);
     }

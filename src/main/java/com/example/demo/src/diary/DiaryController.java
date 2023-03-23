@@ -108,10 +108,14 @@ public class DiaryController {
     @ResponseBody
     @GetMapping("/users/{userId}")
     public BaseResponse<List<GetDiaryRes>> getUserDiary(@PathVariable("userId") int userId,
-                                                        @RequestParam String emotion) {
+                                                        @RequestParam(required = false) String emotion) {
         try {
-            List<GetDiaryRes> getDiaryRes = diaryProvider.getUserDiary(userId);
-            return new BaseResponse<>(FIND_USER_DIARIES, getDiaryRes);
+            if (emotion == null) {
+                List<GetDiaryRes> getDiaryRes = diaryProvider.getUserDiary(userId);
+                return new BaseResponse<>(FIND_USER_DIARIES, getDiaryRes);
+            }
+            List<GetDiaryRes> getDiaryRes = diaryProvider.getUserDiaryByEmotion(userId, emotion);
+            return new BaseResponse<>(FIND_USER_EMOTION_DIARIES, getDiaryRes);
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
         }
@@ -124,7 +128,7 @@ public class DiaryController {
         try {
             // TODO: 친구테이블 만들면 친구테이블에 있는지 없는지 확인부터 하기
             //  -> 이것도 jwt 확인 밑에 if에 쓰고 본인일기인지 확인은 elif로 하면될듯
-            int userId = diaryProvider.getUserIdByDiary(diaryId);
+            int userId = diaryProvider.getUserIdFromDiary(diaryId);
 
             // isDeleted=true 인 일기
             if (userId == 0) {
@@ -147,7 +151,7 @@ public class DiaryController {
     public BaseResponse<String> modifyDiary(@PathVariable("diaryId") int diaryId,
                                                @RequestBody PatchDiaryReq patchDiaryReq) {
         try {
-            int userId = diaryProvider.getUserIdByDiary(diaryId);
+            int userId = diaryProvider.getUserIdFromDiary(diaryId);
             if (userId == 0) {
                 return new BaseResponse<>(DELETED_DIARY);
             }
