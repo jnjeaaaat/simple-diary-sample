@@ -23,12 +23,11 @@ public class FriendService {
 
     public void requestFriend(PostFriendReq postFriendReq) throws BaseException {
         try {
-            int result = 0;
-            if (friendDao.requestFriend(postFriendReq) != 0) {
-                result = 1;
-                System.out.println(result);
+            int result = friendDao.requestFriend(postFriendReq);
+            System.out.println(result);
+            if (result == 0) {
+                throw new BaseException(DATABASE_ERROR);
             }
-            throw new BaseException(DATABASE_ERROR);
         } catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);
         }

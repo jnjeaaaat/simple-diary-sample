@@ -28,6 +28,8 @@ public enum BaseResponseStatus {
     MODIFY_DIARY(true, 1011, "일기를 수정하였습니다."),
     FIND_USER_EMOTION_DIARIES(true, 1012, "해당 감정의 일기들을 조회하였습니다."),
 
+    // friends
+    SUCCESS_REQUEST_FRIEND(true, 1030,"친구요청 하였습니다."),
     /**
      * 2000 : Request 오류
      */

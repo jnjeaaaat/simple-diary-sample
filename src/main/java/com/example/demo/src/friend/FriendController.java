@@ -40,7 +40,7 @@ public class FriendController {
             }
             friendService.requestFriend(postFriendReq);
 
-            return new BaseResponse<>("친구요청 하였습니다.");
+            return new BaseResponse<>(SUCCESS_REQUEST_FRIEND);
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
         }
