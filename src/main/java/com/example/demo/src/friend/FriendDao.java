@@ -1,12 +1,14 @@
 package com.example.demo.src.friend;
 
 import com.example.demo.src.friend.model.DeleteFriendReq;
+import com.example.demo.src.friend.model.GetFriendRes;
 import com.example.demo.src.friend.model.PostFriendReq;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.util.List;
 
 @Repository
 public class FriendDao {
@@ -57,4 +59,19 @@ public class FriendDao {
         return this.jdbcTemplate.update(acceptFriendQuery, acceptFriendParams);
     }
 
+    public List<GetFriendRes> getMyFriends(int userId) {
+        String getMyFriendsQuery = "select friend.friendId, user.userId, user.profileImgUrl, user.nickName " +
+                "from friend " +
+                "left join user on user.userId=friend.takeUserId or user.userId=friend.giveUserId " +
+                "where (user.userId=friend.giveUserId or user.userId=friend.takeUserId) and isFriends=true and user.userId!=?";
+        int getMyFriendsParam = userId;
+
+        return this.jdbcTemplate.query(getMyFriendsQuery,
+                (rs, rowNum) -> new GetFriendRes(
+                        rs.getInt("friendId"),
+                        rs.getInt("userId"),
+                        rs.getString("profileImgUrl"),
+                        rs.getString("nickName")),
+                getMyFriendsParam);
+    }
 }

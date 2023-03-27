@@ -3,12 +3,15 @@ package com.example.demo.src.friend;
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
 import com.example.demo.src.friend.model.DeleteFriendReq;
+import com.example.demo.src.friend.model.GetFriendRes;
 import com.example.demo.src.friend.model.PostFriendReq;
 import com.example.demo.utils.JwtService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 import static com.example.demo.config.BaseResponseStatus.*;
 
@@ -80,6 +83,21 @@ public class FriendController {
             friendService.acceptFriend(postFriendReq);
 
             return new BaseResponse<>(SUCCESS_ACCEPT_FRIEND);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    @ResponseBody
+    @GetMapping("/{userId}")
+    public BaseResponse<List<GetFriendRes>> getMyFriends(@PathVariable("userId") int userId) {
+        try {
+            int userIdByJWT = jwtService.getUserId();
+            if (userId != userIdByJWT) {
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
+            List<GetFriendRes> getFriendRes = friendProvider.getMyFriends(userId);
+            return new BaseResponse<>(SUCCESS_FIND_MY_FRIENDS, getFriendRes);
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
         }

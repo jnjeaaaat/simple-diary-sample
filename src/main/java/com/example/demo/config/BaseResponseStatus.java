@@ -32,6 +32,7 @@ public enum BaseResponseStatus {
     SUCCESS_REQUEST_FRIEND(true, 1030,"친구요청 하였습니다."),
     SUCCESS_DELETE_FRIEND(true, 1031,"친구를 삭제하였습니다."),
     SUCCESS_ACCEPT_FRIEND(true, 1032, "친구요청을 수락 하였습니다."),
+    SUCCESS_FIND_MY_FRIENDS(true, 1033,"친구목록을 받아왔습니다."),
     /**
      * 2000 : Request 오류
      */
