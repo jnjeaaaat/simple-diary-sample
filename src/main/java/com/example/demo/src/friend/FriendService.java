@@ -53,4 +53,20 @@ public class FriendService {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
+    // 친구 요청 수락
+    public void acceptFriend(PostFriendReq postFriendReq) throws BaseException{
+        // 이미 친구 사이 인지
+        if (friendDao.isFriends(postFriendReq) == 1) {
+            throw new BaseException(ALREADY_FRIENDS);
+        }
+        try {
+            int result = friendDao.acceptFriend(postFriendReq);
+            if (result == 0) {
+                throw new BaseException(DATABASE_ERROR);
+            }
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
 }

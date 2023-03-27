@@ -31,6 +31,7 @@ public enum BaseResponseStatus {
     // friends
     SUCCESS_REQUEST_FRIEND(true, 1030,"친구요청 하였습니다."),
     SUCCESS_DELETE_FRIEND(true, 1031,"친구를 삭제하였습니다."),
+    SUCCESS_ACCEPT_FRIEND(true, 1032, "친구요청을 수락 하였습니다."),
     /**
      * 2000 : Request 오류
      */
@@ -66,6 +67,8 @@ public enum BaseResponseStatus {
     POST_DIARY_EMPTY_IS_OPEN(false, 2057,"일기 오픈 여부를 설정해주세요."),
     POST_DIARY_EMPTY_DIARY_DATE(false, 2058,"일기 작성 날짜를 설정해주세요."),
 
+    //  [POST] /friend
+    CANNOT_REQUEST_YOURSELF(false, 2100,"본인은 친구요청 할 수 없습니다."),
     /**
      * 3000 : Response 오류
      */

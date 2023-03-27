@@ -32,9 +32,12 @@ public class FriendController {
 
     // 친구 요청
     @ResponseBody
-    @PostMapping("/request")
+    @PostMapping("")
     public BaseResponse<String> requestFriend(@RequestBody PostFriendReq postFriendReq) {
-        // todo: 중복, 본인한테 요청 안되게
+        // 본인한테 요청했을 떄
+        if (postFriendReq.getGiveUserId() == postFriendReq.getTakeUserId()) {
+            return new BaseResponse<>(CANNOT_REQUEST_YOURSELF);
+        }
         try {
             int userIdByJWT = jwtService.getUserId();
             if (postFriendReq.getGiveUserId() != userIdByJWT) {
@@ -48,6 +51,7 @@ public class FriendController {
         }
     }
 
+    // 친구 삭제
     @ResponseBody
     @DeleteMapping("")
     public BaseResponse<String> deleteFriend(@RequestBody DeleteFriendReq deleteFriendReq) {
@@ -59,6 +63,23 @@ public class FriendController {
             friendService.deleteFriend(deleteFriendReq);
 
             return new BaseResponse<>(SUCCESS_DELETE_FRIEND);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    // 친구 요청 수락
+    @ResponseBody
+    @PatchMapping("")
+    public BaseResponse<String> acceptFriend(@RequestBody PostFriendReq postFriendReq) {
+        try {
+            int userIdByJWT = jwtService.getUserId();
+            if (postFriendReq.getTakeUserId() != userIdByJWT) {
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
+            friendService.acceptFriend(postFriendReq);
+
+            return new BaseResponse<>(SUCCESS_ACCEPT_FRIEND);
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
         }

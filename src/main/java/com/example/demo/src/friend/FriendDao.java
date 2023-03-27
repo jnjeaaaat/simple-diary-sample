@@ -35,16 +35,25 @@ public class FriendDao {
 
     // 이미 친구 사이 인지
     public int isFriends(PostFriendReq postFriendReq) {
-        String isFriendsQuery = "select exists(select * from friend where (giveUserId=? and takeUserId=?) or (takeUserId=? and giveUserId=?)";
+        String isFriendsQuery = "select exists(select * from friend where ((giveUserId=? and takeUserId=?) or (giveUserId=? and takeUserId=?)) and isFriends=true)";
         Object[] isFriendsParams = new Object[]{postFriendReq.getGiveUserId(), postFriendReq.getTakeUserId(), postFriendReq.getTakeUserId(), postFriendReq.getGiveUserId()};
 
         return this.jdbcTemplate.queryForObject(isFriendsQuery, int.class, isFriendsParams);
     }
+
     // 친구 삭제
     public int deleteFriend(DeleteFriendReq deleteFriendReq) {
         String deleteFriendQuery = "delete from friend where (giveUserId=? and takeUserId=?) or (giveUserId=? and takeUserId=?)";
         Object[] deleteFriendParams = new Object[]{deleteFriendReq.getUserId(), deleteFriendReq.getAntiUserId(), deleteFriendReq.getAntiUserId(), deleteFriendReq.getUserId()};
 
         return this.jdbcTemplate.update(deleteFriendQuery, deleteFriendParams);
+    }
+
+    // 친구 요청 수락
+    public int acceptFriend(PostFriendReq postFriendReq) {
+        String acceptFriendQuery = "update friend set isFriends=true where giveUserId=? and takeUserId=?";
+        Object[] acceptFriendParams = new Object[]{postFriendReq.getGiveUserId(), postFriendReq.getTakeUserId()};
+
+        return this.jdbcTemplate.update(acceptFriendQuery, acceptFriendParams);
     }
 }
