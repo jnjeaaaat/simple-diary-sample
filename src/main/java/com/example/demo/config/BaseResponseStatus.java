@@ -87,6 +87,7 @@ public enum BaseResponseStatus {
     // /friend
     ALREADY_REQUEST_FRIEND(false, 3050, "이미 친구요청 하였습니다."),
     ALREADY_FRIENDS(false, 3051, "이미 친구 사이 입니다."),
+    ALREADY_NOT_FRIENDS(false, 3052, "친구 사이가 아닙니다."),
 
     /**
      * 4000 : Database, Server 오류
