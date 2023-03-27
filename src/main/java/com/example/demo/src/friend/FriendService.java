@@ -24,9 +24,16 @@ public class FriendService {
 
     // 친구 요청
     public void requestFriend(PostFriendReq postFriendReq) throws BaseException {
+        // 이미 친구 사이 인지
+        if (friendDao.isFriends(postFriendReq) == 1) {
+            throw new BaseException(ALREADY_FRIENDS);
+        }
+        // 이미 친구 요청 한 상태인지
+        if (friendDao.isExistRequestFriend(postFriendReq) == 1) {
+            throw new BaseException(ALREADY_REQUEST_FRIEND);
+        }
         try {
             int result = friendDao.requestFriend(postFriendReq);
-            System.out.println(result);
             if (result == 0) {
                 throw new BaseException(DATABASE_ERROR);
             }
