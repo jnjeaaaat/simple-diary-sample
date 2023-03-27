@@ -1,6 +1,7 @@
 package com.example.demo.src.friend;
 
 import com.example.demo.config.BaseException;
+import com.example.demo.src.friend.model.DeleteFriendReq;
 import com.example.demo.src.friend.model.PostFriendReq;
 import com.example.demo.utils.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +22,23 @@ public class FriendService {
         this.friendProvider = friendProvider;
     }
 
+    // 친구 요청
     public void requestFriend(PostFriendReq postFriendReq) throws BaseException {
         try {
             int result = friendDao.requestFriend(postFriendReq);
             System.out.println(result);
+            if (result == 0) {
+                throw new BaseException(DATABASE_ERROR);
+            }
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    // 친구 삭제
+    public void deleteFriend(DeleteFriendReq deleteFriendReq) throws BaseException {
+        try {
+            int result = friendDao.deleteFriend(deleteFriendReq);
             if (result == 0) {
                 throw new BaseException(DATABASE_ERROR);
             }

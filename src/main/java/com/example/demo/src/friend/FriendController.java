@@ -2,6 +2,7 @@ package com.example.demo.src.friend;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
+import com.example.demo.src.friend.model.DeleteFriendReq;
 import com.example.demo.src.friend.model.PostFriendReq;
 import com.example.demo.utils.JwtService;
 import org.slf4j.Logger;
@@ -33,6 +34,7 @@ public class FriendController {
     @ResponseBody
     @PostMapping("/request")
     public BaseResponse<String> requestFriend(@RequestBody PostFriendReq postFriendReq) {
+        // todo: 중복, 본인한테 요청 안되게
         try {
             int userIdByJWT = jwtService.getUserId();
             if (postFriendReq.getGiveUserId() != userIdByJWT) {
@@ -41,6 +43,22 @@ public class FriendController {
             friendService.requestFriend(postFriendReq);
 
             return new BaseResponse<>(SUCCESS_REQUEST_FRIEND);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    @ResponseBody
+    @DeleteMapping("")
+    public BaseResponse<String> deleteFriend(@RequestBody DeleteFriendReq deleteFriendReq) {
+        try {
+            int userIdByJWT = jwtService.getUserId();
+            if (deleteFriendReq.getUserId() != userIdByJWT) {
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
+            friendService.deleteFriend(deleteFriendReq);
+
+            return new BaseResponse<>(SUCCESS_DELETE_FRIEND);
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
         }
