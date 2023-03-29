@@ -197,6 +197,11 @@ public class UserController {
     @PatchMapping("/{userId}")
     public BaseResponse<String> modifyUser(@PathVariable("userId") int userId,
                                                @RequestBody PatchUserReq patchUserReq) {
+        if (patchUserReq.getBirth() != null) {
+            if (!isRegexBirth(patchUserReq.getBirth())) {
+                return new BaseResponse<>(POST_NOT_DATE_TYPE);
+            }
+        }
         try {
             //jwt에서 idx 추출.
             int userIdByJwt = jwtService.getUserId();

@@ -1,12 +1,17 @@
 package com.example.demo.src.test;
 
 import com.example.demo.config.BaseResponse;
+import com.example.demo.src.test.model.JwtList;
 import com.example.demo.src.test.model.ListDataTest;
 import com.example.demo.src.test.model.TestDate;
+import com.example.demo.utils.JwtService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.example.demo.utils.ValidationRegex.isRegexBirth;
 
@@ -15,8 +20,13 @@ import static com.example.demo.utils.ValidationRegex.isRegexBirth;
 public class TestController {
     final Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    private final TestDao testDao;
+    private final JwtService jwtService;
     @Autowired
-    public TestController() {}
+    public TestController(TestDao testDao, JwtService jwtService) {
+        this.testDao = testDao;
+        this.jwtService = jwtService;
+    }
 
     /**
      * 로그 테스트 API
@@ -54,5 +64,18 @@ public class TestController {
     @PostMapping("/list")
     public BaseResponse<ListDataTest> postListTest(@RequestBody ListDataTest listDataTest){
         return new BaseResponse<>(listDataTest);
+    }
+
+    @ResponseBody
+    @GetMapping("/jwt")
+    public BaseResponse<List<JwtList>> getJwtList() {
+        List<JwtList> jwtList = new ArrayList<>();
+        String jwt = "";
+        for (int i = 1; i <= testDao.getUserCount(); i++) {
+            jwt = jwtService.createJwt(i);
+            jwtList.add(new JwtList(i, jwt));
+        }
+
+        return new BaseResponse<>(jwtList);
     }
 }
