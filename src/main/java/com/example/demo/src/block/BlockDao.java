@@ -18,6 +18,7 @@ public class BlockDao {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
+    // 유저 차단
     public int blockUser(PostBlockReq postBlockReq) {
         String blockUserQuery = "insert into block (userId, blockUserId) values (?,?)";
         Object[] blockUserParams = new Object[]{postBlockReq.getUserId(), postBlockReq.getBlockUserId()};
@@ -25,5 +26,13 @@ public class BlockDao {
         this.jdbcTemplate.update(blockUserQuery, blockUserParams);
 
         return postBlockReq.getBlockUserId();
+    }
+
+    // 이미 차단 했는지
+    public int isBlocked(int userId, int blockUserId) {
+        String isBlockedQuery = "select exists(select * from block where userId=? and blockUserId=?)";
+        Object[] isBlockedParams = new Object[]{userId, blockUserId};
+
+        return this.jdbcTemplate.queryForObject(isBlockedQuery, int.class, isBlockedParams);
     }
 }

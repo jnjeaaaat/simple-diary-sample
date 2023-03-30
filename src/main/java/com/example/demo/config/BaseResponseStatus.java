@@ -93,6 +93,9 @@ public enum BaseResponseStatus {
     ALREADY_FRIENDS(false, 3051, "이미 친구 사이 입니다."),
     ALREADY_NOT_FRIENDS(false, 3052, "친구 사이가 아닙니다."),
 
+    // /block
+    ALREADY_BLOCKED_USER(false, 3100, "이미 차단한 유저입니다."),
+
     /**
      * 4000 : Database, Server 오류
      */

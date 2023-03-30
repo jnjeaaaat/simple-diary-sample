@@ -23,7 +23,12 @@ public class BlockService {
         this.jwtService = jwtService;
     }
 
+    // 유저 차단
     public PostBlockRes blockUser(PostBlockReq postBlockReq) throws BaseException {
+        // 이미 차단한 유저
+        if (blockProvider.isBlocked(postBlockReq.getUserId(), postBlockReq.getBlockUserId()) == 1) {
+            throw new BaseException(ALREADY_BLOCKED_USER);
+        }
         try {
             PostBlockRes postBlockRes = new PostBlockRes(blockDao.blockUser(postBlockReq));
             return postBlockRes;
