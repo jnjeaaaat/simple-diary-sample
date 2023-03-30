@@ -10,4 +10,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DeleteBlockReq {
+    private int userId;
+    private int blockUserId;
 }

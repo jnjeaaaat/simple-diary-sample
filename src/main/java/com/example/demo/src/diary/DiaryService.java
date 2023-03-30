@@ -14,11 +14,12 @@ import static com.example.demo.config.BaseResponseStatus.*;
 
 @Service
 public class DiaryService {
-    @Autowired
+
     private final DiaryDao diaryDao;
     private final DiaryProvider diaryProvider;
     private final JwtService jwtService; // JWT부분은 7주차에 다루므로 모르셔도 됩니다!
 
+    @Autowired
     public DiaryService(DiaryDao diaryDao, DiaryProvider diaryProvider, JwtService jwtService) {
         this.diaryDao = diaryDao;
         this.jwtService = jwtService;

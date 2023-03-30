@@ -11,11 +11,12 @@ import static com.example.demo.config.BaseResponseStatus.*;
 
 @Service
 public class FriendService {
-    @Autowired
+
     private final FriendDao friendDao;
     private final FriendProvider friendProvider;
     private final JwtService jwtService; // JWT부분은 7주차에 다루므로 모르셔도 됩니다!
 
+    @Autowired
     public FriendService(FriendDao friendDao, FriendProvider friendProvider, JwtService jwtService) {
         this.friendDao = friendDao;
         this.jwtService = jwtService;
