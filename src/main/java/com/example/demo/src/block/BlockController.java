@@ -3,6 +3,7 @@ package com.example.demo.src.block;
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
 import com.example.demo.src.block.model.DeleteBlockReq;
+import com.example.demo.src.block.model.GetBlockRes;
 import com.example.demo.src.block.model.PostBlockReq;
 import com.example.demo.src.block.model.PostBlockRes;
 import com.example.demo.utils.JwtService;
@@ -11,6 +12,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 import static com.example.demo.config.BaseResponseStatus.*;
 
@@ -60,6 +63,20 @@ public class BlockController {
             blockService.unBlockUser(deleteBlockReq);
 
             return new BaseResponse<>(UNBLOCK_THE_USER);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    @ResponseBody
+    @GetMapping("/{userId}")
+    public BaseResponse<List<GetBlockRes>> getAllBlockUser(@PathVariable("userId") int userId) {
+        try {
+            if (userId != jwtService.getUserId()) {
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
+            List<GetBlockRes> getBlockRes = blockProvider.getAllBlockUser(userId);
+            return new BaseResponse<>(SUCCESS_GET_ALL_BLOCK_USER, getBlockRes);
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
         }

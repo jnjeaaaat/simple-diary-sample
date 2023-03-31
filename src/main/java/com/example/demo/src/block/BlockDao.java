@@ -1,6 +1,7 @@
 package com.example.demo.src.block;
 
 import com.example.demo.src.block.model.DeleteBlockReq;
+import com.example.demo.src.block.model.GetBlockRes;
 import com.example.demo.src.block.model.PostBlockReq;
 import com.example.demo.src.block.model.PostBlockRes;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.util.List;
 
 @Repository
 public class BlockDao {
@@ -43,5 +45,19 @@ public class BlockDao {
         Object[] unBlockUserParams = new Object[]{deleteBlockReq.getUserId(), deleteBlockReq.getBlockUserId()};
 
         return this.jdbcTemplate.update(unBlockUserQuery, unBlockUserParams);
+    }
+
+    // 차단 유저 조회
+    public List<GetBlockRes> getAllBlockUser(int userId) {
+        String getAllBlockUserQuery = "select block.userId, block.blockUserId, user.profileImgUrl, user.nickName from block left join user on block.blockUserId = user.userId where block.userId=?";
+        int getAllBlockUserParam = userId;
+
+        return this.jdbcTemplate.query(getAllBlockUserQuery,
+                (rs, rowNum) -> new GetBlockRes(
+                        rs.getInt("userId"),
+                        rs.getInt("blockUserId"),
+                        rs.getString("profileImgUrl"),
+                        rs.getString("nickName"))
+                ,getAllBlockUserParam);
     }
 }

@@ -37,6 +37,7 @@ public enum BaseResponseStatus {
     // blocks
     BLOCK_THE_USER(true, 1100, "유저를 차단 하였습니다."),
     UNBLOCK_THE_USER(true, 1101, "차단을 해제하였습니다."),
+    SUCCESS_GET_ALL_BLOCK_USER(true, 1102, "차단한 유저들을 조회하였습니다."),
     /**
      * 2000 : Request 오류
      */
