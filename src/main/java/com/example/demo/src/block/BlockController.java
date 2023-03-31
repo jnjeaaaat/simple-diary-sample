@@ -2,6 +2,7 @@ package com.example.demo.src.block;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
+import com.example.demo.src.block.model.DeleteBlockReq;
 import com.example.demo.src.block.model.PostBlockReq;
 import com.example.demo.src.block.model.PostBlockRes;
 import com.example.demo.utils.JwtService;
@@ -42,6 +43,23 @@ public class BlockController {
             }
             PostBlockRes postBlockRes = blockService.blockUser(postBlockReq);
             return new BaseResponse<>(BLOCK_THE_USER, postBlockRes);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    // 유저 차단 해제
+    @ResponseBody
+    @DeleteMapping("")
+    public BaseResponse<String> unBlockUser(@RequestBody DeleteBlockReq deleteBlockReq) {
+        try {
+            if (deleteBlockReq.getUserId() != jwtService.getUserId()) {
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
+
+            blockService.unBlockUser(deleteBlockReq);
+
+            return new BaseResponse<>(UNBLOCK_THE_USER);
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
         }

@@ -1,6 +1,7 @@
 package com.example.demo.src.block;
 
 import com.example.demo.config.BaseException;
+import com.example.demo.src.block.model.DeleteBlockReq;
 import com.example.demo.src.block.model.PostBlockReq;
 import com.example.demo.src.block.model.PostBlockRes;
 import com.example.demo.utils.JwtService;
@@ -32,6 +33,21 @@ public class BlockService {
         try {
             PostBlockRes postBlockRes = new PostBlockRes(blockDao.blockUser(postBlockReq));
             return postBlockRes;
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    // 유저 차단 해제
+    public void unBlockUser(DeleteBlockReq deleteBlockReq) throws BaseException {
+        if (blockProvider.isBlocked(deleteBlockReq.getUserId(), deleteBlockReq.getBlockUserId()) == 0) {
+            throw new BaseException(NOT_BLOCKED_USER);
+        }
+        try {
+            int result = blockDao.unBlockUser(deleteBlockReq);
+            if (result == 0) {
+                throw new BaseException(DATABASE_ERROR);
+            }
         } catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);
         }

@@ -1,5 +1,6 @@
 package com.example.demo.src.block;
 
+import com.example.demo.src.block.model.DeleteBlockReq;
 import com.example.demo.src.block.model.PostBlockReq;
 import com.example.demo.src.block.model.PostBlockRes;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,5 +35,13 @@ public class BlockDao {
         Object[] isBlockedParams = new Object[]{userId, blockUserId};
 
         return this.jdbcTemplate.queryForObject(isBlockedQuery, int.class, isBlockedParams);
+    }
+
+    // 유저 차단 해제
+    public int unBlockUser(DeleteBlockReq deleteBlockReq) {
+        String unBlockUserQuery = "delete from block where userId=? and blockUserId=?";
+        Object[] unBlockUserParams = new Object[]{deleteBlockReq.getUserId(), deleteBlockReq.getBlockUserId()};
+
+        return this.jdbcTemplate.update(unBlockUserQuery, unBlockUserParams);
     }
 }
