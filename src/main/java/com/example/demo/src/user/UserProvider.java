@@ -2,6 +2,7 @@ package com.example.demo.src.user;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.config.secret.Secret;
+import com.example.demo.src.block.BlockProvider;
 import com.example.demo.src.user.model.*;
 import com.example.demo.utils.AES128;
 import com.example.demo.utils.JwtService;
@@ -28,14 +29,16 @@ public class UserProvider {
 
     // *********************** 동작에 있어 필요한 요소들을 불러옵니다. *************************
     private final UserDao userDao;
+    private final BlockProvider blockProvider;
     private final JwtService jwtService; // JWT부분은 7주차에 다루므로 모르셔도 됩니다!
 
 
     final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired //readme 참고
-    public UserProvider(UserDao userDao, JwtService jwtService) {
+    public UserProvider(UserDao userDao, BlockProvider blockProvider, JwtService jwtService) {
         this.userDao = userDao;
+        this.blockProvider = blockProvider;
         this.jwtService = jwtService; // JWT부분은 7주차에 다루므로 모르셔도 됩니다!
     }
     // ******************************************************************************
@@ -101,6 +104,9 @@ public class UserProvider {
 
     // 해당 userId를 갖는 user의 정보 조회
     public GetSpecificUserRes getUser(int userIdByJwt, int userId) throws BaseException {
+        if (blockProvider.isBlocked(userId,userIdByJwt) == 1) {
+            throw new BaseException(YOU_ARE_BLOCKED);
+        }
         try {
             GetSpecificUserRes getSpecificUserRes = userDao.getUserById(userIdByJwt, userId);
             return getSpecificUserRes;

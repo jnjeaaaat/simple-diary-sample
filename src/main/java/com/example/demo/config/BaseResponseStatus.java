@@ -19,14 +19,15 @@ public enum BaseResponseStatus {
     FIND_NICKNAME_USER(true,1004,"해당 닉네임의 유저를 조회하였습니다."),
     FIND_NUMBER_USER(true,1005,"해당 번호의 유저를 조회하였습니다."),
     MODIFY_USER_INFORM(true,1006,"유저 정보를 수정하였습니다."),
+    YOU_ARE_BLOCKED(true, 1007, "상대방에게 차단되었습니다."),
 
     // diaries
-    SUCCESS_CREATE_NEW_DIARY(true, 1007, "새 일기를 작성하였습니다."),
-    FIND_ALL_DIARIES(true, 1008, "모든 일기를 조회하였습니다."),
-    FIND_USER_DIARIES(true, 1009, "유저의 일기를 조회하였습니다."),
-    FIND_ONE_DIARY(true, 1010, "일기를 조회하였습니다."),
-    MODIFY_DIARY(true, 1011, "일기를 수정하였습니다."),
-    FIND_USER_EMOTION_DIARIES(true, 1012, "해당 감정의 일기들을 조회하였습니다."),
+    SUCCESS_CREATE_NEW_DIARY(true, 1010, "새 일기를 작성하였습니다."),
+    FIND_ALL_DIARIES(true, 1011, "모든 일기를 조회하였습니다."),
+    FIND_USER_DIARIES(true, 1012, "유저의 일기를 조회하였습니다."),
+    FIND_ONE_DIARY(true, 1013, "일기를 조회하였습니다."),
+    MODIFY_DIARY(true, 1014, "일기를 수정하였습니다."),
+    FIND_USER_EMOTION_DIARIES(true, 1015, "해당 감정의 일기들을 조회하였습니다."),
 
     // friends
     SUCCESS_REQUEST_FRIEND(true, 1030,"친구요청 하였습니다."),
