@@ -227,10 +227,14 @@ public class UserDao {
             int getUserViewParam = userId;
             int view = this.jdbcTemplate.queryForObject(getUserViewQuery, int.class, getUserViewParam);
 
+            String getNumDiaryQuery = "select count(*) from diary where userId=?";
+            int getNumDiaryParam = userId;
+            int numDiary = this.jdbcTemplate.queryForObject(getNumDiaryQuery, int.class, getNumDiaryParam);
+
             String getUserQuery =
                     "select userId, profileImgUrl, email, nickName, birth, status, date_format(createdAt, '%Y년 %m월 %d일') as createdAt, birthOpen " +
-                    "from user " +
-                    "where userId=?";
+                            "from user " +
+                            "where userId=?";
             int getUserParams = userId;
 
             return this.jdbcTemplate.queryForObject(getUserQuery,
@@ -238,8 +242,8 @@ public class UserDao {
                             rs.getInt("userId"),
                             rs.getString("profileImgUrl"),
                             rs.getString("email"),
-//                        rs.getString("password"),
                             rs.getString("nickName"),
+                            numDiary,
                             rs.getString("birth"),
                             rs.getString("status"),
                             rs.getString("createdAt"),

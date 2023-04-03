@@ -15,6 +15,7 @@ public class GetSpecificUserRes {
     private String profileImgUrl;
     private String email;
     private String nickName;
+    private int numDiary;
     private String birth;
     private String status;
     private String createdAt;
