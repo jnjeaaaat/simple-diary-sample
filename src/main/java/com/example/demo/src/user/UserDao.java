@@ -210,6 +210,7 @@ public class UserDao {
     // 친구목록에서 친구 diary 볼때 기능
     public GetSpecificUserRes getUserById(int userIdByJwt, int userId) {
         try {
+
             // 회원 조회 할 때 오늘 방문한 수 늘리기
             String viewUserQuery = "insert into userView (userId, showingUserId) values (?, ?)";
             Object[] viewUserParams = new Object[]{userIdByJwt, userId};
@@ -221,15 +222,17 @@ public class UserDao {
 //                    "select userId, profileImgUrl, email, nickName, birth, status, " +
 //                            "date_format(createdAt, '%Y년 %m월 %d일') as createdAt, birthOpen " +
 //                            "from user where userId = ? and status = 'ACTIVE'"; // 해당 userId를 만족하는 유저를 조회하는 쿼리문
-            String getUserQuery =
-                    "select user.userId, user.profileImgUrl, user.email, user.nickName, " +
-                    "user.birth, user.status, date_format(user.createdAt, '%Y년 %m월 %d일') as createdAt, user.birthOpen, " +
-                    "count(userView.userViewId) as view " +
-                    "from user " +
-                    "left join userView on user.userId = userView.showingUserId " +
-                    "where userView.showingUserId = ? and date(userView.viewDate) = date(now())";
 
+            String getUserViewQuery = "select count(userViewId) from userView where showingUserId = ? and date(viewDate) = date(now())";
+            int getUserViewParam = userId;
+            int view = this.jdbcTemplate.queryForObject(getUserViewQuery, int.class, getUserViewParam);
+
+            String getUserQuery =
+                    "select userId, profileImgUrl, email, nickName, birth, status, date_format(createdAt, '%Y년 %m월 %d일') as createdAt, birthOpen " +
+                    "from user " +
+                    "where userId=?";
             int getUserParams = userId;
+
             return this.jdbcTemplate.queryForObject(getUserQuery,
                     (rs, rowNum) -> new GetSpecificUserRes(
                             rs.getInt("userId"),
@@ -241,7 +244,7 @@ public class UserDao {
                             rs.getString("status"),
                             rs.getString("createdAt"),
                             rs.getBoolean("birthOpen"),
-                            rs.getInt("view")), // RowMapper(위의 링크 참조): 원하는 결과값 형태로 받기
+                            view), // RowMapper(위의 링크 참조): 원하는 결과값 형태로 받기
                     getUserParams); // 한 개의 회원정보를 얻기 위한 jdbcTemplate 함수(Query, 객체 매핑 정보, Params)의 결과 반환
         } catch (IncorrectResultSizeDataAccessException error) {
             return null;

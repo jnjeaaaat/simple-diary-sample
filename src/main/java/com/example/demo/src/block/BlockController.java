@@ -68,6 +68,7 @@ public class BlockController {
         }
     }
 
+    // 차단 유저 조회
     @ResponseBody
     @GetMapping("/{userId}")
     public BaseResponse<List<GetBlockRes>> getAllBlockUser(@PathVariable("userId") int userId) {
