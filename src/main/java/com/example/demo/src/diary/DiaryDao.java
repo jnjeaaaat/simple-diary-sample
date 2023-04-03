@@ -130,7 +130,7 @@ public class DiaryDao {
                         " diary.consumption, diary.importation, diary.isOpen, diary.isDeleted, diary.diaryDate, diary.createdAt, diary.updatedAt" +
                         " from diary" +
                         " left join user on diary.userId = user.userId" +
-                        " where diary.diaryId=? and isDeleted=false";
+                        " where diary.diaryId=? and diary.isDeleted=false and user.status='ACTIVE'";
         int getDiaryParam = diaryId;
 
         String getDiaryImgsQuery =

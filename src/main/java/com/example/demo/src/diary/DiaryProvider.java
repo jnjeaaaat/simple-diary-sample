@@ -2,6 +2,7 @@ package com.example.demo.src.diary;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.src.diary.model.GetDiaryRes;
+import com.example.demo.src.user.UserProvider;
 import com.example.demo.src.user.model.GetUserRes;
 import com.example.demo.utils.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +17,13 @@ import static com.example.demo.config.BaseResponseStatus.*;
 public class DiaryProvider {
 
     private final DiaryDao diaryDao;
+    private final UserProvider userProvider;
     private final JwtService jwtService; // JWT부분은 7주차에 다루므로 모르셔도 됩니다!
 
     @Autowired
-    public DiaryProvider(DiaryDao diaryDao, JwtService jwtService) {
+    public DiaryProvider(DiaryDao diaryDao, UserProvider userProvider, JwtService jwtService) {
         this.diaryDao = diaryDao;
+        this.userProvider = userProvider;
         this.jwtService = jwtService;
     }
 
@@ -30,8 +33,11 @@ public class DiaryProvider {
 //            List<GetDiaryRes> getDiaryRes = diaryDao.getAllDiary();
             List<GetDiaryRes> getDiaryRes = new ArrayList<>();
             for (int i = 1; i <= lastIdOfDiary(); i++) {
-                if (getUserIdFromDiary(i) != 0) {
-                    getDiaryRes.add(diaryDao.getDiary(i,getUserIdFromDiary(i)));
+                // 탈퇴한 유저의 일기 거르기
+                if (!userProvider.isExistUserByUserId(getUserIdFromDiary(i))) {
+                    if (getUserIdFromDiary(i) != 0) {
+                        getDiaryRes.add(diaryDao.getDiary(i,getUserIdFromDiary(i)));
+                    }
                 }
             }
             return getDiaryRes;
@@ -42,6 +48,9 @@ public class DiaryProvider {
 
     // 특정 유저 일기들 조회
     public List<GetDiaryRes> getUserDiary(int userId) throws BaseException {
+        if (userProvider.isExistUserByUserId(userId)) {
+            throw new BaseException(INACTIVE_USER);
+        }
         try {
 //            List<GetDiaryRes> getDiaryRes = diaryDao.getUserDiary(userId);
             List<GetDiaryRes> getDiaryRes = new ArrayList<>();
@@ -78,6 +87,10 @@ public class DiaryProvider {
 
     // 특정 하나의 일기 조회
     public GetDiaryRes getDiary(int diaryId) throws BaseException {
+        // 탈퇴한 유저의 일기
+        if (userProvider.isExistUserByUserId(getUserIdFromDiary(diaryId))) {
+            throw new BaseException(INACTIVE_USER_DIARY);
+        }
         try {
             GetDiaryRes getDiaryRes = diaryDao.getDiary(diaryId,getUserIdFromDiary(diaryId));
             return getDiaryRes;

@@ -223,14 +223,17 @@ public class UserDao {
 //                            "date_format(createdAt, '%Y년 %m월 %d일') as createdAt, birthOpen " +
 //                            "from user where userId = ? and status = 'ACTIVE'"; // 해당 userId를 만족하는 유저를 조회하는 쿼리문
 
+            // 유저 조회수 따로
             String getUserViewQuery = "select count(userViewId) from userView where showingUserId = ? and date(viewDate) = date(now())";
             int getUserViewParam = userId;
             int view = this.jdbcTemplate.queryForObject(getUserViewQuery, int.class, getUserViewParam);
 
+            // 유저 다이어리 개수
             String getNumDiaryQuery = "select count(*) from diary where userId=?";
             int getNumDiaryParam = userId;
             int numDiary = this.jdbcTemplate.queryForObject(getNumDiaryQuery, int.class, getNumDiaryParam);
 
+            // 유저 조회
             String getUserQuery =
                     "select userId, profileImgUrl, email, nickName, birth, status, date_format(createdAt, '%Y년 %m월 %d일') as createdAt, birthOpen " +
                             "from user " +
