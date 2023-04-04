@@ -36,4 +36,24 @@ public class FriendProvider {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
+    // 이미 친구 사이
+    public int isFriends(int giveUserId, int takeUserId) throws BaseException {
+        try {
+            int result = friendDao.isFriends(giveUserId, takeUserId);
+            return result;
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    // 이미 친구 요청 했는지
+    public int isExistRequestFriend(int giveUserId, int takeUserId) throws BaseException {
+        try {
+            int result = friendDao.isExistRequestFriend(giveUserId, takeUserId);
+            return result;
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
 }
