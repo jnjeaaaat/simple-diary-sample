@@ -96,6 +96,7 @@ public enum BaseResponseStatus {
     ALREADY_REQUEST_FRIEND(false, 3050, "이미 친구요청 하였습니다."),
     ALREADY_FRIENDS(false, 3051, "이미 친구 사이 입니다."),
     ALREADY_NOT_FRIENDS(false, 3052, "친구 사이가 아닙니다."),
+    NOT_REQUEST_FRIEND(false, 3053, "친구 요청 한 적이 없습니다."),
 
     // /block
     ALREADY_BLOCKED_USER(false, 3100, "이미 차단한 유저입니다."),
