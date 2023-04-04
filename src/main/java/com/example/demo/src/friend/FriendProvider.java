@@ -27,6 +27,7 @@ public class FriendProvider {
         this.jwtService = jwtService;
     }
 
+    // 친구 목록 조회
     public List<GetFriendRes> getMyFriends(int userId) throws BaseException {
         try {
             List<GetFriendRes> getFriendRes = friendDao.getMyFriends(userId);

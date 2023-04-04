@@ -59,12 +59,13 @@ public class FriendDao {
         return this.jdbcTemplate.update(acceptFriendQuery, acceptFriendParams);
     }
 
+    // 친구 목록 조회
     public List<GetFriendRes> getMyFriends(int userId) {
         String getMyFriendsQuery = "select friend.friendId, user.userId, user.profileImgUrl, user.nickName " +
                 "from friend " +
                 "left join user on user.userId=friend.takeUserId or user.userId=friend.giveUserId " +
-                "where (user.userId=friend.giveUserId or user.userId=friend.takeUserId) and isFriends=true and user.userId!=?";
-        int getMyFriendsParam = userId;
+                "where (friend.giveUserId=? or friend.takeUserId=?) and isFriends=true and user.userId!=?";
+        Object[] getMyFriendsParams = new Object[]{userId, userId, userId};
 
         return this.jdbcTemplate.query(getMyFriendsQuery,
                 (rs, rowNum) -> new GetFriendRes(
@@ -72,6 +73,6 @@ public class FriendDao {
                         rs.getInt("userId"),
                         rs.getString("profileImgUrl"),
                         rs.getString("nickName")),
-                getMyFriendsParam);
+                getMyFriendsParams);
     }
 }
