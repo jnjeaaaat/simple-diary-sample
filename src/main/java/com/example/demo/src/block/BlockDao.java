@@ -23,6 +23,13 @@ public class BlockDao {
 
     // 유저 차단
     public int blockUser(PostBlockReq postBlockReq) {
+        // 친구목록에서 삭제부터
+        String deleteFriendQuery = "delete from friend where (giveUserId=? and takeUserId=?) or (giveUserId=? and takeUserId=?)";
+        Object[] deleteFriendParams = new Object[]{postBlockReq.getUserId(), postBlockReq.getBlockUserId()};
+
+        this.jdbcTemplate.update(deleteFriendQuery, deleteFriendParams);
+
+        // 차단 테이블에 추가
         String blockUserQuery = "insert into block (userId, blockUserId) values (?,?)";
         Object[] blockUserParams = new Object[]{postBlockReq.getUserId(), postBlockReq.getBlockUserId()};
 
