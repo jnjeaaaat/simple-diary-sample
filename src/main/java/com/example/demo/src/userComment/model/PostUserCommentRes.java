@@ -13,5 +13,5 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class PostUserCommentRes {
     private String comment; // 댓글 내용
-    private LocalDateTime createdAt; // 댓글 단 시간
+    private String createdAt; // 댓글 단 시간
 }
