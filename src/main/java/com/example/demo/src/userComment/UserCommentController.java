@@ -40,6 +40,9 @@ public class UserCommentController {
     @PostMapping("")
     public BaseResponse<PostUserCommentRes> writeComment(@RequestBody PostUserCommentReq postUserCommentReq) {
         try {
+            if (postUserCommentReq.getUserId() != jwtService.getUserId()) {
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
             PostUserCommentRes postUserCommentRes = userCommentService.writeComment(postUserCommentReq);
             return new BaseResponse<>(SUCCESS_WRITE_COMMENT, postUserCommentRes);
         } catch (BaseException exception) {
