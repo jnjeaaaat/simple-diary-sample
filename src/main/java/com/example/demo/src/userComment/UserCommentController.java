@@ -61,6 +61,10 @@ public class UserCommentController {
     public BaseResponse<PatchUserCommentRes> modifyComment(@PathVariable("userCommentId") int userCommentId,
                                                            @RequestBody PatchUserCommentReq patchUserCommentReq) {
         try {
+            int userIdFromComment = userCommentProvider.getUserIdFromComment(userCommentId);
+            if (userIdFromComment != jwtService.getUserId()) {
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
             PatchUserCommentRes patchUserCommentRes = userCommentService.modifyComment(userCommentId, patchUserCommentReq);
             return new BaseResponse<>(SUCCESS_MODIFY_COMMENT, patchUserCommentRes);
         } catch (BaseException exception) {
