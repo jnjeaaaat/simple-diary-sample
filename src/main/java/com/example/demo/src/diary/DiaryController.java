@@ -90,7 +90,7 @@ public class DiaryController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
-    //TODO: 일기 수정, 일기 조회(본인꺼, 친구꺼(오픈된것만)), 가계부, 일기 조회 페이징, 유저의 feel 에 따른 일기 조회
+    //TODO: 일기 조회(본인꺼, 친구꺼(오픈된것만)), 가계부, 일기 조회 페이징, 유저의 feel 에 따른 일기 조회
 
     // 전체 일기 조회
     @ResponseBody
