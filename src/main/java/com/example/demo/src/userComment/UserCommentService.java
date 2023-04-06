@@ -1,6 +1,8 @@
 package com.example.demo.src.userComment;
 
 import com.example.demo.config.BaseException;
+import com.example.demo.src.userComment.model.PatchUserCommentReq;
+import com.example.demo.src.userComment.model.PatchUserCommentRes;
 import com.example.demo.src.userComment.model.PostUserCommentReq;
 import com.example.demo.src.userComment.model.PostUserCommentRes;
 import com.example.demo.utils.JwtService;
@@ -33,6 +35,22 @@ public class UserCommentService {
         try {
             PostUserCommentRes postUserCommentRes = userCommentDao.writeComment(postUserCommentReq);
             return postUserCommentRes;
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    /**
+     * 방명록 수정
+     * @param userCommentId
+     * @param patchUserCommentReq
+     * @return comment, updatedAt
+     * @throws BaseException
+     */
+    public PatchUserCommentRes modifyComment(int userCommentId, PatchUserCommentReq patchUserCommentReq) throws BaseException {
+        try {
+            PatchUserCommentRes patchUserCommentRes = userCommentDao.modifyComment(userCommentId, patchUserCommentReq);
+            return patchUserCommentRes;
         } catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);
         }

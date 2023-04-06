@@ -3,6 +3,7 @@ package com.example.demo.src.userComment;
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
 import com.example.demo.src.userComment.model.PatchUserCommentReq;
+import com.example.demo.src.userComment.model.PatchUserCommentRes;
 import com.example.demo.src.userComment.model.PostUserCommentReq;
 import com.example.demo.src.userComment.model.PostUserCommentRes;
 import com.example.demo.utils.JwtService;
@@ -45,6 +46,23 @@ public class UserCommentController {
             }
             PostUserCommentRes postUserCommentRes = userCommentService.writeComment(postUserCommentReq);
             return new BaseResponse<>(SUCCESS_WRITE_COMMENT, postUserCommentRes);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    /**
+     * 방명록 수정
+     * @param patchUserCommentReq
+     * @return comment, updatedAt
+     */
+    @ResponseBody
+    @PatchMapping("/{userCommentId}")
+    public BaseResponse<PatchUserCommentRes> modifyComment(@PathVariable("userCommentId") int userCommentId,
+                                                           @RequestBody PatchUserCommentReq patchUserCommentReq) {
+        try {
+            PatchUserCommentRes patchUserCommentRes = userCommentService.modifyComment(userCommentId, patchUserCommentReq);
+            return new BaseResponse<>(SUCCESS_MODIFY_COMMENT, patchUserCommentRes);
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
         }
