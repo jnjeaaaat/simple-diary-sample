@@ -55,4 +55,19 @@ public class UserCommentService {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
+    /**
+     * 방명록 하트누르기
+     * @param userCommentId
+     * @return Boolean
+     * @throws BaseException
+     */
+    public Boolean heartComment(int userCommentId) throws BaseException {
+        try {
+            Boolean isHearted = userCommentDao.heartComment(userCommentId);
+            return isHearted;
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
 }

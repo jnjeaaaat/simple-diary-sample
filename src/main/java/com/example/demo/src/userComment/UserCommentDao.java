@@ -79,4 +79,21 @@ public class UserCommentDao {
 
         return this.jdbcTemplate.queryForObject(getUserIdFromCommentQuery, int.class, getUserIdFromCommentParam);
     }
+
+    /**
+     * 방명록 하트누르기
+     * @param userCommentId
+     * @return Boolean
+     */
+    public Boolean heartComment(int userCommentId) {
+        String switchHeartCommentQuery = "update userComment set heart = if(heart=false, true, false) where userCommentId=?";
+        int switcHeartCommentParam = userCommentId;
+
+        this.jdbcTemplate.update(switchHeartCommentQuery, switcHeartCommentParam);
+
+        String getHeartStatusQuery = "select heart from userComment where userCommentId=?";
+        int getHeartStatusParam = userCommentId;
+
+        return this.jdbcTemplate.queryForObject(getHeartStatusQuery, Boolean.class, getHeartStatusParam);
+    }
 }

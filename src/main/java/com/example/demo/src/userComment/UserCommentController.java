@@ -71,4 +71,24 @@ public class UserCommentController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
+
+    /**
+     * 방명록에 하트누르기
+     * @param userCommentId
+     * @return Boolean
+     */
+    @ResponseBody
+    @PatchMapping("/hearts/{userCommentId}")
+    public BaseResponse<Boolean> heartComment(@PathVariable("userCommentId") int userCommentId) {
+        try {
+            Boolean isHearted = userCommentService.heartComment(userCommentId);
+            if(isHearted) {
+                return new BaseResponse<>(SUCCESS_PRESS_HEART, isHearted);
+            } else {
+                return new BaseResponse<>(SUCCESS_ANTI_PRESS_HEART, isHearted);
+            }
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
 }

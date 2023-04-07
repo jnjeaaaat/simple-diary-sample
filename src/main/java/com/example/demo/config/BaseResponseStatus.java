@@ -43,6 +43,8 @@ public enum BaseResponseStatus {
     // comments
     SUCCESS_WRITE_COMMENT(true, 1150, "방명록을 남겼습니다."),
     SUCCESS_MODIFY_COMMENT(true, 1151, "방명록을 수정하였습니다."),
+    SUCCESS_PRESS_HEART(true, 1152, "방명록에 하트를 눌렀습니다."),
+    SUCCESS_ANTI_PRESS_HEART(true, 1153, "방명록에 하트를 해제하였습니다."),
     /**
      * 2000 : Request 오류
      */
