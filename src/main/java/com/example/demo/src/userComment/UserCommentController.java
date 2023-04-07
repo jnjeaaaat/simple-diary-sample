@@ -81,6 +81,10 @@ public class UserCommentController {
     @PatchMapping("/hearts/{userCommentId}")
     public BaseResponse<Boolean> heartComment(@PathVariable("userCommentId") int userCommentId) {
         try {
+            int takeUserIdComment = userCommentProvider.getTakeUserIdComment(userCommentId);
+            if (takeUserIdComment != jwtService.getUserId()) {
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
             Boolean isHearted = userCommentService.heartComment(userCommentId);
             if(isHearted) {
                 return new BaseResponse<>(SUCCESS_PRESS_HEART, isHearted);

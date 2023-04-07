@@ -69,18 +69,6 @@ public class UserCommentDao {
     }
 
     /**
-     * 방명록 작성 유저id
-     * @param userCommentId
-     * @return int userId
-     */
-    public int getUserIdFromComment(int userCommentId) {
-        String getUserIdFromCommentQuery = "select userId from userComment where userCommentId=?";
-        int getUserIdFromCommentParam = userCommentId;
-
-        return this.jdbcTemplate.queryForObject(getUserIdFromCommentQuery, int.class, getUserIdFromCommentParam);
-    }
-
-    /**
      * 방명록 하트누르기
      * @param userCommentId
      * @return Boolean
@@ -95,5 +83,29 @@ public class UserCommentDao {
         int getHeartStatusParam = userCommentId;
 
         return this.jdbcTemplate.queryForObject(getHeartStatusQuery, Boolean.class, getHeartStatusParam);
+    }
+
+    /**
+     * 방명록 작성 유저 id
+     * @param userCommentId
+     * @return int userId
+     */
+    public int getUserIdFromComment(int userCommentId) {
+        String getUserIdFromCommentQuery = "select userId from userComment where userCommentId=?";
+        int getUserIdFromCommentParam = userCommentId;
+
+        return this.jdbcTemplate.queryForObject(getUserIdFromCommentQuery, int.class, getUserIdFromCommentParam);
+    }
+
+    /**
+     * 방명록 받은 유저 id
+     * @param userCommentId
+     * @return int takeUserId
+     */
+    public int getTakeUserIdComment(int userCommentId) {
+        String getTakeUserIdCommentQuery = "select takeUserId from userComment where userCommentId=?";
+        int getTakeUserIdCommentParam = userCommentId;
+
+        return this.jdbcTemplate.queryForObject(getTakeUserIdCommentQuery, int.class, getTakeUserIdCommentParam);
     }
 }
