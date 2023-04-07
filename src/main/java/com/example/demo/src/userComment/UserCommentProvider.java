@@ -1,6 +1,7 @@
 package com.example.demo.src.userComment;
 
 import com.example.demo.config.BaseException;
+import com.example.demo.src.userComment.model.GetUserCommentRes;
 import com.example.demo.utils.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,20 @@ public class UserCommentProvider {
         this.jwtService = jwtService;
     }
 
+    /**
+     * 방명록 조회
+     * @param userCommentId
+     * @return GetUserCommentRes
+     * @throws BaseException
+     */
+    public GetUserCommentRes getCommentById(int userCommentId) throws BaseException {
+        try {
+            GetUserCommentRes getUserCommentRes = userCommentDao.getCommentById(userCommentId);
+            return getUserCommentRes;
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
     /**
      * 방명록 작성 유저 id
      * @param userCommentId

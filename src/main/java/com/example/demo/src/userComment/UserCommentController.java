@@ -2,10 +2,7 @@ package com.example.demo.src.userComment;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
-import com.example.demo.src.userComment.model.PatchUserCommentReq;
-import com.example.demo.src.userComment.model.PatchUserCommentRes;
-import com.example.demo.src.userComment.model.PostUserCommentReq;
-import com.example.demo.src.userComment.model.PostUserCommentRes;
+import com.example.demo.src.userComment.model.*;
 import com.example.demo.utils.JwtService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -91,6 +88,22 @@ public class UserCommentController {
             } else {
                 return new BaseResponse<>(SUCCESS_ANTI_PRESS_HEART, isHearted);
             }
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    /**
+     * 방명록 하나 조회
+     * @param userCommentId
+     * @return GetUserCommentRes
+     */
+    @ResponseBody
+    @GetMapping("/{userCommentId}")
+    public BaseResponse<GetUserCommentRes> getCommentById(@PathVariable("userCommentId") int userCommentId) {
+        try {
+            GetUserCommentRes getUserCommentRes = userCommentProvider.getCommentById(userCommentId);
+            return new BaseResponse<>(SUCCESS_GET_COMMENT, getUserCommentRes);
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
         }

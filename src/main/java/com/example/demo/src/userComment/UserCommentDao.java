@@ -1,14 +1,12 @@
 package com.example.demo.src.userComment;
 
-import com.example.demo.src.userComment.model.PatchUserCommentReq;
-import com.example.demo.src.userComment.model.PatchUserCommentRes;
-import com.example.demo.src.userComment.model.PostUserCommentReq;
-import com.example.demo.src.userComment.model.PostUserCommentRes;
+import com.example.demo.src.userComment.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.time.LocalDateTime;
 
 @Repository
 public class UserCommentDao {
@@ -83,6 +81,37 @@ public class UserCommentDao {
         int getHeartStatusParam = userCommentId;
 
         return this.jdbcTemplate.queryForObject(getHeartStatusQuery, Boolean.class, getHeartStatusParam);
+    }
+
+    /**
+     * 방명록 조회
+     * @param userCommentId
+     * @return GetUserCommentRes
+     */
+    public GetUserCommentRes getCommentById(int userCommentId) {
+        String getCommentByIdQuery =
+                "select userComment.userCommentId, user.userId, user.profileImgUrl, user.nickName, userComment.takeUserId, userComment.comment, " +
+                        "userComment.heart, userComment.isDeleted, " +
+                        "date_format(userComment.createdAt, '%Y년 %m월 %d일 %T') as createdAt, " +
+                        "date_format(userComment.updatedAt, '%Y년 %m월 %d일 %T') as updatedAt " +
+                        "from userComment " +
+                        "left join user on user.userId = userComment.userId " +
+                        "where userComment.userCommentId=? and userComment.isDeleted=false";
+        int getCommentByIdParam = userCommentId;
+
+        return this.jdbcTemplate.queryForObject(getCommentByIdQuery,
+                (rs, rowNum) -> new GetUserCommentRes(
+                        rs.getInt("userCommentId"),
+                        rs.getInt("userId"),
+                        rs.getString("profileImgUrl"),
+                        rs.getString("nickName"),
+                        rs.getInt("takeUserId"),
+                        rs.getString("comment"),
+                        rs.getBoolean("heart"),
+                        rs.getBoolean("isDeleted"),
+                        rs.getString("createdAt"),
+                        rs.getString("updatedAt")),
+                getCommentByIdParam);
     }
 
     /**
