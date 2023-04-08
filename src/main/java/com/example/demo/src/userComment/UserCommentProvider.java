@@ -1,6 +1,7 @@
 package com.example.demo.src.userComment;
 
 import com.example.demo.config.BaseException;
+import com.example.demo.src.block.BlockProvider;
 import com.example.demo.src.userComment.model.GetUserCommentRes;
 import com.example.demo.utils.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +14,13 @@ import static com.example.demo.config.BaseResponseStatus.*;
 @Service
 public class UserCommentProvider {
     private final UserCommentDao userCommentDao;
+    private final BlockProvider blockProvider;
     private final JwtService jwtService;
 
     @Autowired
-    public UserCommentProvider(UserCommentDao userCommentDao, JwtService jwtService) {
+    public UserCommentProvider(UserCommentDao userCommentDao, BlockProvider blockProvider, JwtService jwtService) {
         this.userCommentDao = userCommentDao;
+        this.blockProvider = blockProvider;
         this.jwtService = jwtService;
     }
 
@@ -28,6 +31,10 @@ public class UserCommentProvider {
      * @throws BaseException
      */
     public GetUserCommentRes getCommentById(int userCommentId) throws BaseException {
+        // 차단 당한 상태
+        if (blockProvider.isBlocked(getTakeUserIdComment(userCommentId), jwtService.getUserId()) == 1) {
+            throw new BaseException(YOU_ARE_BLOCKED);
+        }
         try {
             GetUserCommentRes getUserCommentRes = userCommentDao.getCommentById(userCommentId);
             return getUserCommentRes;
@@ -35,7 +42,18 @@ public class UserCommentProvider {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
+    /**
+     * 유저의 방명록 조회
+     * @param takeUserId
+     * @return List
+     * @throws BaseException
+     */
     public List<GetUserCommentRes> getComments(int takeUserId) throws BaseException {
+        // 차단 당한 상태
+        if (blockProvider.isBlocked(takeUserId, jwtService.getUserId()) == 1) {
+            throw new BaseException(YOU_ARE_BLOCKED);
+        }
         try {
             List<GetUserCommentRes> getUserCommentRes = userCommentDao.getComments(takeUserId);
             return getUserCommentRes;

@@ -111,6 +111,11 @@ public class UserCommentController {
         }
     }
 
+    /**
+     * 유저의 방명록 조회
+     * @param takeUserId
+     * @return List
+     */
     @ResponseBody
     @GetMapping("")
     public BaseResponse<List<GetUserCommentRes>> getComments(@RequestParam("takeUserId") int takeUserId) {
