@@ -6,6 +6,8 @@ import com.example.demo.utils.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 import static com.example.demo.config.BaseResponseStatus.*;
 
 @Service
@@ -28,6 +30,14 @@ public class UserCommentProvider {
     public GetUserCommentRes getCommentById(int userCommentId) throws BaseException {
         try {
             GetUserCommentRes getUserCommentRes = userCommentDao.getCommentById(userCommentId);
+            return getUserCommentRes;
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+    public List<GetUserCommentRes> getComments(int takeUserId) throws BaseException {
+        try {
+            List<GetUserCommentRes> getUserCommentRes = userCommentDao.getComments(takeUserId);
             return getUserCommentRes;
         } catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);

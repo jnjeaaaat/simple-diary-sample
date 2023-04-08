@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 import static com.example.demo.config.BaseResponseStatus.*;
 
 @RestController
@@ -104,6 +106,17 @@ public class UserCommentController {
         try {
             GetUserCommentRes getUserCommentRes = userCommentProvider.getCommentById(userCommentId);
             return new BaseResponse<>(SUCCESS_GET_COMMENT, getUserCommentRes);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    @ResponseBody
+    @GetMapping("")
+    public BaseResponse<List<GetUserCommentRes>> getComments(@RequestParam("takeUserId") int takeUserId) {
+        try {
+            List<GetUserCommentRes> getUserCommentRes = userCommentProvider.getComments(takeUserId);
+            return new BaseResponse<>(SUCCESS_GET_COMMENTS, getUserCommentRes);
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
         }

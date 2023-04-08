@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Repository
 public class UserCommentDao {
@@ -112,6 +113,37 @@ public class UserCommentDao {
                         rs.getString("createdAt"),
                         rs.getString("updatedAt")),
                 getCommentByIdParam);
+    }
+
+    /**
+     * 유저의 방명록 조회
+     * @param takeUserId
+     * @return List(GetUserCommentRes)
+     */
+    public List<GetUserCommentRes> getComments(int takeUserId) {
+        String getCommentsQuery =
+                "select userComment.userCommentId, user.userId, user.profileImgUrl, user.nickName, userComment.takeUserId, userComment.comment, " +
+                        "userComment.heart, userComment.isDeleted, " +
+                        "date_format(userComment.createdAt, '%Y년 %m월 %d일 %T') as createdAt, " +
+                        "date_format(userComment.updatedAt, '%Y년 %m월 %d일 %T') as updatedAt " +
+                        "from userComment " +
+                        "left join user on user.userId = userComment.userId " +
+                        "where userComment.takeUserId=? and userComment.isDeleted=false";
+        int getCommentsParam = takeUserId;
+
+        return this.jdbcTemplate.query(getCommentsQuery,
+                (rs, rowNum) -> new GetUserCommentRes(
+                        rs.getInt("userCommentId"),
+                        rs.getInt("userId"),
+                        rs.getString("profileImgUrl"),
+                        rs.getString("nickName"),
+                        rs.getInt("takeUserId"),
+                        rs.getString("comment"),
+                        rs.getBoolean("heart"),
+                        rs.getBoolean("isDeleted"),
+                        rs.getString("createdAt"),
+                        rs.getString("updatedAt")),
+                getCommentsParam);
     }
 
     /**
