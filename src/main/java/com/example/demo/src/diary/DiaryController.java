@@ -114,6 +114,12 @@ public class DiaryController {
     public BaseResponse<List<GetDiaryRes>> getUserDiary(@PathVariable("userId") int userId,
                                                         @RequestParam(required = false) String emotion) {
         try {
+            // 본인과 친구만 열람 가능
+            if (friendProvider.isFriends(jwtService.getUserId(), userId) != 1) {
+                if (userId != jwtService.getUserId()) {
+                    return new BaseResponse<>(INVALID_USER_JWT);
+                }
+            }
             if (emotion == null) {
                 List<GetDiaryRes> getDiaryRes = diaryProvider.getUserDiary(userId);
                 return new BaseResponse<>(FIND_USER_DIARIES, getDiaryRes);
@@ -130,14 +136,13 @@ public class DiaryController {
     @GetMapping("/{diaryId}")
     public BaseResponse<GetDiaryRes> getDiary(@PathVariable("diaryId") int diaryId) {
         try {
-            // TODO: 친구테이블 만들면 친구테이블에 있는지 없는지 확인부터 하기
-            //  -> 이것도 jwt 확인 밑에 if에 쓰고 본인일기인지 확인은 elif로 하면될듯
             int userId = diaryProvider.getUserIdFromDiary(diaryId);
 
             // isDeleted=true 인 일기
             if (userId == 0) {
                 return new BaseResponse<>(DELETED_DIARY);
             }
+            // 본인과 친구만 열람 가능
             if (friendProvider.isFriends(jwtService.getUserId(), userId) != 1) {
                 if (userId != jwtService.getUserId()) {
                     return new BaseResponse<>(INVALID_USER_JWT);

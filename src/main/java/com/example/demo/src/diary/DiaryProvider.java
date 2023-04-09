@@ -55,9 +55,17 @@ public class DiaryProvider {
 //            List<GetDiaryRes> getDiaryRes = diaryDao.getUserDiary(userId);
             List<GetDiaryRes> getDiaryRes = new ArrayList<>();
             for (int i = 1; i <= lastIdOfDiary(); i++) {
-                if (userId == getUserIdFromDiary(i)) {
-                    if (getUserIdFromDiary(i) != 0) {
-                        getDiaryRes.add(diaryDao.getDiary(i,getUserIdFromDiary(i)));
+                if (jwtService.getUserId() != userId) {     // 본인이 아니고 친구일 때
+                    if (userId == getUserIdFromDiary(i) && checkIsOpenDiary(i)) {  // 일기쓴 유저가 pathvariable 이랑 일치 하는 것만, 친구일 때는 isOpen이 true 인것만
+                        if (getUserIdFromDiary(i) != 0) {
+                            getDiaryRes.add(diaryDao.getDiary(i,getUserIdFromDiary(i)));
+                        }
+                    }
+                } else {
+                    if (userId == getUserIdFromDiary(i)) {
+                        if (getUserIdFromDiary(i) != 0) {
+                            getDiaryRes.add(diaryDao.getDiary(i,getUserIdFromDiary(i)));
+                        }
                     }
                 }
             }
@@ -71,10 +79,20 @@ public class DiaryProvider {
         try {
             List<GetDiaryRes> getDiaryRes = new ArrayList<>();
             for (int i = 1; i <= lastIdOfDiary(); i++) {
-                if (userId == getUserIdFromDiary(i)) {
-                    if (getUserIdFromDiary(i) != 0) {
-                        if(getEmotionFromDiary(i).equals(emotion)) {
-                            getDiaryRes.add(diaryDao.getDiary(i,getUserIdFromDiary(i)));
+                if (jwtService.getUserId() != userId) {     // 본인이 아니고 친구일 때
+                    if (userId == getUserIdFromDiary(i)  && checkIsOpenDiary(i)) {  // 일기쓴 유저가 pathvariable 이랑 일치 하는 것만, 친구일 때는 isOpen이 true 인것만
+                        if (getUserIdFromDiary(i) != 0) {
+                            if(getEmotionFromDiary(i).equals(emotion)) {
+                                getDiaryRes.add(diaryDao.getDiary(i,getUserIdFromDiary(i)));
+                            }
+                        }
+                    }
+                } else {
+                    if (userId == getUserIdFromDiary(i)) {
+                        if (getUserIdFromDiary(i) != 0) {
+                            if(getEmotionFromDiary(i).equals(emotion)) {
+                                getDiaryRes.add(diaryDao.getDiary(i,getUserIdFromDiary(i)));
+                            }
                         }
                     }
                 }
