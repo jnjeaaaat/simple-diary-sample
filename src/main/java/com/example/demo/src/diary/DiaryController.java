@@ -6,6 +6,7 @@ import com.example.demo.src.diary.model.GetDiaryRes;
 import com.example.demo.src.diary.model.PatchDiaryReq;
 import com.example.demo.src.diary.model.PostDiaryReq;
 import com.example.demo.src.diary.model.PostDiaryRes;
+import com.example.demo.src.friend.FriendProvider;
 import com.example.demo.utils.JwtService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,11 +28,14 @@ public class DiaryController {
     @Autowired
     private final DiaryService diaryService;
     @Autowired
+    private final FriendProvider friendProvider;
+    @Autowired
     private final JwtService jwtService;
 
-    public DiaryController(DiaryProvider diaryProvider, DiaryService diaryService, JwtService jwtService) {
+    public DiaryController(DiaryProvider diaryProvider, DiaryService diaryService, FriendProvider friendProvider, JwtService jwtService) {
         this.diaryProvider = diaryProvider;
         this.diaryService = diaryService;
+        this.friendProvider = friendProvider;
         this.jwtService = jwtService;
     }
 
@@ -84,7 +88,7 @@ public class DiaryController {
             if (postDiaryReq.getUserId() != userIdByJwt) {
                 return new BaseResponse<>(INVALID_USER_JWT);
             }
-            PostDiaryRes postDiaryRes = diaryService.createPost(postDiaryReq);
+            PostDiaryRes postDiaryRes = diaryService.createDiary(postDiaryReq);
             return new BaseResponse<>(SUCCESS_CREATE_NEW_DIARY, postDiaryRes);
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
@@ -134,8 +138,10 @@ public class DiaryController {
             if (userId == 0) {
                 return new BaseResponse<>(DELETED_DIARY);
             }
-            if (userId != jwtService.getUserId()) {
-                return new BaseResponse<>(INVALID_USER_JWT);
+            if (friendProvider.isFriends(jwtService.getUserId(), userId) != 1) {
+                if (userId != jwtService.getUserId()) {
+                    return new BaseResponse<>(INVALID_USER_JWT);
+                }
             }
 
             GetDiaryRes getDiaryRes = diaryProvider.getDiary(diaryId);

@@ -121,6 +121,9 @@ public class UserCommentController {
     public BaseResponse<List<GetUserCommentRes>> getComments(@RequestParam("takeUserId") int takeUserId) {
         try {
             List<GetUserCommentRes> getUserCommentRes = userCommentProvider.getComments(takeUserId);
+            if (getUserCommentRes.size() == 0) {
+                return new BaseResponse<>(NO_TODAY_COMMENTS);
+            }
             return new BaseResponse<>(SUCCESS_GET_COMMENTS, getUserCommentRes);
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));

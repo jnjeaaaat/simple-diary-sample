@@ -64,7 +64,7 @@ public class FriendDao {
         String getMyFriendsQuery = "select friend.friendId, user.userId, user.profileImgUrl, user.nickName " +
                 "from friend " +
                 "left join user on user.userId=friend.takeUserId or user.userId=friend.giveUserId " +
-                "where (friend.giveUserId=? or friend.takeUserId=?) and isFriends=true and user.userId!=?";
+                "where (friend.giveUserId=? or friend.takeUserId=?) and isFriends=true and user.userId!=? and user.status='ACTIVE'";
         Object[] getMyFriendsParams = new Object[]{userId, userId, userId};
 
         return this.jdbcTemplate.query(getMyFriendsQuery,

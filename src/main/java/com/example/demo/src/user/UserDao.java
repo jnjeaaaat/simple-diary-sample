@@ -258,6 +258,11 @@ public class UserDao {
         }
     }
 
+    /**
+     * 이메일로 존재하는 유저인지 체크
+     * @param email
+     * @return
+     */
     public int isExistUser(String email) {
         String isExistUserQuery = "select exists(select email from user where status='ACTIVE' and email=?)";
         String isExistUserParams = email;

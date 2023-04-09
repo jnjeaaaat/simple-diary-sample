@@ -29,9 +29,9 @@ public class DiaryService {
     /**
      * [post] createPost
      */
-    public PostDiaryRes createPost(PostDiaryReq postDiaryReq) throws BaseException {
+    public PostDiaryRes createDiary(PostDiaryReq postDiaryReq) throws BaseException {
         try {
-            PostDiaryRes postDiaryRes = new PostDiaryRes(diaryDao.createPost(postDiaryReq)+" 번째 일기입니다.");
+            PostDiaryRes postDiaryRes = new PostDiaryRes(diaryDao.createDiary(postDiaryReq)+" 번째 일기입니다.");
             return postDiaryRes;
         } catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);

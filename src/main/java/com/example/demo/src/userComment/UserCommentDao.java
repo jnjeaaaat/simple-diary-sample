@@ -128,7 +128,7 @@ public class UserCommentDao {
                         "date_format(userComment.updatedAt, '%Y년 %m월 %d일 %T') as updatedAt " +
                         "from userComment " +
                         "left join user on user.userId = userComment.userId " +
-                        "where userComment.takeUserId=? and userComment.isDeleted=false";
+                        "where userComment.takeUserId=? and userComment.isDeleted=false and date(userComment.createdAt) = date(now())";
         int getCommentsParam = takeUserId;
 
         return this.jdbcTemplate.query(getCommentsQuery,

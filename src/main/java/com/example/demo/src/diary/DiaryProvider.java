@@ -91,6 +91,12 @@ public class DiaryProvider {
         if (userProvider.isExistUserByUserId(getUserIdFromDiary(diaryId))) {
             throw new BaseException(INACTIVE_USER_DIARY);
         }
+        // 비밀일기 일 때
+        if (jwtService.getUserId() != getUserIdFromDiary(diaryId)) {
+            if (!checkIsOpenDiary(diaryId)) {
+                throw new BaseException(SECRET_DIARY);
+            }
+        }
         try {
             GetDiaryRes getDiaryRes = diaryDao.getDiary(diaryId,getUserIdFromDiary(diaryId));
             return getDiaryRes;
@@ -125,6 +131,21 @@ public class DiaryProvider {
             return emotion;
         } catch (Exception exception){
             throw new BaseException(DELETED_DIARY);
+        }
+    }
+
+    /**
+     * isOpen 확인
+     * @param diaryId
+     * @return Boolean
+     * @throws BaseException
+     */
+    public Boolean checkIsOpenDiary(int diaryId) throws BaseException {
+        try {
+            Boolean isOpenDiary = diaryDao.checkIsOpenDiary(diaryId);
+            return isOpenDiary;
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
         }
     }
 }

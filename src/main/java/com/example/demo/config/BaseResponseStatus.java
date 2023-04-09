@@ -99,6 +99,7 @@ public enum BaseResponseStatus {
     // /diary
     DELETED_DIARY(false, 3020, "삭제된 일기입니다."),
     INACTIVE_USER_DIARY(false, 3021, "탈퇴한 유저의 일기입니다."),
+    SECRET_DIARY(false, 3022, "비밀 일기 입니다."),
 
     // /friend
     ALREADY_REQUEST_FRIEND(false, 3050, "이미 친구요청 하였습니다."),
@@ -109,6 +110,9 @@ public enum BaseResponseStatus {
     // /block
     ALREADY_BLOCKED_USER(false, 3100, "이미 차단한 유저입니다."),
     NOT_BLOCKED_USER(false, 3101, "차단한 유저가 아닙니다."),
+
+    // /comments
+    NO_TODAY_COMMENTS(false, 3150,"오늘의 방명록이 없습니다."),
 
     /**
      * 4000 : Database, Server 오류
