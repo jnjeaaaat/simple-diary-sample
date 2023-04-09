@@ -4,6 +4,7 @@ import com.example.demo.config.BaseException;
 import com.example.demo.src.diary.model.PatchDiaryReq;
 import com.example.demo.src.diary.model.PostDiaryReq;
 import com.example.demo.src.diary.model.PostDiaryRes;
+import com.example.demo.src.user.model.PatchUserReq;
 import com.example.demo.utils.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,12 +38,32 @@ public class DiaryService {
             throw new BaseException(DATABASE_ERROR);
         }
     }
-
+//    public void modifyUser(int userId, PatchUserReq patchUserReq) throws BaseException {
+//        if (userProvider.isExistUserByUserId(userId)) {
+//            throw new BaseException(INACTIVE_USER);
+//        }
+//        try {
+//            int result = 0;
+//            // 수정하고자 하는 정보만 입력할 수 있음.
+//            if(patchUserReq.getProfileImgUrl() != null) result = userDao.modifyProfileImgUrl(userId, patchUserReq.getProfileImgUrl());
+//            if(patchUserReq.getNickName() != null) result = userDao.modifyNickName(userId, patchUserReq.getNickName());
+//            if(patchUserReq.getBirth() != null) result = userDao.modifyBirth(userId, patchUserReq.getBirth());
+//            if(patchUserReq.getStatus() != null) result = userDao.modifyStatus(userId, patchUserReq.getStatus());
+//            if(patchUserReq.getBirthOpen() != null) result = userDao.modifyBirthOpen(userId, patchUserReq.getBirthOpen());
+//
+////            result = userDao.modifyUserName(patchUserReq); // 해당 과정이 무사히 수행되면 True(1), 그렇지 않으면 False(0)입니다.
+//            if (result == 0) { // result값이 0이면 과정이 실패한 것이므로 에러 메서지를 보냅니다.
+//                throw new BaseException(MODIFY_FAIL_USER_INFORM);
+//            }
+//        } catch (Exception exception) { // DB에 이상이 있는 경우 에러 메시지를 보냅니다.
+//            throw new BaseException(DATABASE_ERROR);
+//        }
+//    }
     public void modifyDiary(int diaryId, PatchDiaryReq patchDiaryReq) throws BaseException {
         try {
             int result = 0;
             // 수정하고자 하는 정보만 입력할 수 있음.
-            if(patchDiaryReq.getDiaryImg().getDiaryImgUrls().size() != 0) result = diaryDao.modifyDiaryImgs(diaryId, patchDiaryReq.getDiaryImg().getDiaryImgUrls());
+            if(patchDiaryReq.getDiaryImg() != null) result = diaryDao.modifyDiaryImgs(diaryId, patchDiaryReq.getDiaryImg().getDiaryImgUrls());
             if(patchDiaryReq.getTitle() != null) result = diaryDao.modifyTitle(diaryId, patchDiaryReq.getTitle());
             if(patchDiaryReq.getContents() != null) result = diaryDao.modifyContents(diaryId, patchDiaryReq.getContents());
             if(patchDiaryReq.getEmotion() != null) result = diaryDao.modifyEmotion(diaryId, patchDiaryReq.getEmotion());
@@ -51,7 +72,6 @@ public class DiaryService {
             if(patchDiaryReq.getIsOpen() != null) result = diaryDao.modifyIsOpen(diaryId, patchDiaryReq.getIsOpen());
             if(patchDiaryReq.getIsDeleted() != null) result = diaryDao.modifyIsDeleted(diaryId, patchDiaryReq.getIsDeleted());
             if(patchDiaryReq.getDiaryDate() != null) result = diaryDao.modifyDiaryDate(diaryId, patchDiaryReq.getDiaryDate());
-
 //            result = userDao.modifyUserName(patchUserReq); // 해당 과정이 무사히 수행되면 True(1), 그렇지 않으면 False(0)입니다.
             if (result == 0) { // result값이 0이면 과정이 실패한 것이므로 에러 메서지를 보냅니다.
                 throw new BaseException(MODIFY_FAIL_DIARY);

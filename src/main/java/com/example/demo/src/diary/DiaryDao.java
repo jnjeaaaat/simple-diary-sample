@@ -252,8 +252,9 @@ public class DiaryDao {
      * @return int
      */
     public int modifyTitle(int diaryId, String title) {
-        String  modifyTitleQuery = "update diary set title = ? where diaryId = ? ";
-        Object[] modifyTitleParams = new Object[]{title, diaryId};
+        System.out.println(title);
+        String modifyTitleQuery = "update diary set title=? where diaryId=?";
+        Object[] modifyTitleParams = new Object[] {title, diaryId};
 
         return this.jdbcTemplate.update(modifyTitleQuery, modifyTitleParams);
     }
