@@ -252,7 +252,6 @@ public class DiaryDao {
      * @return int
      */
     public int modifyTitle(int diaryId, String title) {
-        System.out.println(title);
         String modifyTitleQuery = "update diary set title=? where diaryId=?";
         Object[] modifyTitleParams = new Object[] {title, diaryId};
 
@@ -266,7 +265,7 @@ public class DiaryDao {
      * @return int
      */
     public int modifyContents(int diaryId, String contents) {
-        String  modifyContentsQuery = "update diary set contents = ? where diaryId = ? ";
+        String modifyContentsQuery = "update diary set contents=? where diaryId=?";
         Object[] modifyContentsParams = new Object[]{contents, diaryId};
 
         return this.jdbcTemplate.update(modifyContentsQuery, modifyContentsParams);
@@ -279,7 +278,7 @@ public class DiaryDao {
      * @return int
      */
     public int modifyEmotion(int diaryId, String emotion) {
-        String  modifyEmotionQuery = "update diary set emotion = ? where diaryId = ? ";
+        String modifyEmotionQuery = "update diary set emotion=? where diaryId=?";
         Object[] modifyEmotionParams = new Object[]{emotion, diaryId};
 
         return this.jdbcTemplate.update(modifyEmotionQuery, modifyEmotionParams);
@@ -292,7 +291,7 @@ public class DiaryDao {
      * @return int
      */
     public int modifyConsumption(int diaryId, int consumption) {
-        String  modifyConsumptionQuery = "update diary set consumption = ? where diaryId = ? ";
+        String modifyConsumptionQuery = "update diary set consumption=? where diaryId=?";
         Object[] modifyConsumptionParams = new Object[]{consumption, diaryId};
 
         return this.jdbcTemplate.update(modifyConsumptionQuery, modifyConsumptionParams);
@@ -305,7 +304,7 @@ public class DiaryDao {
      * @return int
      */
     public int modifyImportation(int diaryId, int importation) {
-        String  modifyImportationQuery = "update diary set importation = ? where diaryId = ? ";
+        String modifyImportationQuery = "update diary set importation=? where diaryId=?";
         Object[] modifyImportationParams = new Object[]{importation, diaryId};
 
         return this.jdbcTemplate.update(modifyImportationQuery, modifyImportationParams);
@@ -318,7 +317,7 @@ public class DiaryDao {
      * @return int
      */
     public int modifyIsOpen(int diaryId, Boolean isOpen) {
-        String  modifyIsOpenQuery = "update diary set isOpen = ? where diaryId = ? ";
+        String modifyIsOpenQuery = "update diary set isOpen=? where diaryId=?";
         Object[] modifyIsOpenParams = new Object[]{isOpen, diaryId};
 
         return this.jdbcTemplate.update(modifyIsOpenQuery, modifyIsOpenParams);
@@ -331,7 +330,7 @@ public class DiaryDao {
      * @return int
      */
     public int modifyIsDeleted(int diaryId, Boolean isDeleted) {
-        String  modifyIsDeletedQuery = "update diary set isDeleted = ? where diaryId = ? ";
+        String modifyIsDeletedQuery = "update diary set isDeleted=? where diaryId=? ";
         Object[] modifyIsDeletedParams = new Object[]{isDeleted, diaryId};
 
         return this.jdbcTemplate.update(modifyIsDeletedQuery, modifyIsDeletedParams);
@@ -344,7 +343,7 @@ public class DiaryDao {
      * @return int
      */
     public int modifyDiaryDate(int diaryId, String diaryDate) {
-        String  modifyDiaryDateQuery = "update diary set diaryDate = ? where diaryId = ? ";
+        String modifyDiaryDateQuery = "update diary set diaryDate=? where diaryId=?";
         Object[] modifyDiaryDateParams = new Object[]{diaryDate, diaryId};
 
         return this.jdbcTemplate.update(modifyDiaryDateQuery, modifyDiaryDateParams);
