@@ -228,6 +228,9 @@ public class UserController {
     @PatchMapping("/status/{userId}")
     public BaseResponse<String> modifyUserStatus(@PathVariable("userId") int userId) {
         try {
+            if (userId != jwtService.getUserId()) {
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
             String nowStatus = userService.modifyUserStatus(userId);
             return new BaseResponse<>(SUCCESS_MODIFY_STATUS_USER, nowStatus);
         } catch (BaseException exception) {
