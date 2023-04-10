@@ -93,6 +93,7 @@ public class DiaryService {
      * @throws BaseException
      */
     public Boolean modifyIsDeleted(int diaryId) throws BaseException {
+        // 이미 삭제 된 일기
         if (diaryProvider.checkIsDeletedDiary(diaryId)) {
             throw new BaseException(ALREADY_DELETED_DIARY);
         }

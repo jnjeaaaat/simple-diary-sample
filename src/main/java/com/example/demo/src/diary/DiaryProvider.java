@@ -56,13 +56,13 @@ public class DiaryProvider {
             List<GetDiaryRes> getDiaryRes = new ArrayList<>();
             for (int i = 1; i <= lastIdOfDiary(); i++) {
                 if (jwtService.getUserId() != userId) {     // 본인이 아니고 친구일 때
-                    if (userId == getUserIdFromDiary(i) && checkIsOpenDiary(i)) {  // 일기쓴 유저가 pathvariable 이랑 일치 하는 것만, 친구일 때는 isOpen이 true 인것만
+                    if (userId == getUserIdFromDiary(i) && checkIsOpenDiary(i) && !checkIsDeletedDiary(i)) {  // 일기쓴 유저가 pathvariable 이랑 일치 하는 것만, 친구일 때는 isOpen이 true 인것만
                         if (getUserIdFromDiary(i) != 0) {
                             getDiaryRes.add(diaryDao.getDiary(i,getUserIdFromDiary(i)));
                         }
                     }
                 } else {
-                    if (userId == getUserIdFromDiary(i)) {
+                    if (userId == getUserIdFromDiary(i) && !checkIsDeletedDiary(i)) {
                         if (getUserIdFromDiary(i) != 0) {
                             getDiaryRes.add(diaryDao.getDiary(i,getUserIdFromDiary(i)));
                         }
@@ -80,7 +80,7 @@ public class DiaryProvider {
             List<GetDiaryRes> getDiaryRes = new ArrayList<>();
             for (int i = 1; i <= lastIdOfDiary(); i++) {
                 if (jwtService.getUserId() != userId) {     // 본인이 아니고 친구일 때
-                    if (userId == getUserIdFromDiary(i)  && checkIsOpenDiary(i)) {  // 일기쓴 유저가 pathvariable 이랑 일치 하는 것만, 친구일 때는 isOpen이 true 인것만
+                    if (userId == getUserIdFromDiary(i)  && checkIsOpenDiary(i) && !checkIsDeletedDiary(i)) {  // 일기쓴 유저가 pathvariable 이랑 일치 하는 것만, 친구일 때는 isOpen이 true 인것만
                         if (getUserIdFromDiary(i) != 0) {
                             if(getEmotionFromDiary(i).equals(emotion)) {
                                 getDiaryRes.add(diaryDao.getDiary(i,getUserIdFromDiary(i)));
@@ -88,7 +88,7 @@ public class DiaryProvider {
                         }
                     }
                 } else {
-                    if (userId == getUserIdFromDiary(i)) {
+                    if (userId == getUserIdFromDiary(i) && !checkIsDeletedDiary(i)) {
                         if (getUserIdFromDiary(i) != 0) {
                             if(getEmotionFromDiary(i).equals(emotion)) {
                                 getDiaryRes.add(diaryDao.getDiary(i,getUserIdFromDiary(i)));
@@ -126,9 +126,9 @@ public class DiaryProvider {
     // diaryId 로 userId 받아오기
     public int getUserIdFromDiary(int diaryId) throws BaseException {
         // 삭제된 일기
-        if (checkIsDeletedDiary(diaryId)) {
-            throw new BaseException(DELETED_DIARY);
-        }
+//        if (checkIsDeletedDiary(diaryId)) {
+//            throw new BaseException(DELETED_DIARY);
+//        }
         try {
             int userId = diaryDao.getUserIdFromDiary(diaryId);
             return userId;

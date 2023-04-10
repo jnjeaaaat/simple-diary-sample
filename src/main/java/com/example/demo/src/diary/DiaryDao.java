@@ -188,7 +188,7 @@ public class DiaryDao {
      */
     public int getUserIdFromDiary(int diaryId) {
         try {
-            String getUserIdByDiaryQuery = "select userId from diary where diaryId=?";
+            String getUserIdByDiaryQuery = "select userId from diary where diaryId=? and isDeleted=false";
             int getUserIdByDiaryParam = diaryId;
 
             return this.jdbcTemplate.queryForObject(getUserIdByDiaryQuery, int.class, getUserIdByDiaryParam);
