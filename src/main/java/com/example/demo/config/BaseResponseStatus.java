@@ -20,6 +20,7 @@ public enum BaseResponseStatus {
     FIND_NUMBER_USER(true,1005,"해당 번호의 유저를 조회하였습니다."),
     MODIFY_USER_INFORM(true,1006,"유저 정보를 수정하였습니다."),
     YOU_ARE_BLOCKED(true, 1007, "상대방에게 차단되었습니다."),
+    SUCCESS_MODIFY_STATUS_USER(true, 1008, "유저의 현재상태를 변경하였습니다."),
 
     // diaries
     SUCCESS_CREATE_NEW_DIARY(true, 1010, "새 일기를 작성하였습니다."),

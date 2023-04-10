@@ -112,19 +112,26 @@ public class UserDao {
 
         return this.jdbcTemplate.update(modifyBirthQuery, modifyBirthParams);
     }
-    // 회원 상태 변경
-    public int modifyStatus(int userId, String status) {
-        String modifyStatusQuery = "update user set status = ? where userId = ?";
-        Object[] modifyStatusParams = new Object[]{status, userId};
 
-        return this.jdbcTemplate.update(modifyStatusQuery, modifyStatusParams);
-    }
     // 회원 생일 오픈 변경
     public int modifyBirthOpen(int userId, Boolean birthOpen) {
         String modifyBirthOpenQuery = "update user set birthOpen = ? where userId = ?";
         Object[] modifyBirthOpenParams = new Object[]{birthOpen, userId};
 
         return this.jdbcTemplate.update(modifyBirthOpenQuery, modifyBirthOpenParams);
+    }
+
+    // 회원 상태 변경
+    public String modifyStatus(int userId) {
+        String modifyStatusQuery = "update user set status=if(status='ACTIVE', 'INACTIVE', 'ACTIVE') where userId = ?";
+        int modifyStatusParam = userId;
+
+        this.jdbcTemplate.update(modifyStatusQuery, modifyStatusParam);
+
+        String getStatusQuery = "select status from user where userId=?";
+        int getStatusParam = userId;
+
+        return this.jdbcTemplate.queryForObject(getStatusQuery, String.class, getStatusParam);
     }
 
 

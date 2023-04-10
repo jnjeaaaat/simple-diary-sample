@@ -219,5 +219,21 @@ public class UserController {
         }
     }
 
+    /**
+     * 유저 현재상태 변경
+     * @param userId
+     * @return String
+     */
+    @ResponseBody
+    @PatchMapping("/status/{userId}")
+    public BaseResponse<String> modifyUserStatus(@PathVariable("userId") int userId) {
+        try {
+            String nowStatus = userService.modifyUserStatus(userId);
+            return new BaseResponse<>(SUCCESS_MODIFY_STATUS_USER, nowStatus);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
 
 }

@@ -15,6 +15,5 @@ public class PatchUserReq {
     private String profileImgUrl;
     private String nickName;
     private String birth;
-    private String status;
     private Boolean birthOpen;
 }

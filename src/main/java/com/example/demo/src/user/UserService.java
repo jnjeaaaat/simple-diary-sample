@@ -10,8 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.jdbc.core.JdbcTemplate;
-import javax.sql.DataSource;
 import static com.example.demo.config.BaseResponseStatus.*;
 
 /**
@@ -79,7 +77,6 @@ public class UserService {
             if(patchUserReq.getProfileImgUrl() != null) result = userDao.modifyProfileImgUrl(userId, patchUserReq.getProfileImgUrl());
             if(patchUserReq.getNickName() != null) result = userDao.modifyNickName(userId, patchUserReq.getNickName());
             if(patchUserReq.getBirth() != null) result = userDao.modifyBirth(userId, patchUserReq.getBirth());
-            if(patchUserReq.getStatus() != null) result = userDao.modifyStatus(userId, patchUserReq.getStatus());
             if(patchUserReq.getBirthOpen() != null) result = userDao.modifyBirthOpen(userId, patchUserReq.getBirthOpen());
 
 //            result = userDao.modifyUserName(patchUserReq); // 해당 과정이 무사히 수행되면 True(1), 그렇지 않으면 False(0)입니다.
@@ -87,6 +84,21 @@ public class UserService {
                 throw new BaseException(MODIFY_FAIL_USER_INFORM);
             }
         } catch (Exception exception) { // DB에 이상이 있는 경우 에러 메시지를 보냅니다.
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    /**
+     * 유저 현재상태 변경
+     * @param userId
+     * @return String
+     * @throws BaseException
+     */
+    public String modifyUserStatus(int userId) throws BaseException {
+        try {
+            String nowStatus = userDao.modifyStatus(userId);
+            return nowStatus;
+        } catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);
         }
     }
