@@ -107,6 +107,10 @@ public class UserProvider {
         if (blockProvider.isBlocked(userId,userIdByJwt) == 1) {
             throw new BaseException(YOU_ARE_BLOCKED);
         }
+        // 탈퇴한 유저
+        if (isExistUserByUserId(userId)) {
+            throw new BaseException(INACTIVE_USER);
+        }
         try {
             GetSpecificUserRes getSpecificUserRes = userDao.getUserById(userIdByJwt, userId);
             return getSpecificUserRes;

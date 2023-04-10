@@ -4,6 +4,7 @@ import com.example.demo.config.BaseException;
 import com.example.demo.src.diary.model.PatchDiaryReq;
 import com.example.demo.src.diary.model.PostDiaryReq;
 import com.example.demo.src.diary.model.PostDiaryRes;
+import com.example.demo.src.user.UserProvider;
 import com.example.demo.src.user.model.PatchUserReq;
 import com.example.demo.utils.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,19 +19,24 @@ public class DiaryService {
 
     private final DiaryDao diaryDao;
     private final DiaryProvider diaryProvider;
+    private final UserProvider userProvider;
     private final JwtService jwtService; // JWT부분은 7주차에 다루므로 모르셔도 됩니다!
 
     @Autowired
-    public DiaryService(DiaryDao diaryDao, DiaryProvider diaryProvider, JwtService jwtService) {
+    public DiaryService(DiaryDao diaryDao, DiaryProvider diaryProvider, UserProvider userProvider, JwtService jwtService) {
         this.diaryDao = diaryDao;
         this.jwtService = jwtService;
         this.diaryProvider = diaryProvider;
+        this.userProvider = userProvider;
     }
 
     /**
      * [post] createPost
      */
     public PostDiaryRes createDiary(PostDiaryReq postDiaryReq) throws BaseException {
+        if (userProvider.isExistUserByUserId(postDiaryReq.getUserId())) {
+            throw new BaseException(INACTIVE_USER);
+        }
         try {
             PostDiaryRes postDiaryRes = new PostDiaryRes(diaryDao.createDiary(postDiaryReq)+" 번째 일기입니다.");
             return postDiaryRes;
@@ -70,7 +76,6 @@ public class DiaryService {
             if(patchDiaryReq.getConsumption() != null) result = diaryDao.modifyConsumption(diaryId, patchDiaryReq.getConsumption());
             if(patchDiaryReq.getImportation() != null) result = diaryDao.modifyImportation(diaryId, patchDiaryReq.getImportation());
             if(patchDiaryReq.getIsOpen() != null) result = diaryDao.modifyIsOpen(diaryId, patchDiaryReq.getIsOpen());
-            if(patchDiaryReq.getIsDeleted() != null) result = diaryDao.modifyIsDeleted(diaryId, patchDiaryReq.getIsDeleted());
             if(patchDiaryReq.getDiaryDate() != null) result = diaryDao.modifyDiaryDate(diaryId, patchDiaryReq.getDiaryDate());
 //            result = userDao.modifyUserName(patchUserReq); // 해당 과정이 무사히 수행되면 True(1), 그렇지 않으면 False(0)입니다.
             if (result == 0) { // result값이 0이면 과정이 실패한 것이므로 에러 메서지를 보냅니다.
@@ -81,4 +86,21 @@ public class DiaryService {
         }
     }
 
+    /**
+     * 일기 삭제
+     * @param diaryId
+     * @return Boolean
+     * @throws BaseException
+     */
+    public Boolean modifyIsDeleted(int diaryId) throws BaseException {
+        if (diaryProvider.checkIsDeletedDiary(diaryId)) {
+            throw new BaseException(ALREADY_DELETED_DIARY);
+        }
+        try {
+            Boolean isDeleted = diaryDao.modifyIsDeleted(diaryId);
+            return isDeleted;
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
 }

@@ -188,7 +188,7 @@ public class DiaryDao {
      */
     public int getUserIdFromDiary(int diaryId) {
         try {
-            String getUserIdByDiaryQuery = "select userId from diary where diaryId=? and isDeleted=false";
+            String getUserIdByDiaryQuery = "select userId from diary where diaryId=?";
             int getUserIdByDiaryParam = diaryId;
 
             return this.jdbcTemplate.queryForObject(getUserIdByDiaryQuery, int.class, getUserIdByDiaryParam);
@@ -204,7 +204,7 @@ public class DiaryDao {
      * @return String
      */
     public String getEmotionFromDiary(int diaryId) {
-        String getUserIdByDiaryQuery = "select emotion from diary where diaryId=? and isDeleted=false";
+        String getUserIdByDiaryQuery = "select emotion from diary where diaryId=?";
         int getUserIdByDiaryParam = diaryId;
 
         return this.jdbcTemplate.queryForObject(getUserIdByDiaryQuery, String.class, getUserIdByDiaryParam);
@@ -326,14 +326,18 @@ public class DiaryDao {
     /**
      * 일기 상태 변경
      * @param diaryId
-     * @param isDeleted
      * @return int
      */
-    public int modifyIsDeleted(int diaryId, Boolean isDeleted) {
-        String modifyIsDeletedQuery = "update diary set isDeleted=? where diaryId=? ";
-        Object[] modifyIsDeletedParams = new Object[]{isDeleted, diaryId};
+    public Boolean modifyIsDeleted(int diaryId) {
+        String modifyIsDeletedQuery = "update diary set isDeleted=true where diaryId=? ";
+        int modifyIsDeletedParam = diaryId;
 
-        return this.jdbcTemplate.update(modifyIsDeletedQuery, modifyIsDeletedParams);
+        this.jdbcTemplate.update(modifyIsDeletedQuery, modifyIsDeletedParam);
+
+        String getIsDeletedQuery = "select isDeleted from diary where diaryId=?";
+        int getIsDeletedParam = diaryId;
+
+        return this.jdbcTemplate.queryForObject(getIsDeletedQuery, Boolean.class, getIsDeletedParam);
     }
 
     /**
@@ -360,4 +364,12 @@ public class DiaryDao {
 
         return this.jdbcTemplate.queryForObject(checkIsOpenDiaryQuery, Boolean.class, checkIsOpenDiaryParam);
     }
+
+    public Boolean checkIsDeletedDiary(int diaryId) {
+        String checkIsDeletedDiaryQuery = "select isDeleted from diary where diaryId=?";
+        int checkIsDeletedDiaryParam = diaryId;
+
+        return this.jdbcTemplate.queryForObject(checkIsDeletedDiaryQuery, Boolean.class, checkIsDeletedDiaryParam);
+    }
+
 }

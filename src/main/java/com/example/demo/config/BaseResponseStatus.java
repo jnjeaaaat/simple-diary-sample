@@ -29,6 +29,7 @@ public enum BaseResponseStatus {
     FIND_ONE_DIARY(true, 1013, "일기를 조회하였습니다."),
     MODIFY_DIARY(true, 1014, "일기를 수정하였습니다."),
     FIND_USER_EMOTION_DIARIES(true, 1015, "해당 감정의 일기들을 조회하였습니다."),
+    SUCCESS_DELETE_DIARY(true, 1016, "일기를 삭제하였습니다."),
 
     // friends
     SUCCESS_REQUEST_FRIEND(true, 1030,"친구요청 하였습니다."),
@@ -101,6 +102,7 @@ public enum BaseResponseStatus {
     DELETED_DIARY(false, 3020, "삭제된 일기입니다."),
     INACTIVE_USER_DIARY(false, 3021, "탈퇴한 유저의 일기입니다."),
     SECRET_DIARY(false, 3022, "비밀 일기 입니다."),
+    ALREADY_DELETED_DIARY(false, 3023, "이미 삭제된 일기입니다."),
 
     // /friend
     ALREADY_REQUEST_FRIEND(false, 3050, "이미 친구요청 하였습니다."),

@@ -7,6 +7,7 @@ import com.example.demo.src.diary.model.PatchDiaryReq;
 import com.example.demo.src.diary.model.PostDiaryReq;
 import com.example.demo.src.diary.model.PostDiaryRes;
 import com.example.demo.src.friend.FriendProvider;
+import com.example.demo.src.user.UserProvider;
 import com.example.demo.utils.JwtService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -136,12 +137,12 @@ public class DiaryController {
     @GetMapping("/{diaryId}")
     public BaseResponse<GetDiaryRes> getDiary(@PathVariable("diaryId") int diaryId) {
         try {
-            int userId = diaryProvider.getUserIdFromDiary(diaryId);
-
-            // isDeleted=true 인 일기
-            if (userId == 0) {
+            // 삭제된 일기
+            if (diaryProvider.checkIsDeletedDiary(diaryId)) {
                 return new BaseResponse<>(DELETED_DIARY);
             }
+            int userId = diaryProvider.getUserIdFromDiary(diaryId);
+
             // 본인과 친구만 열람 가능
             if (friendProvider.isFriends(jwtService.getUserId(), userId) != 1) {
                 if (userId != jwtService.getUserId()) {
@@ -162,10 +163,13 @@ public class DiaryController {
     public BaseResponse<String> modifyDiary(@PathVariable("diaryId") int diaryId,
                                                @RequestBody PatchDiaryReq patchDiaryReq) {
         try {
-            int userId = diaryProvider.getUserIdFromDiary(diaryId);
-            if (userId == 0) {
+            // 삭제된 일기
+            if (diaryProvider.checkIsDeletedDiary(diaryId)) {
                 return new BaseResponse<>(DELETED_DIARY);
             }
+
+            int userId = diaryProvider.getUserIdFromDiary(diaryId);
+
             //userId와 접근한 유저가 같은지 확인
             if(userId != jwtService.getUserId()){
                 return new BaseResponse<>(INVALID_USER_JWT);
@@ -174,6 +178,25 @@ public class DiaryController {
             diaryService.modifyDiary(diaryId, patchDiaryReq);
 
             return new BaseResponse<>(MODIFY_DIARY);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    /**
+     * 일기 삭제
+     * @param diaryId
+     * @return Boolean
+     */
+    @ResponseBody
+    @PatchMapping("/status/{diaryId}")
+    public BaseResponse<Boolean> modifyIsDeleted(@PathVariable("diaryId") int diaryId) {
+        try {
+//            if (diaryProvider.getUserIdFromDiary(diaryId) != jwtService.getUserId()) {
+//                return new BaseResponse<>(INVALID_USER_JWT);
+//            }
+            Boolean isDeleted = diaryService.modifyIsDeleted(diaryId);
+            return new BaseResponse<>(SUCCESS_DELETE_DIARY, isDeleted);
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
         }

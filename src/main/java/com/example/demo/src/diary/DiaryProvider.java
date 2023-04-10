@@ -125,11 +125,15 @@ public class DiaryProvider {
 
     // diaryId 로 userId 받아오기
     public int getUserIdFromDiary(int diaryId) throws BaseException {
+        // 삭제된 일기
+        if (checkIsDeletedDiary(diaryId)) {
+            throw new BaseException(DELETED_DIARY);
+        }
         try {
             int userId = diaryDao.getUserIdFromDiary(diaryId);
             return userId;
         } catch (Exception exception){
-            throw new BaseException(DELETED_DIARY);
+            throw new BaseException(DATABASE_ERROR);
         }
     }
 
@@ -144,11 +148,15 @@ public class DiaryProvider {
 
     // diaryId로 해당 일기 emotion 받아오기
     public String getEmotionFromDiary(int diaryId) throws BaseException {
+        // 삭제된 일기
+        if (checkIsDeletedDiary(diaryId)) {
+            throw new BaseException(DELETED_DIARY);
+        }
         try {
             String emotion = diaryDao.getEmotionFromDiary(diaryId);
             return emotion;
         } catch (Exception exception){
-            throw new BaseException(DELETED_DIARY);
+            throw new BaseException(DATABASE_ERROR);
         }
     }
 
@@ -162,6 +170,15 @@ public class DiaryProvider {
         try {
             Boolean isOpenDiary = diaryDao.checkIsOpenDiary(diaryId);
             return isOpenDiary;
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public Boolean checkIsDeletedDiary(int diaryId) throws BaseException {
+        try {
+            Boolean isDeleted = diaryDao.checkIsDeletedDiary(diaryId);
+            return isDeleted;
         } catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);
         }
