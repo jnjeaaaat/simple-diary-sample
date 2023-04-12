@@ -129,4 +129,22 @@ public class UserCommentController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
+
+    // TODO: 방명록 삭제 api, 삭제된 방명록 수정, 조회 불가능 validation
+
+    /**
+     * 방명록 삭제
+     * @param userCommentId
+     * @return Boolean
+     */
+    @ResponseBody
+    @PatchMapping("/status/{userCommentId}")
+    public BaseResponse<Boolean> deleteComment(@PathVariable("userCommentId") int userCommentId) {
+        try {
+            Boolean isDeleted = userCommentService.deleteComment(userCommentId);
+            return new BaseResponse<>(SUCCESS_DELETE_COMMENT, isDeleted);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
 }

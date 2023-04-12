@@ -49,6 +49,7 @@ public enum BaseResponseStatus {
     SUCCESS_ANTI_PRESS_HEART(true, 1153, "방명록에 하트를 해제하였습니다."),
     SUCCESS_GET_COMMENT(true, 1154, "방명록을 조회하였습니다."),
     SUCCESS_GET_COMMENTS(true, 1155, "유저의 방명록을 조회하였습니다."),
+    SUCCESS_DELETE_COMMENT(true, 1156, "방명록을 삭제하였습니다."),
     /**
      * 2000 : Request 오류
      */

@@ -169,4 +169,33 @@ public class UserCommentDao {
 
         return this.jdbcTemplate.queryForObject(getTakeUserIdCommentQuery, int.class, getTakeUserIdCommentParam);
     }
+
+    /**
+     * 방명록 삭제
+     * @param userCommentId
+     * @return Boolean
+     */
+    public Boolean deleteComment(int userCommentId) {
+        String deleteCommentQuery = "update userComment set isDeleted=true where userCommentId=?";
+        int deleteCommentParam = userCommentId;
+
+        this.jdbcTemplate.update(deleteCommentQuery, deleteCommentParam);
+
+        String getIsDeletedCommentQuery = "select isDeleted from userComment where userCommentId=?";
+        int getIsDeletedCommentParam = userCommentId;
+
+        return this.jdbcTemplate.queryForObject(getIsDeletedCommentQuery, Boolean.class, getIsDeletedCommentParam);
+    }
+
+    /**
+     * 방명록이 삭제된 상태인지
+     * @param userCommentId
+     * @return Boolean
+     */
+    public Boolean checkIsDeletedComment(int userCommentId) {
+        String checkIsDeletedCommentQuery = "select isDeleted from userComment where userCommentId=?";
+        int checkIsDeletedCommentParam = userCommentId;
+
+        return this.jdbcTemplate.queryForObject(checkIsDeletedCommentQuery, Boolean.class, checkIsDeletedCommentParam);
+    }
 }

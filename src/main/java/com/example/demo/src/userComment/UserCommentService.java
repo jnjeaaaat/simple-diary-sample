@@ -70,4 +70,13 @@ public class UserCommentService {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
+    public Boolean deleteComment(int userCommentId) throws BaseException {
+        try {
+            Boolean isDeleted = userCommentDao.deleteComment(userCommentId);
+            return isDeleted;
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
 }

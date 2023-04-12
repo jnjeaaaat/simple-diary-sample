@@ -365,6 +365,11 @@ public class DiaryDao {
         return this.jdbcTemplate.queryForObject(checkIsOpenDiaryQuery, Boolean.class, checkIsOpenDiaryParam);
     }
 
+    /**
+     * 일기가 삭제된 상태인지
+     * @param diaryId
+     * @return Boolean
+     */
     public Boolean checkIsDeletedDiary(int diaryId) {
         String checkIsDeletedDiaryQuery = "select isDeleted from diary where diaryId=?";
         int checkIsDeletedDiaryParam = diaryId;
