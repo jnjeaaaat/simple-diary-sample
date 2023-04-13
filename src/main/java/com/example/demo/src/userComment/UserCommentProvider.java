@@ -42,6 +42,10 @@ public class UserCommentProvider {
         if (!userProvider.isExistUserByUserId(getTakeUserIdComment(userCommentId))) {
             throw new BaseException(INACTIVE_USER);
         }
+        // 삭제된 방명록
+        if (checkIsDeletedComment(userCommentId)) {
+            throw new BaseException(DELETED_COMMENT);
+        }
         try {
             GetUserCommentRes getUserCommentRes = userCommentDao.getCommentById(userCommentId);
             return getUserCommentRes;

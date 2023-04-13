@@ -34,11 +34,11 @@ public class DiaryProvider {
             List<GetDiaryRes> getDiaryRes = new ArrayList<>();
             for (int i = 1; i <= lastIdOfDiary(); i++) {
                 // 탈퇴한 유저의 일기 거르기
-                if (userProvider.isExistUserByUserId(getUserIdFromDiary(i))) {
+//                if (userProvider.isExistUserByUserId(getUserIdFromDiary(i))) {
                     if (getUserIdFromDiary(i) != 0) {
                         getDiaryRes.add(diaryDao.getDiary(i,getUserIdFromDiary(i)));
                     }
-                }
+//                }
             }
             return getDiaryRes;
         } catch (Exception exception){
@@ -76,6 +76,9 @@ public class DiaryProvider {
     }
     // 해당 감정 일기 조회
     public List<GetDiaryRes> getUserDiaryByEmotion(int userId, String emotion) throws BaseException {
+        if (!userProvider.isExistUserByUserId(userId)) {
+            throw new BaseException(INACTIVE_USER);
+        }
         try {
             List<GetDiaryRes> getDiaryRes = new ArrayList<>();
             for (int i = 1; i <= lastIdOfDiary(); i++) {

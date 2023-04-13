@@ -141,6 +141,9 @@ public class UserCommentController {
     @PatchMapping("/status/{userCommentId}")
     public BaseResponse<Boolean> deleteComment(@PathVariable("userCommentId") int userCommentId) {
         try {
+            if (userCommentProvider.getUserIdFromComment(userCommentId) != jwtService.getUserId()) {
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
             Boolean isDeleted = userCommentService.deleteComment(userCommentId);
             return new BaseResponse<>(SUCCESS_DELETE_COMMENT, isDeleted);
         } catch (BaseException exception) {
