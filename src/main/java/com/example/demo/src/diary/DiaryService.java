@@ -34,7 +34,7 @@ public class DiaryService {
      * [post] createPost
      */
     public PostDiaryRes createDiary(PostDiaryReq postDiaryReq) throws BaseException {
-        if (userProvider.isExistUserByUserId(postDiaryReq.getUserId())) {
+        if (!userProvider.isExistUserByUserId(postDiaryReq.getUserId())) {
             throw new BaseException(INACTIVE_USER);
         }
         try {

@@ -34,7 +34,7 @@ public class DiaryProvider {
             List<GetDiaryRes> getDiaryRes = new ArrayList<>();
             for (int i = 1; i <= lastIdOfDiary(); i++) {
                 // 탈퇴한 유저의 일기 거르기
-                if (!userProvider.isExistUserByUserId(getUserIdFromDiary(i))) {
+                if (userProvider.isExistUserByUserId(getUserIdFromDiary(i))) {
                     if (getUserIdFromDiary(i) != 0) {
                         getDiaryRes.add(diaryDao.getDiary(i,getUserIdFromDiary(i)));
                     }
@@ -48,7 +48,7 @@ public class DiaryProvider {
 
     // 특정 유저 일기들 조회
     public List<GetDiaryRes> getUserDiary(int userId) throws BaseException {
-        if (userProvider.isExistUserByUserId(userId)) {
+        if (!userProvider.isExistUserByUserId(userId)) {
             throw new BaseException(INACTIVE_USER);
         }
         try {
@@ -106,7 +106,7 @@ public class DiaryProvider {
     // 특정 하나의 일기 조회
     public GetDiaryRes getDiary(int diaryId) throws BaseException {
         // 탈퇴한 유저의 일기
-        if (userProvider.isExistUserByUserId(getUserIdFromDiary(diaryId))) {
+        if (!userProvider.isExistUserByUserId(getUserIdFromDiary(diaryId))) {
             throw new BaseException(INACTIVE_USER_DIARY);
         }
         // 비밀일기 일 때

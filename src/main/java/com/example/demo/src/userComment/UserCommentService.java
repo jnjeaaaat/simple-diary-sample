@@ -48,6 +48,10 @@ public class UserCommentService {
      * @throws BaseException
      */
     public PatchUserCommentRes modifyComment(int userCommentId, PatchUserCommentReq patchUserCommentReq) throws BaseException {
+        // 삭제된 방명록 수정불가
+        if (userCommentProvider.checkIsDeletedComment(userCommentId)) {
+            throw new BaseException(DELETED_COMMENT);
+        }
         try {
             PatchUserCommentRes patchUserCommentRes = userCommentDao.modifyComment(userCommentId, patchUserCommentReq);
             return patchUserCommentRes;
@@ -63,6 +67,10 @@ public class UserCommentService {
      * @throws BaseException
      */
     public Boolean heartComment(int userCommentId) throws BaseException {
+        // 삭제된 방명록
+        if (userCommentProvider.checkIsDeletedComment(userCommentId)) {
+            throw new BaseException(DELETED_COMMENT);
+        }
         try {
             Boolean isHearted = userCommentDao.heartComment(userCommentId);
             return isHearted;
@@ -71,7 +79,17 @@ public class UserCommentService {
         }
     }
 
+    /**
+     * 방명록 삭제
+     * @param userCommentId
+     * @return Boolean
+     * @throws BaseException
+     */
     public Boolean deleteComment(int userCommentId) throws BaseException {
+        // 삭제된 방명록
+        if (userCommentProvider.checkIsDeletedComment(userCommentId)) {
+            throw new BaseException(DELETED_COMMENT);
+        }
         try {
             Boolean isDeleted = userCommentDao.deleteComment(userCommentId);
             return isDeleted;

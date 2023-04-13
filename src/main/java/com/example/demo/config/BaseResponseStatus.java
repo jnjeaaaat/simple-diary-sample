@@ -117,6 +117,7 @@ public enum BaseResponseStatus {
 
     // /comments
     NO_TODAY_COMMENTS(false, 3150,"오늘의 방명록이 없습니다."),
+    DELETED_COMMENT(false, 3151, "삭제된 방명록입니다."),
 
     /**
      * 4000 : Database, Server 오류

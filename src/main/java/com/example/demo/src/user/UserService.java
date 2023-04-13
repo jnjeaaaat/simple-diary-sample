@@ -68,7 +68,7 @@ public class UserService {
 
     // 회원정보 수정(Patch)
     public void modifyUser(int userId, PatchUserReq patchUserReq) throws BaseException {
-        if (userProvider.isExistUserByUserId(userId)) {
+        if (!userProvider.isExistUserByUserId(userId)) {
             throw new BaseException(INACTIVE_USER);
         }
         try {

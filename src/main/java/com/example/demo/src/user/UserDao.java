@@ -285,7 +285,7 @@ public class UserDao {
     }
 
     // 삭제 안된 유저 인지 확인
-    public int isInactiveUser(int userId) {
+    public int isExistUserByUserId(int userId) {
         String isInactiveUserQuery = "select exists(select userId from user where status='ACTIVE' and userId=?)";
         int isInactiveUserParam = userId;
 
