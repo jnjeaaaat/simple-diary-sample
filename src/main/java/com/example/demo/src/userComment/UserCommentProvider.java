@@ -6,6 +6,7 @@ import com.example.demo.src.user.UserProvider;
 import com.example.demo.src.userComment.model.GetUserCommentRes;
 import com.example.demo.utils.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -60,7 +61,7 @@ public class UserCommentProvider {
      * @return List
      * @throws BaseException
      */
-    public List<GetUserCommentRes> getComments(int takeUserId) throws BaseException {
+    public List<GetUserCommentRes> getComments(int takeUserId, int page) throws BaseException {
         // 차단 당한 상태
         if (blockProvider.isBlocked(takeUserId, jwtService.getUserId()) == 1) {
             throw new BaseException(YOU_ARE_BLOCKED);
@@ -70,7 +71,7 @@ public class UserCommentProvider {
             throw new BaseException(INACTIVE_USER);
         }
         try {
-            List<GetUserCommentRes> getUserCommentRes = userCommentDao.getComments(takeUserId);
+            List<GetUserCommentRes> getUserCommentRes = userCommentDao.getComments(takeUserId, page);
             return getUserCommentRes;
         } catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);

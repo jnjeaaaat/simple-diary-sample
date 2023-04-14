@@ -118,9 +118,10 @@ public class UserCommentController {
      */
     @ResponseBody
     @GetMapping("")
-    public BaseResponse<List<GetUserCommentRes>> getComments(@RequestParam("takeUserId") int takeUserId) {
+    public BaseResponse<List<GetUserCommentRes>> getComments(@RequestParam("takeUserId") int takeUserId,
+                                                             @RequestParam("page") int page) {
         try {
-            List<GetUserCommentRes> getUserCommentRes = userCommentProvider.getComments(takeUserId);
+            List<GetUserCommentRes> getUserCommentRes = userCommentProvider.getComments(takeUserId, page);
             if (getUserCommentRes.size() == 0) {
                 return new BaseResponse<>(NO_TODAY_COMMENTS);
             }
@@ -129,8 +130,6 @@ public class UserCommentController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
-
-    // TODO: 방명록 삭제 api, 삭제된 방명록 수정, 조회 불가능 validation
 
     /**
      * 방명록 삭제

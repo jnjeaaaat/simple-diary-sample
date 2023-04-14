@@ -120,7 +120,7 @@ public class UserCommentDao {
      * @param takeUserId
      * @return List(GetUserCommentRes)
      */
-    public List<GetUserCommentRes> getComments(int takeUserId) {
+    public List<GetUserCommentRes> getComments(int takeUserId, int page) {
         String getCommentsQuery =
                 "select userComment.userCommentId, user.userId, user.profileImgUrl, user.nickName, userComment.takeUserId, userComment.comment, " +
                         "userComment.heart, userComment.isDeleted, " +

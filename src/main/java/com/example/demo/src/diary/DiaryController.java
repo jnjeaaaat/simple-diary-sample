@@ -201,4 +201,15 @@ public class DiaryController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
+
+    @ResponseBody
+    @PostMapping("/hearts/{diaryId}")
+    public BaseResponse<Boolean> heartDiary(@PathVariable("diaryId") int diaryId) {
+        try {
+            Boolean isHearted = diaryService.heartDiary(diaryId);
+            return new BaseResponse<>(SUCCESS_PRESS_HEART_DIARY, isHearted);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
 }
