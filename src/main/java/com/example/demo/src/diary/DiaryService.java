@@ -113,6 +113,7 @@ public class DiaryService {
      * @throws BaseException
      */
     public Boolean heartDiary(int userId, int diaryId) throws BaseException {
+
         try {
             Boolean isHearted = diaryDao.heartDiary(userId, diaryId);
             return isHearted;

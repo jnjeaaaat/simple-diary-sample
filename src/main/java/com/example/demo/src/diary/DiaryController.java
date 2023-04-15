@@ -192,9 +192,9 @@ public class DiaryController {
     @PatchMapping("/status/{diaryId}")
     public BaseResponse<Boolean> modifyIsDeleted(@PathVariable("diaryId") int diaryId) {
         try {
-//            if (diaryProvider.getUserIdFromDiary(diaryId) != jwtService.getUserId()) {
-//                return new BaseResponse<>(INVALID_USER_JWT);
-//            }
+            if (diaryProvider.getUserIdFromDiary(diaryId) != jwtService.getUserId()) {
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
             Boolean isDeleted = diaryService.modifyIsDeleted(diaryId);
             return new BaseResponse<>(SUCCESS_DELETE_DIARY, isDeleted);
         } catch (BaseException exception) {
@@ -211,7 +211,23 @@ public class DiaryController {
     @PostMapping("/hearts/{diaryId}")
     public BaseResponse<Boolean> heartDiary(@PathVariable("diaryId") int diaryId) {
         try {
+            // 하트 누르는 유저
             int userId = jwtService.getUserId();
+
+            // 삭제된 일기
+            if (diaryProvider.checkIsDeletedDiary(diaryId)) {
+                return new BaseResponse<>(DELETED_DIARY);
+            }
+            // 하트 눌리는 일기 주인
+            int userIdOwnDiary = diaryProvider.getUserIdFromDiary(diaryId);
+
+            // 본인과 친구만 열람 가능
+            if (friendProvider.isFriends(userId, userIdOwnDiary) != 1) {
+                if (userIdOwnDiary != jwtService.getUserId()) {
+                    return new BaseResponse<>(INVALID_USER_JWT);
+                }
+            }
+
             Boolean isHearted = diaryService.heartDiary(userId, diaryId);
             if(isHearted) {
                 return new BaseResponse<>(SUCCESS_PRESS_HEART_DIARY, isHearted);
