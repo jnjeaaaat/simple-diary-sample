@@ -128,9 +128,11 @@ public class UserCommentDao {
                         "date_format(userComment.updatedAt, '%Y년 %m월 %d일 %T') as updatedAt " +
                         "from userComment " +
                         "left join user on user.userId = userComment.userId " +
-                        "where userComment.takeUserId=? and userComment.isDeleted=false and user.status='ACTIVE'";
+                        "where userComment.takeUserId=? and userComment.isDeleted=false and user.status='ACTIVE' " +
+                        "limit 10 offset ?";
 //                        "and date(userComment.createdAt) = date(now())";
-        int getCommentsParam = takeUserId;
+//        int getCommentsParam = takeUserId;
+        Object[] getCommentsParams = new Object[]{takeUserId, page*10};
 
         return this.jdbcTemplate.query(getCommentsQuery,
                 (rs, rowNum) -> new GetUserCommentRes(
@@ -144,7 +146,7 @@ public class UserCommentDao {
                         rs.getBoolean("isDeleted"),
                         rs.getString("createdAt"),
                         rs.getString("updatedAt")),
-                getCommentsParam);
+                getCommentsParams);
     }
 
     /**
