@@ -104,4 +104,20 @@ public class DiaryService {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
+    /**
+     * 일기 하트누르기
+     * @param userId
+     * @param diaryId
+     * @return
+     * @throws BaseException
+     */
+    public Boolean heartDiary(int userId, int diaryId) throws BaseException {
+        try {
+            Boolean isHearted = diaryDao.heartDiary(userId, diaryId);
+            return isHearted;
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
 }

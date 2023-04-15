@@ -30,6 +30,8 @@ public enum BaseResponseStatus {
     MODIFY_DIARY(true, 1014, "일기를 수정하였습니다."),
     FIND_USER_EMOTION_DIARIES(true, 1015, "해당 감정의 일기들을 조회하였습니다."),
     SUCCESS_DELETE_DIARY(true, 1016, "일기를 삭제하였습니다."),
+    SUCCESS_PRESS_HEART_DIARY(true, 1017, "일기에 하트를 눌렀습니다."),
+    SUCCESS_ANTI_PRESS_HEART_DIARY(true, 1018, "일기의 하트를 해제하였습니다."),
 
     // friends
     SUCCESS_REQUEST_FRIEND(true, 1030,"친구요청 하였습니다."),

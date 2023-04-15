@@ -378,4 +378,38 @@ public class DiaryDao {
         return this.jdbcTemplate.queryForObject(checkIsDeletedDiaryQuery, Boolean.class, checkIsDeletedDiaryParam);
     }
 
+    /**
+     * 일기 하트누르기
+     * @param userId
+     * @param diaryId
+     * @return Boolean
+     */
+    public Boolean heartDiary(int userId, int diaryId) {
+        // 테이블에 존재하는지 체크
+        String isExistHeartDataQuery = "select exists(select diaryHeartId from diaryHeart where userId=? and diaryId=?)";
+        Object[] isExistHeartDataParams = new Object[]{userId, diaryId};
+
+        int result = this.jdbcTemplate.queryForObject(isExistHeartDataQuery, int.class, isExistHeartDataParams);
+
+        // 테이블에 데이터 새로 넣기
+        String heartDiaryQuery = "insert into diaryHeart (userId, diaryId) values (?,?)";
+        Object[] heartDiaryParams = new Object[]{userId, diaryId};
+
+        // 하트 switch
+        String switchHeartDiaryQuery = "update diaryHeart set isHearted = if(isHearted=true, false, true) where userId=? and diaryId=?";
+        Object[] switchHeartDiaryParams = new Object[]{userId, diaryId};
+
+        if (result == 0) {
+            this.jdbcTemplate.update(heartDiaryQuery, heartDiaryParams);
+        } else {
+            this.jdbcTemplate.update(switchHeartDiaryQuery, switchHeartDiaryParams);
+        }
+
+        // isHearted 상태 return
+        String getIsHeartDiaryQuery = "select isHearted from diaryHeart where userId=? and diaryId=?";
+        Object[] getIsHeartDiaryParams = new Object[]{userId, diaryId};
+
+        return this.jdbcTemplate.queryForObject(getIsHeartDiaryQuery, Boolean.class, getIsHeartDiaryParams);
+    }
+
 }

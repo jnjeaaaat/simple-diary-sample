@@ -202,12 +202,22 @@ public class DiaryController {
         }
     }
 
+    /**
+     * 일기 하트누르기
+     * @param diaryId
+     * @return
+     */
     @ResponseBody
     @PostMapping("/hearts/{diaryId}")
     public BaseResponse<Boolean> heartDiary(@PathVariable("diaryId") int diaryId) {
         try {
-            Boolean isHearted = diaryService.heartDiary(diaryId);
-            return new BaseResponse<>(SUCCESS_PRESS_HEART_DIARY, isHearted);
+            int userId = jwtService.getUserId();
+            Boolean isHearted = diaryService.heartDiary(userId, diaryId);
+            if(isHearted) {
+                return new BaseResponse<>(SUCCESS_PRESS_HEART_DIARY, isHearted);
+            } else {
+                return new BaseResponse<>(SUCCESS_ANTI_PRESS_HEART_DIARY, isHearted);
+            }
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
         }
