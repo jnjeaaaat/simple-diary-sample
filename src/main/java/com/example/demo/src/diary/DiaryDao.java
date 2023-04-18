@@ -1,6 +1,7 @@
 package com.example.demo.src.diary;
 
 import com.example.demo.src.diary.model.GetDiaryRes;
+import com.example.demo.src.diary.model.GetSpecificDiaryRes;
 import com.example.demo.src.diary.model.PostDiaryReq;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
@@ -133,7 +134,8 @@ public class DiaryDao {
      * @param userId
      * @return GetDiaryRes
      */
-    public GetDiaryRes getDiary(int diaryId, int userId) {
+    public GetDiaryRes getDiary(int diaryId, int userId, int viewUserId) {
+        // diary 조회
         String getDiaryQuery =
                 "select diary.diaryId, user.userId, user.profileImgUrl, user.nickName, diary.title, diary.contents, diary.emotion," +
                         " diary.consumption, diary.importation, diary.isOpen, diary.isDeleted, diary.diaryDate, diary.createdAt, diary.updatedAt" +
@@ -143,6 +145,7 @@ public class DiaryDao {
 //                        " and user.status='ACTIVE'";
         int getDiaryParam = diaryId;
 
+        // diary Img 받아오기
         String getDiaryImgsQuery =
                 "select diaryImgUrl" +
                         " from diaryImg" +
@@ -151,6 +154,7 @@ public class DiaryDao {
         int getDiaryImgsParam = diaryId;
         List<String> diaryImgs = this.jdbcTemplate.queryForList(getDiaryImgsQuery, String.class, getDiaryImgsParam);
 
+        // 유저의 일기가 몇개인지
         String getNumDiaryFromUserQuery =
                 "select count(*)" +
                         " from diary" +
@@ -160,6 +164,25 @@ public class DiaryDao {
                                 " and userId=? and isDeleted=false";
         Object[] getNumDiaryFromUserParams = new Object[]{diaryId, userId};
         int numDiary = this.jdbcTemplate.queryForObject(getNumDiaryFromUserQuery, int.class, getNumDiaryFromUserParams);
+
+        // diary 조회수
+        String viewNumDiaryQuery = "insert into diaryView (diaryId, userId) values (?,?)";
+        Object[] viewNumDiaryParams = new Object[]{diaryId, viewUserId};
+
+        // 유저가 일기를 이미 조회했는지
+        String checkExistViewDiaryQuery = "select exists(select diaryViewId from diaryView where diaryId=? and userId=?)";
+        Object[] checkExistViewDiaryParams = new Object[]{diaryId, viewUserId};
+        int result = this.jdbcTemplate.queryForObject(checkExistViewDiaryQuery, int.class, checkExistViewDiaryParams);
+
+        if (userId != viewUserId) {
+            if (result != 1) {
+                this.jdbcTemplate.update(viewNumDiaryQuery, viewNumDiaryParams);
+            }
+        }
+
+        String countViewDiaryQuery = "select count(diaryViewId) from diaryView where diaryId=?";
+        int countViewDiaryParam = diaryId;
+        int view = this.jdbcTemplate.queryForObject(countViewDiaryQuery, int.class, countViewDiaryParam);
 
         return this.jdbcTemplate.queryForObject(getDiaryQuery,
                     (rs, rowNum) -> new GetDiaryRes(
@@ -177,6 +200,7 @@ public class DiaryDao {
                             rs.getBoolean("isOpen"),
                             rs.getBoolean("isDeleted"),
                             rs.getString("diaryDate"),
+                            view,
                             rs.getTimestamp("createdAt").toLocalDateTime(),
                             rs.getTimestamp("updatedAt").toLocalDateTime()),
                     getDiaryParam);

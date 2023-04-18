@@ -27,7 +27,7 @@ public class GetSpecificDiaryRes {
     private Boolean isOpen; // 누구나 볼수있는지 default == true
     private Boolean isDeleted; // 상태, 지웠는지
     private String diaryDate; // 등록할 날짜 선택 default == current_date
-    private int view;
+    private int view; // 일기 조회수
     private LocalDateTime createdAt; // 글 작성 시간
     private LocalDateTime updatedAt; // 글 수정 시간
 }

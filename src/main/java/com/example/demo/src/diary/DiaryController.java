@@ -2,10 +2,7 @@ package com.example.demo.src.diary;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
-import com.example.demo.src.diary.model.GetDiaryRes;
-import com.example.demo.src.diary.model.PatchDiaryReq;
-import com.example.demo.src.diary.model.PostDiaryReq;
-import com.example.demo.src.diary.model.PostDiaryRes;
+import com.example.demo.src.diary.model.*;
 import com.example.demo.src.friend.FriendProvider;
 import com.example.demo.src.user.UserProvider;
 import com.example.demo.utils.JwtService;

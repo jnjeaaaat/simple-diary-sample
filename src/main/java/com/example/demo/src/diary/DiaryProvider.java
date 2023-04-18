@@ -2,6 +2,7 @@ package com.example.demo.src.diary;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.src.diary.model.GetDiaryRes;
+import com.example.demo.src.diary.model.GetSpecificDiaryRes;
 import com.example.demo.src.user.UserProvider;
 import com.example.demo.src.user.model.GetUserRes;
 import com.example.demo.utils.JwtService;
@@ -36,7 +37,7 @@ public class DiaryProvider {
                 // 탈퇴한 유저의 일기 거르기
 //                if (userProvider.isExistUserByUserId(getUserIdFromDiary(i))) {
                     if (getUserIdFromDiary(i) != 0) {
-                        getDiaryRes.add(diaryDao.getDiary(i,getUserIdFromDiary(i)));
+                        getDiaryRes.add(diaryDao.getDiary(i,getUserIdFromDiary(i),getUserIdFromDiary(i)));
                     }
 //                }
             }
@@ -58,13 +59,13 @@ public class DiaryProvider {
                 if (jwtService.getUserId() != userId) {     // 본인이 아니고 친구일 때
                     if (userId == getUserIdFromDiary(i) && checkIsOpenDiary(i) && !checkIsDeletedDiary(i)) {  // 일기쓴 유저가 pathvariable 이랑 일치 하는 것만, 친구일 때는 isOpen이 true 인것만
                         if (getUserIdFromDiary(i) != 0) {
-                            getDiaryRes.add(diaryDao.getDiary(i,getUserIdFromDiary(i)));
+                            getDiaryRes.add(diaryDao.getDiary(i,getUserIdFromDiary(i),getUserIdFromDiary(i)));
                         }
                     }
                 } else {
                     if (userId == getUserIdFromDiary(i) && !checkIsDeletedDiary(i)) {
                         if (getUserIdFromDiary(i) != 0) {
-                            getDiaryRes.add(diaryDao.getDiary(i,getUserIdFromDiary(i)));
+                            getDiaryRes.add(diaryDao.getDiary(i,getUserIdFromDiary(i),getUserIdFromDiary(i)));
                         }
                     }
                 }
@@ -86,7 +87,7 @@ public class DiaryProvider {
                     if (userId == getUserIdFromDiary(i)  && checkIsOpenDiary(i) && !checkIsDeletedDiary(i)) {  // 일기쓴 유저가 pathvariable 이랑 일치 하는 것만, 친구일 때는 isOpen이 true 인것만
                         if (getUserIdFromDiary(i) != 0) {
                             if(getEmotionFromDiary(i).equals(emotion)) {
-                                getDiaryRes.add(diaryDao.getDiary(i,getUserIdFromDiary(i)));
+                                getDiaryRes.add(diaryDao.getDiary(i,getUserIdFromDiary(i),getUserIdFromDiary(i)));
                             }
                         }
                     }
@@ -94,7 +95,7 @@ public class DiaryProvider {
                     if (userId == getUserIdFromDiary(i) && !checkIsDeletedDiary(i)) {
                         if (getUserIdFromDiary(i) != 0) {
                             if(getEmotionFromDiary(i).equals(emotion)) {
-                                getDiaryRes.add(diaryDao.getDiary(i,getUserIdFromDiary(i)));
+                                getDiaryRes.add(diaryDao.getDiary(i,getUserIdFromDiary(i),getUserIdFromDiary(i)));
                             }
                         }
                     }
@@ -119,7 +120,9 @@ public class DiaryProvider {
             }
         }
         try {
-            GetDiaryRes getDiaryRes = diaryDao.getDiary(diaryId,getUserIdFromDiary(diaryId));
+            int diaryOwner = getUserIdFromDiary(diaryId);
+            int diaryViewer = jwtService.getUserId();
+            GetDiaryRes getDiaryRes = diaryDao.getDiary(diaryId, diaryOwner, diaryViewer);
             return getDiaryRes;
         } catch (Exception exception){
             throw new BaseException(DATABASE_ERROR);
