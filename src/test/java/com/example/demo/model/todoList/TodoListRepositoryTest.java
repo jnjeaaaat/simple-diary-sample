@@ -28,29 +28,29 @@ public class TodoListRepositoryTest {
     @Test
     public void 할일저장_불러오기() {
         // given
-//        String todoContents = "JPA, test 코드 익숙해지기";
-//        int priority = 10;
-//        String todoDate = "2023-05-27";
-//        int budget = 500;
-//        Boolean isFinished = false;
-//
-//        todoListRepository.save(TodoList.builder()
-//                .todoContents(todoContents)
-//                .priority(priority)
-//                .todoDate(todoDate)
-//                .budget(budget)
-//                .isFinished(isFinished)
-//                .build());
+        String todoContents = "JPA, test 코드 익숙해지기";
+        int priority = 10;
+        String todoDate = "2023-05-27";
+        int budget = 500;
+        Boolean isFinished = false;
+
+        todoListRepository.save(TodoList.builder()
+                .todoContents(todoContents)
+                .priority(priority)
+                .todoDate(todoDate)
+                .budget(budget)
+                .isFinished(isFinished)
+                .build());
 
         // when
         List<TodoList> todoLists = todoListRepository.findAll();
 
         // then
-        TodoList todoList = todoLists.get(6);
-//        assertThat(todoList.getTodoContents()).isEqualTo(todoContents);
+        TodoList todoList = todoLists.get(0);
+        assertThat(todoList.getTodoContents()).isEqualTo(todoContents);
         assertThat(todoList.getPriority()).isEqualTo(10);
-//        assertThat(todoList.getTodoDate()).isEqualTo(todoDate);
-//        assertThat(todoList.getBudget()).isEqualTo(budget);
-//        assertThat(todoList.getIsFinished()).isEqualTo(isFinished);
+        assertThat(todoList.getTodoDate()).isEqualTo(todoDate);
+        assertThat(todoList.getBudget()).isEqualTo(budget);
+        assertThat(todoList.getIsFinished()).isEqualTo(isFinished);
     }
 }

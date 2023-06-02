@@ -15,27 +15,25 @@ import java.util.Date;
 @Getter
 @NoArgsConstructor
 @Entity(name = "todoList")
+@Table
 public class TodoList {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "todoId")
     private Long todoId;
 
-    @Column(length = 200, nullable = false, name = "todoContents")
+    @Column(length = 200, nullable = false)
     private String todoContents;
 
-    @Column(name = "priority")
     private int priority;
 
-    @Column(name = "todoDate")
     private String todoDate;
 
-    @Column(name = "budget", nullable = true)
+    @Column(nullable = true)
     @ColumnDefault("0")
     private int budget;
 
-    @Column(name = "isFinished", nullable = true)
+    @Column(nullable = true)
     @ColumnDefault("false")
     private Boolean isFinished;
 
