@@ -25,18 +25,15 @@ public class TodoList {
 
     private Long userId;
 
-    @Column(length = 200, nullable = false)
     private String todoContents;
 
     private int priority;
 
     private String todoDate;
 
-    @Column(columnDefinition = "integer default 1")
     private int budget;
 
-    @Column(columnDefinition = "bit default false")
-    private Boolean isFinished = false;
+    private Boolean isFinished;
 
     @CreationTimestamp
     private LocalDateTime createdAt;

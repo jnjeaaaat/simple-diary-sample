@@ -26,6 +26,10 @@ public class JpaTestRepositoryTest {
         String title = "jpa 테스트 1";
         String contents = "asdfasdfasdf";
 
-        JpaTest jpaTest = jpaTestRepository.save(new JpaTest(title, contents));
+        JpaTest jpaTest = jpaTestRepository.save(JpaTest.builder()
+                .title(title)
+                .contents(contents)
+                .build()
+        );
     }
 }

@@ -19,7 +19,7 @@ public class TodoListService {
 
     public TodoList save(PostTodoListReq postTodoListReq) throws BaseException {
         try {
-            TodoList todoList =
+            TodoList todoListRes =
                     todoListRepository.save(TodoList.builder()
                             .userId(postTodoListReq.getUserId())
                             .todoContents(postTodoListReq.getTodoContents())
@@ -29,7 +29,7 @@ public class TodoListService {
                             .isFinished(false)
                             .build());
 
-            return todoList;
+            return todoListRes;
         } catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);
         }
