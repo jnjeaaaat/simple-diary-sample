@@ -1,5 +1,7 @@
 package com.example.demo.model.todoList;
 
+import com.example.demo.src.test.JpaTestRepository;
+import com.example.demo.src.test.model.JpaTest;
 import com.example.demo.src.todoList.TodoListRepository;
 import com.example.demo.src.todoList.model.TodoList;
 import org.aspectj.lang.annotation.After;
@@ -55,4 +57,6 @@ public class TodoListRepositoryTest {
 //        assertThat(todoList.getBudget()).isEqualTo(budget);
 //        assertThat(todoList.getIsFinished()).isEqualTo(isFinished);
     }
+
+
 }
