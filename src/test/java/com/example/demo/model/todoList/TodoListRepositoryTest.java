@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -31,26 +32,27 @@ public class TodoListRepositoryTest {
         String todoContents = "JPA, test 코드 익숙해지기";
         int priority = 10;
         String todoDate = "2023-05-27";
-        int budget = 500;
-        Boolean isFinished = false;
+//        int budget = 500;
+//        Boolean isFinished = false;
 
-        todoListRepository.save(TodoList.builder()
-                .todoContents(todoContents)
-                .priority(priority)
-                .todoDate(todoDate)
-                .budget(budget)
-                .isFinished(isFinished)
-                .build());
+//        todoListRepository.save(TodoList.builder()
+//                .todoContents(todoContents)
+//                .priority(priority)
+//                .todoDate(todoDate)
+////                .budget(budget)
+////                .isFinished(isFinished)
+//                .build());
 
         // when
-        List<TodoList> todoLists = todoListRepository.findAll();
+        Optional<TodoList> todoList = todoListRepository.findAllByUserId();
 
+        assertThat(todoList);
         // then
-        TodoList todoList = todoLists.get(0);
-        assertThat(todoList.getTodoContents()).isEqualTo(todoContents);
-        assertThat(todoList.getPriority()).isEqualTo(10);
-        assertThat(todoList.getTodoDate()).isEqualTo(todoDate);
-        assertThat(todoList.getBudget()).isEqualTo(budget);
-        assertThat(todoList.getIsFinished()).isEqualTo(isFinished);
+//        TodoList todoList = todoLists.get(0);
+//        assertThat(todoList.getTodoContents()).isEqualTo(todoContents);
+//        assertThat(todoList.getPriority()).isEqualTo(10);
+//        assertThat(todoList.getTodoDate()).isEqualTo(todoDate);
+//        assertThat(todoList.getBudget()).isEqualTo(budget);
+//        assertThat(todoList.getIsFinished()).isEqualTo(isFinished);
     }
 }

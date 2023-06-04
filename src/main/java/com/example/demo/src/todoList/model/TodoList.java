@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.dom4j.swing.XMLTableColumnDefinition;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -22,6 +23,8 @@ public class TodoList {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long todoId;
 
+    private Long userId;
+
     @Column(length = 200, nullable = false)
     private String todoContents;
 
@@ -29,13 +32,11 @@ public class TodoList {
 
     private String todoDate;
 
-    @Column(nullable = true)
-    @ColumnDefault("0")
+    @Column(columnDefinition = "integer default 1")
     private int budget;
 
-    @Column(nullable = true)
-    @ColumnDefault("false")
-    private Boolean isFinished;
+    @Column(columnDefinition = "bit default false")
+    private Boolean isFinished = false;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
@@ -44,7 +45,8 @@ public class TodoList {
     private LocalDateTime updatedAt;
 
     @Builder
-    public TodoList(String todoContents, int priority, String todoDate, int budget, Boolean isFinished) {
+    public TodoList(Long userId, String todoContents, int priority, String todoDate, int budget, Boolean isFinished) {
+        this.userId = userId;
         this.todoContents = todoContents;
         this.priority = priority;
         this.todoDate = todoDate;
