@@ -46,9 +46,7 @@ public class TodoListRepositoryTest {
 //                .build());
 
         // when
-        Optional<TodoList> todoList = todoListRepository.findAllByUserId();
 
-        assertThat(todoList);
         // then
 //        TodoList todoList = todoLists.get(0);
 //        assertThat(todoList.getTodoContents()).isEqualTo(todoContents);

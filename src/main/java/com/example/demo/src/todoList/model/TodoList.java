@@ -35,11 +35,11 @@ public class TodoList {
 
     private Boolean isFinished;
 
-    @CreationTimestamp
-    private LocalDateTime createdAt;
-
-    @UpdateTimestamp
-    private LocalDateTime updatedAt;
+//    @CreationTimestamp
+//    private LocalDateTime createdAt;
+//
+//    @UpdateTimestamp
+//    private LocalDateTime updatedAt;
 
     @Builder
     public TodoList(Long userId, String todoContents, int priority, String todoDate, int budget, Boolean isFinished) {

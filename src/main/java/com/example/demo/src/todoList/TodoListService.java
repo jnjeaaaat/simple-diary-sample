@@ -14,22 +14,26 @@ import static com.example.demo.config.BaseResponseStatus.*;
 @Transactional
 public class TodoListService {
 
+    private final TodoListRepository todoListRepository;
+
     @Autowired
-    private TodoListRepository todoListRepository;
+    public TodoListService (TodoListRepository todoListRepository) {
+        this.todoListRepository = todoListRepository;
+    }
 
     public TodoList save(PostTodoListReq postTodoListReq) throws BaseException {
         try {
-            TodoList todoListRes =
-                    todoListRepository.save(TodoList.builder()
-                            .userId(postTodoListReq.getUserId())
-                            .todoContents(postTodoListReq.getTodoContents())
-                            .priority(postTodoListReq.getPriority())
-                            .todoDate(postTodoListReq.getTodoDate())
-                            .budget(postTodoListReq.getBudget())
-                            .isFinished(false)
-                            .build());
+            TodoList todoList =
+                     TodoList.builder()
+                             .userId(postTodoListReq.getUserId())
+                             .todoContents(postTodoListReq.getTodoContents())
+                             .priority(postTodoListReq.getPriority())
+                             .todoDate(postTodoListReq.getTodoDate())
+                             .budget(postTodoListReq.getBudget())
+                             .isFinished(false)
+                             .build();
 
-            return todoListRes;
+            return todoListRepository.save(todoList);
         } catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);
         }
