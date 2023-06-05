@@ -7,6 +7,6 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class PostTodoListRes {
+public class TodoListSaveRes {
     private String todoContents;
 }

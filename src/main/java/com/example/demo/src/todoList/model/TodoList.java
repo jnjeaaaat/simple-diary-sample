@@ -15,8 +15,7 @@ import java.util.Date;
 
 @Getter
 @NoArgsConstructor
-@Entity(name = "todoList")
-@Table
+@Entity
 public class TodoList {
 
     @Id
@@ -35,11 +34,11 @@ public class TodoList {
 
     private Boolean isFinished;
 
-//    @CreationTimestamp
-//    private LocalDateTime createdAt;
-//
-//    @UpdateTimestamp
-//    private LocalDateTime updatedAt;
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
 
     @Builder
     public TodoList(Long userId, String todoContents, int priority, String todoDate, int budget, Boolean isFinished) {

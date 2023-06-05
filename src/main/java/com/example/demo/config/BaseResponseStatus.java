@@ -52,6 +52,10 @@ public enum BaseResponseStatus {
     SUCCESS_GET_COMMENT(true, 1154, "방명록을 조회하였습니다."),
     SUCCESS_GET_COMMENTS(true, 1155, "유저의 방명록을 조회하였습니다."),
     SUCCESS_DELETE_COMMENT(true, 1156, "방명록을 삭제하였습니다."),
+
+    // Todos
+    SUCCESS_NEW_TODO(true, 1180, "todo-list를 새로 작성하였습니다."),
+    SUCCESS_TODO_BY_USER(true, 1181, "유저의 todo-list를 가져왔습니다."),
     /**
      * 2000 : Request 오류
      */
