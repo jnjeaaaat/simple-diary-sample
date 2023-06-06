@@ -5,6 +5,7 @@ import com.example.demo.config.BaseResponse;
 import com.example.demo.src.todoList.model.TodoListSave;
 import com.example.demo.src.todoList.model.TodoListSaveRes;
 import com.example.demo.src.todoList.model.TodoList;
+import com.example.demo.src.todoList.repository.TodoListRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,10 +22,13 @@ public class TodoListController {
     private final TodoListService todoListService;
     @Autowired
     private final TodoListProvider todoListProvider;
+    @Autowired
+    private final TodoListRepository todoListRepository;
 
-    public TodoListController (TodoListService todoListService, TodoListProvider todoListProvider) {
+    public TodoListController (TodoListService todoListService, TodoListProvider todoListProvider, TodoListRepository todoListRepository) {
         this.todoListService = todoListService;
         this.todoListProvider = todoListProvider;
+        this.todoListRepository = todoListRepository;
     }
 
     @PostMapping("")
@@ -68,4 +72,8 @@ public class TodoListController {
         }
     }
 
+    @GetMapping("")
+    public BaseResponse<List<TodoList>> getAllTodoList() {
+        return new BaseResponse<>(todoListRepository.findTodoListCustom());
+    }
 }
