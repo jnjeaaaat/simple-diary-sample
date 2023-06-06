@@ -3,6 +3,7 @@ package com.example.demo.model.todoList;
 import com.example.demo.src.test.JpaTestRepository;
 import com.example.demo.src.test.model.JpaTest;
 import com.example.demo.src.todoList.TodoListRepository;
+import com.example.demo.src.todoList.TodoListSpecific;
 import com.example.demo.src.todoList.model.TodoList;
 import org.aspectj.lang.annotation.After;
 import org.junit.jupiter.api.Test;
@@ -47,6 +48,8 @@ public class TodoListRepositoryTest {
 
         // when
 
+        List<TodoListSpecific> todoLists = todoListRepository.findAllByUserIdAndIsFinishedOrderByUpdatedAtDesc(TodoListSpecific.class, 1L, false);
+        assertThat(todoLists);
         // then
 //        TodoList todoList = todoLists.get(0);
 //        assertThat(todoList.getTodoContents()).isEqualTo(todoContents);

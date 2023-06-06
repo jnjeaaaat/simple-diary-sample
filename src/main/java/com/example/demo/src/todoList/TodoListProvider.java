@@ -20,9 +20,9 @@ public class TodoListProvider {
         this.todoListRepository = todoListRepository;
     }
 
-    public List<TodoList> getTodoListByUserId(Long userId) throws BaseException {
+    public List<TodoListSpecific> getTodoListByUserId(Long userId) throws BaseException {
         try {
-            List<TodoList> todoLists = todoListRepository.findAllByUserId(userId);
+            List<TodoListSpecific> todoLists = todoListRepository.findAllByUserIdAndIsFinishedOrderByUpdatedAtDesc(TodoListSpecific.class, userId, false);
             return todoLists;
         } catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);

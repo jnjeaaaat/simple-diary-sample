@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface TodoListRepository extends JpaRepository<TodoList, Long> {
-    List<TodoList> findAllByUserId(Long userId);
+    <T> List<T> findAllByUserIdAndIsFinishedOrderByUpdatedAtDesc(Class<T> type, Long userId, Boolean isFinished);
 }

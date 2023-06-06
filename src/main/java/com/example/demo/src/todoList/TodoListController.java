@@ -37,9 +37,9 @@ public class TodoListController {
     }
 
     @GetMapping("/users/{userId}")
-    public BaseResponse<List<TodoList>> getTodoListByUserId(@PathVariable("userId") Long userId) {
+    public BaseResponse<List<TodoListSpecific>> getTodoListByUserId(@PathVariable("userId") Long userId) {
         try {
-            List<TodoList> todoLists = todoListProvider.getTodoListByUserId(userId);
+            List<TodoListSpecific> todoLists = todoListProvider.getTodoListByUserId(userId);
             return new BaseResponse<>(SUCCESS_TODO_BY_USER, todoLists);
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
