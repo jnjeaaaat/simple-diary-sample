@@ -57,4 +57,15 @@ public class TodoListController {
         }
     }
 
+    @GetMapping("/users/search/{userId}")
+    public BaseResponse<List<TodoListSpecific>> getTodoListByKeyWord(@PathVariable("userId") Long userId,
+                                                                     @RequestParam String keyWord) {
+        try {
+            List<TodoListSpecific> todoLists = todoListProvider.getTodoListByKeyWord(userId, keyWord);
+            return new BaseResponse<>(SUCCESS_TODO_BY_KEY_WORD, todoLists);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
 }

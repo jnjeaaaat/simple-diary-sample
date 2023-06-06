@@ -14,4 +14,7 @@ public interface TodoListRepository extends JpaRepository<TodoList, Long> {
 
     /** todoId로 특정 할일 가져오기 */
     <T> Optional<T> findByTodoIdAndIsFinished(Class<T> type, Long todoId, Boolean isFinished);
+
+    /** todoContents 검색, updatedAt으로 내림차순 정렬, userId로 todoList가져오기 */
+    <T> List<T> findAllByAndUserIdAndIsFinishedAndTodoContentsContainingOrderByUpdatedAtDesc(Class<T> type, Long userId, Boolean isFinished, String todoContents);
 }

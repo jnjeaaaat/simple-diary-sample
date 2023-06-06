@@ -44,4 +44,16 @@ public class TodoListProvider {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
+    /**
+     * userId로 특정 유저의 할일 목록 다 가져오기
+     */
+    public List<TodoListSpecific> getTodoListByKeyWord(Long userId, String todoContents) throws BaseException {
+        try {
+            List<TodoListSpecific> todoLists = todoListRepository.findAllByAndUserIdAndIsFinishedAndTodoContentsContainingOrderByUpdatedAtDesc(TodoListSpecific.class, userId, false, todoContents);
+            return todoLists;
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
 }

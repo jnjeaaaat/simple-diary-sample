@@ -54,9 +54,10 @@ public enum BaseResponseStatus {
     SUCCESS_DELETE_COMMENT(true, 1156, "방명록을 삭제하였습니다."),
 
     // Todos
-    SUCCESS_NEW_TODO(true, 1180, "todo-list를 새로 작성하였습니다."),
-    SUCCESS_TODO_BY_USER(true, 1181, "유저의 todo-list를 가져왔습니다."),
-    SUCCESS_TODO_ONE(true, 1182, "하나의 todo를 조회하였습니다."),
+    SUCCESS_NEW_TODO(true, 1180, "할일 목록을 새로 작성하였습니다."),
+    SUCCESS_TODO_BY_USER(true, 1181, "유저의 할일 목록을 가져왔습니다."),
+    SUCCESS_TODO_ONE(true, 1182, "하나의 할일을 조회하였습니다."),
+    SUCCESS_TODO_BY_KEY_WORD(true, 1183, "특정 키워드로 할일을 조회하였습니다."),
     /**
      * 2000 : Request 오류
      */
