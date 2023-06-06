@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 import static com.example.demo.config.BaseResponseStatus.*;
 
@@ -41,6 +42,16 @@ public class TodoListController {
         try {
             List<TodoListSpecific> todoLists = todoListProvider.getTodoListByUserId(userId);
             return new BaseResponse<>(SUCCESS_TODO_BY_USER, todoLists);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    @GetMapping("/{todoId}")
+    public BaseResponse<Optional<TodoListSpecific>> getTodoListById(@PathVariable("todoId") Long todoId) {
+        try {
+            Optional<TodoListSpecific> todoList = todoListProvider.getTodoListById(todoId);
+            return new BaseResponse<>(SUCCESS_TODO_ONE, todoList);
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
         }

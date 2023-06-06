@@ -1,5 +1,8 @@
 package com.example.demo.src.todoList;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.time.LocalDateTime;
 
 // 원하는 데이터만 조회
