@@ -36,9 +36,9 @@ public class TodoListProvider {
     /**
      * todoId로 특정 할일 가져오기
      */
-    public Optional<TodoListSpecific> getTodoListById(Long todoId) throws BaseException {
+    public <T> Optional<T> getTodoListById(Class<T> type, Long todoId) throws BaseException {
         try {
-            Optional<TodoListSpecific> todoList = todoListRepository.findByTodoIdAndIsFinished(TodoListSpecific.class, todoId, false);
+            Optional<T> todoList = todoListRepository.findByTodoIdAndIsFinished(type , todoId, false);
             return todoList;
         } catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);

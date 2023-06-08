@@ -3,6 +3,8 @@ package com.example.demo.src.todoList;
 import com.example.demo.config.BaseException;
 import com.example.demo.src.todoList.model.TodoListSave;
 import com.example.demo.src.todoList.model.TodoList;
+import com.example.demo.src.todoList.model.TodoListUpdateReq;
+import com.example.demo.src.todoList.model.TodoListUpdateRes;
 import com.example.demo.src.todoList.repository.TodoListRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,6 +36,19 @@ public class TodoListService {
                              .build();
 
             return todoListRepository.save(todoList);
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public void updateTodoListByTodoId(Long todoId, TodoListUpdateReq todoListUpdateReq) throws BaseException {
+        try {
+
+            if (todoListUpdateReq.getTodoContents() != null) todoListRepository.updateTodoContents(todoId, todoListUpdateReq.getTodoContents());
+            if (todoListUpdateReq.getPriority() != 0) todoListRepository.updatePriority(todoId, todoListUpdateReq.getPriority());
+            if (todoListUpdateReq.getTodoDate() != null) todoListRepository.updateTodoDate(todoId, todoListUpdateReq.getTodoDate());
+            if (todoListUpdateReq.getBudget() >= 0) todoListRepository.updateBudget(todoId, todoListUpdateReq.getBudget());
+
         } catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);
         }

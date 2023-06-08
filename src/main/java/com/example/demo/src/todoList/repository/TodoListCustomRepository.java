@@ -9,4 +9,8 @@ import java.util.Optional;
 
 public interface TodoListCustomRepository<T> {
     List<TodoList> findTodoListCustom();
+    void updateTodoContents(Long todoId, String todoContents);
+    void updatePriority(Long todoId, int priority);
+    void updateTodoDate(Long todoId, String todoDate);
+    void updateBudget(Long todoId, int budget);
 }

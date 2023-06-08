@@ -2,10 +2,7 @@ package com.example.demo.src.todoList;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
-import com.example.demo.src.todoList.model.TodoListGetRes;
-import com.example.demo.src.todoList.model.TodoListSave;
-import com.example.demo.src.todoList.model.TodoListSaveRes;
-import com.example.demo.src.todoList.model.TodoList;
+import com.example.demo.src.todoList.model.*;
 import com.example.demo.src.todoList.repository.TodoListRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -46,6 +43,7 @@ public class TodoListController {
     public BaseResponse<List<TodoListSpecific>> getTodoListByUserId(@PathVariable("userId") Long userId) {
         try {
             List<TodoListSpecific> todoLists = todoListProvider.getTodoListByUserId(userId);
+
             return new BaseResponse<>(SUCCESS_TODO_BY_USER, todoLists);
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
@@ -55,7 +53,8 @@ public class TodoListController {
     @GetMapping("/{todoId}")
     public BaseResponse<Optional<TodoListSpecific>> getTodoListById(@PathVariable("todoId") Long todoId) {
         try {
-            Optional<TodoListSpecific> todoList = todoListProvider.getTodoListById(todoId);
+            Optional<TodoListSpecific> todoList = todoListProvider.getTodoListById(TodoListSpecific.class, todoId);
+
             return new BaseResponse<>(SUCCESS_TODO_ONE, todoList);
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
@@ -67,12 +66,27 @@ public class TodoListController {
                                                                      @RequestParam String keyWord) {
         try {
             List<TodoListSpecific> todoLists = todoListProvider.getTodoListByKeyWord(userId, keyWord);
+
             return new BaseResponse<>(SUCCESS_TODO_BY_KEY_WORD, todoLists);
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
 
+    @PatchMapping("/{todoId}")
+    public BaseResponse<Optional<TodoListUpdateRes>> updateTodoListByTodoId(@PathVariable("todoId") Long todoId,
+                                                                  @RequestBody TodoListUpdateReq todoListUpdateReq) {
+        try {
+            todoListService.updateTodoListByTodoId(todoId, todoListUpdateReq);
+            Optional<TodoListUpdateRes> todoListUpdateRes = todoListProvider.getTodoListById(TodoListUpdateRes.class, todoId);
+
+            return new BaseResponse<>(MODIFY_TODO_LIST, todoListUpdateRes);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    // jpa custom method test
     @GetMapping("")
     public BaseResponse<List<TodoList>> getAllTodoList() {
         return new BaseResponse<>(todoListRepository.findTodoListCustom());
