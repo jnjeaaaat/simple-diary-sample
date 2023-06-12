@@ -59,6 +59,7 @@ public enum BaseResponseStatus {
     SUCCESS_TODO_ONE(true, 1182, "하나의 할일을 조회하였습니다."),
     SUCCESS_TODO_BY_KEY_WORD(true, 1183, "특정 키워드로 할일을 조회하였습니다."),
     MODIFY_TODO_LIST(true, 1184, "할일을 수정하였습니다."),
+    MODIFY_TODO_LIST_FINISHED(true, 1185, "할일을 완수하였습니다."),
     /**
      * 2000 : Request 오류
      */
